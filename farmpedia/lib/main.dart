@@ -8,6 +8,30 @@ class App extends StatelessWidget {
   const App({super.key});
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(home: Scaffold());
+    return MaterialApp(
+      home: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          centerTitle: true,
+          backgroundColor: const Color(0xff95C461),
+          foregroundColor: Colors.white,
+          title: const Text(
+            '귀농백과',
+            style: TextStyle(
+              letterSpacing: 1.5,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        ),
+        body: const Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('hello world'),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
