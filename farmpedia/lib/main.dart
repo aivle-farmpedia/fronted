@@ -23,11 +23,12 @@ class App extends StatelessWidget {
             ),
           ),
         ),
-        body: const Center(
+        body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('hello world'),
+              const Text('hello world!!2222'),
+              Image.asset("images/main_image1.png"),
             ],
           ),
         ),
