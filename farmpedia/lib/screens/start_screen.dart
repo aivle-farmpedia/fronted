@@ -1,6 +1,9 @@
 import 'package:farmpedia/services/image_services.dart';
 import 'package:flutter/material.dart';
 
+import '../widgets/custom_pagebar_widget.dart';
+import 'home_screen.dart';
+
 class StartScreen extends StatefulWidget {
   const StartScreen({super.key});
 
@@ -11,6 +14,7 @@ class StartScreen extends StatefulWidget {
 class _HomeScreenState extends State<StartScreen>
     with TickerProviderStateMixin {
   final Color mainColor = const Color(0xff95C461);
+  final Color barColor = const Color(0xffF1F1F1);
   late final Future<List<String>> images;
 
   late PageController _pageViewController;
@@ -19,15 +23,22 @@ class _HomeScreenState extends State<StartScreen>
   @override
   void initState() {
     super.initState();
+    // PageView 위젯 제어하는데 사용
     _pageViewController = PageController();
+    // images/ 아래에 있는 이미지들을 불어롬
     images = ImageSerivce.getImageList();
+    // 이미지 파일들 로드 하면 실행
     images.then((imagePaths) {
+      // 상태가 변경되면 반영
       setState(() {
+        // 전체 이미지 목록 길이,
+        // 현재 상태 객체(vsync:this -> 무슨 소리냐 현재 몇 번째 이미지 목록인지) 전달
         _tabController = TabController(length: imagePaths.length, vsync: this);
       });
     });
   }
 
+  // 간단하게 위의 페이지 표시 바에서 사용하지 않는 페이지들에 초록불이 안들어 오도록 만들어주는거 같음
   @override
   void dispose() {
     _pageViewController.dispose();
@@ -51,8 +62,16 @@ class _HomeScreenState extends State<StartScreen>
               Expanded(
                 child: imageList(images),
               ),
+              // 시작하기 버튼 누르면 페이지 이동(HomeScreen)
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const HomeScreen(),
+                    ),
+                  );
+                },
                 child: Container(
                   decoration: BoxDecoration(
                     color: mainColor,
@@ -84,6 +103,7 @@ class _HomeScreenState extends State<StartScreen>
     return FutureBuilder(
       future: images,
       builder: (context, snapshot) {
+        // 데이터 로드가 안되면 로딩아이콘 보여줌
         if (!snapshot.hasData) {
           return const Center(
             child: CircularProgressIndicator(),
@@ -95,63 +115,72 @@ class _HomeScreenState extends State<StartScreen>
               TabController(length: imagePaths.length, vsync: this);
         }
 
-        return Column(
-          children: [
-            TabPageSelector(
-              controller: _tabController,
-            ),
-            Expanded(
-              child: PageView.builder(
-                controller: _pageViewController,
-                onPageChanged: (index) {
-                  setState(() {
-                    _tabController.animateTo(index);
-                  });
-                },
-                scrollDirection: Axis.horizontal,
-                itemCount: imagePaths.length,
-                itemBuilder: (context, index) {
-                  return SizedBox(
-                    width: 400,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          imagePaths[index],
-                          height: 300,
-                        ),
-                        const SizedBox(
-                          height: 50,
-                        ),
-                        Text(
-                          words[index],
-                          style: const TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.w900,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          stances[index],
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 50,
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
-          ],
-        );
+        return pageList(imagePaths, words, stances);
       },
+    );
+  }
+
+  // 페이지별로 화면에 보여주는 이미지들이 다른걸 구현한 것
+  Column pageList(
+      List<String> imagePaths, List<String> words, List<String> stances) {
+    return Column(
+      children: [
+        CustomPagebar(
+          controller: _tabController,
+          nonSelectedColor: barColor,
+          selectedColor: mainColor,
+        ),
+        Expanded(
+          // 이미지 목록들을 보여준다
+          child: PageView.builder(
+            controller: _pageViewController,
+            onPageChanged: (index) {
+              setState(() {
+                _tabController.animateTo(index);
+              });
+            },
+            scrollDirection: Axis.horizontal,
+            itemCount: imagePaths.length,
+            itemBuilder: (context, index) {
+              return SizedBox(
+                width: 400,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      imagePaths[index],
+                      height: 300,
+                    ),
+                    const SizedBox(
+                      height: 50,
+                    ),
+                    Text(
+                      words[index],
+                      style: const TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.w900,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      stances[index],
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 50,
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }
