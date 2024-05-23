@@ -1,4 +1,4 @@
-import 'package:farmpedia/screens/home_screen.dart';
+import 'package:farmpedia/screens/start_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -9,8 +9,8 @@ class App extends StatelessWidget {
   const App({super.key});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: HomeScreen(),
+    return const MaterialApp(
+      home: StartScreen(),
     );
   }
 }
