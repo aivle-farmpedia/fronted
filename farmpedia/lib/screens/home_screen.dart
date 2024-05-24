@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../widgets/custom_searchbar_widget.dart';
+import 'menu_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   final String id;
@@ -77,6 +78,10 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
+  void onPressIcon() {
+    print('11111');
+  }
+
   @override
   Widget build(BuildContext context) {
     const Color mainColor = Color(0xff95C461);
@@ -85,6 +90,19 @@ class _HomeScreenState extends State<HomeScreen> {
       home: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
+          actions: [
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const MenuScreen(),
+                  ),
+                );
+              },
+              child: const Icon(Icons.menu),
+            ),
+          ],
           title: const Text(
             '귀농백과',
             style: TextStyle(
