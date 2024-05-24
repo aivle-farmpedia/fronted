@@ -1,5 +1,6 @@
 import 'package:farmpedia/services/image_services.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 import '../widgets/custom_pagebar_widget.dart';
 import 'home_screen.dart';
@@ -15,14 +16,18 @@ class _HomeScreenState extends State<StartScreen>
     with TickerProviderStateMixin {
   final Color mainColor = const Color(0xff95C461);
   final Color barColor = const Color(0xffF1F1F1);
+  final uuid = const Uuid();
   late final Future<List<String>> images;
 
   late PageController _pageViewController;
   late TabController _tabController;
+  late String userId;
 
   @override
   void initState() {
     super.initState();
+    // 유저의 개인 Id 생성
+    userId = uuid.v4();
     // PageView 위젯 제어하는데 사용
     _pageViewController = PageController();
     // images/ 아래에 있는 이미지들을 불어롬
@@ -68,7 +73,10 @@ class _HomeScreenState extends State<StartScreen>
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const HomeScreen(),
+                      // HomeScreen 으로 이동할 때 생성한 userId HomeScreen 으로 넘겨줌
+                      builder: (context) => HomeScreen(
+                        id: userId,
+                      ),
                     ),
                   );
                 },

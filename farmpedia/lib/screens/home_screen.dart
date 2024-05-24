@@ -1,7 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class HomeScreen extends StatefulWidget {
+  final String id;
+  const HomeScreen({super.key, required this.id});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  late SharedPreferences prefs;
+  late List<String> userId;
+  // 사용자의 개인 Id를 로컬 저장소에 저장한것
+  Future<void> initPrefs() async {
+    prefs = await SharedPreferences.getInstance();
+    userId = prefs.getStringList('userId') ?? [];
+    if (userId.isEmpty) {
+      userId = [widget.id];
+      await prefs.setStringList('userId', userId);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    initPrefs();
+  }
 
   @override
   Widget build(BuildContext context) {
