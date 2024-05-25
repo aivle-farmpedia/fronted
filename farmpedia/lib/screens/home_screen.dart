@@ -78,10 +78,6 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
-  void onPressIcon() {
-    print('11111');
-  }
-
   @override
   Widget build(BuildContext context) {
     const Color mainColor = Color(0xff95C461);
@@ -130,6 +126,31 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  FutureBuilder imageList(Future<List<String>> images) {
+    return FutureBuilder(
+      future: images,
+      builder: (context, snapshot) {
+        List<String> imagePaths = snapshot.data ?? [];
+        // print(imagePaths);
+        return ListView.separated(
+          scrollDirection: Axis.horizontal,
+          itemCount: imagePaths.length,
+          itemBuilder: (context, index) {
+            return SizedBox(
+              height: 150,
+              child: Image.asset(
+                imagePaths[index],
+              ),
+            );
+          },
+          separatorBuilder: (context, index) => const SizedBox(
+            width: 20,
+          ),
+        );
+      },
     );
   }
 }
