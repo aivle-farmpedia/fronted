@@ -21,7 +21,13 @@ class CommunityScreen extends StatelessWidget {
                   ),
                 );
               },
-              child: const Icon(Icons.menu),
+              child: const Padding(
+                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                child: Icon(
+                  Icons.menu,
+                  size: 20.0,
+                ),
+              ),
             ),
           ],
           backgroundColor: const Color.fromARGB(255, 241, 240, 240),

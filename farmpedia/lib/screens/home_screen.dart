@@ -96,7 +96,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 );
               },
-              child: const Icon(Icons.menu),
+              child: const Padding(
+                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                child: Icon(
+                  Icons.menu,
+                  size: 30.0,
+                ),
+              ),
             ),
           ],
           title: const Text(

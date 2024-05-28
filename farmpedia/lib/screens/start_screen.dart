@@ -1,7 +1,6 @@
 import 'package:farmpedia/services/image_services.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
-
 import '../widgets/custom_pagebar_widget.dart';
 import 'home_screen.dart';
 
