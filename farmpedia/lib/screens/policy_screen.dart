@@ -49,6 +49,7 @@ class PolicyScreen extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 50),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  // mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     SupportCard(
                       title: '롯데가 언제나 승리한다',
@@ -68,14 +69,20 @@ class PolicyScreen extends StatelessWidget {
                     SizedBox(
                       height: 25,
                     ),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "혜택",
-                        style: TextStyle(
-                            fontSize: 30, fontWeight: FontWeight.w800),
-                      ),
-                    ),
+                  ],
+                ),
+              ),
+              Text(
+                "혜택",
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 50),
+                child: Column(
+                  children: [
                     SizedBox(
                       height: 25,
                     ),
@@ -104,7 +111,7 @@ class PolicyScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-              ),
+              )
             ],
           ),
         ),
