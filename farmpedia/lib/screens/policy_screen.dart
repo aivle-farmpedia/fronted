@@ -1,3 +1,4 @@
+import 'package:farmpedia/screens/example_screen.dart';
 import 'package:farmpedia/screens/menu_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -6,6 +7,51 @@ class PolicyScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final List<Map<String, dynamic>> supportCards = [
+      {
+        'title': '롯데가 언제나 승리한다',
+        'subtitle': '롯데한국시리즈',
+        'color': const Color.fromARGB(255, 188, 237, 131),
+        'icon': Icons.account_circle,
+      },
+      {
+        'title': '롯데가 언제나 승리한다',
+        'subtitle': '최강 롯데',
+        'color': Colors.lightGreen,
+        'icon': Icons.account_circle,
+      },
+      {
+        'title': '엔씨 다이노스',
+        'subtitle': '이기자',
+        'color': const Color.fromARGB(255, 188, 237, 131),
+        'icon': Icons.account_circle,
+      },
+      {
+        'title': '롯데 한국 시리즈',
+        'subtitle': '최강 롯데',
+        'color': Colors.lightGreen,
+        'icon': Icons.account_circle,
+      },
+      {
+        'title': '롯데 한국 시리즈',
+        'subtitle': '최강 롯데',
+        'color': Colors.lightGreen,
+        'icon': Icons.account_circle,
+      },
+      {
+        'title': '롯데 한국 시리즈',
+        'subtitle': '최강 롯데',
+        'color': Colors.lightGreen,
+        'icon': Icons.account_circle,
+      },
+      {
+        'title': '롯데 한국 시리즈',
+        'subtitle': '최강 롯데',
+        'color': Colors.lightGreen,
+        'icon': Icons.account_circle,
+      },
+    ];
+
     return MaterialApp(
       home: Scaffold(
         backgroundColor: Colors.white,
@@ -33,87 +79,57 @@ class PolicyScreen extends StatelessWidget {
             ),
           ),
         ),
-        body: const Padding(
-          padding: EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(
-                "귀농 지원",
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.w800),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Text(
+                "총 ${supportCards.length}건의 데이터",
+                style:
+                    const TextStyle(fontSize: 30, fontWeight: FontWeight.w800),
               ),
-              SizedBox(
-                height: 50,
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 50),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  // mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    SupportCard(
-                      title: '롯데가 언제나 승리한다',
-                      subtitle: '롯데한국시리즈',
-                      color: Color.fromARGB(255, 188, 237, 131),
-                      icon: Icons.account_circle,
-                    ),
-                    SizedBox(
-                      height: 25,
-                    ),
-                    SupportCard(
-                      title: '롯데가 언제나 승리한다',
-                      subtitle: '최강 롯데',
-                      color: Colors.lightGreen,
-                      icon: Icons.account_circle,
-                    ),
-                    SizedBox(
-                      height: 25,
-                    ),
-                  ],
-                ),
-              ),
-              Text(
-                "혜택",
-                style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 50),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 25,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        SizedBox(
-                          height: 25,
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Expanded(
+              child: ListView.builder(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                itemCount: supportCards.length,
+                itemBuilder: (context, index) {
+                  final card = supportCards[index];
+                  return Column(
+                    children: [
+                      Container(
+                        clipBehavior: Clip.hardEdge,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          boxShadow: [
+                            BoxShadow(
+                              blurRadius: 10,
+                              offset: const Offset(10, 10),
+                              color: const Color.fromARGB(255, 200, 198, 198)
+                                  .withOpacity(0.5),
+                            ),
+                          ],
                         ),
-                        SupportCard(
-                          title: '엔씨 다이노스',
-                          subtitle: '이기자',
-                          color: Color.fromARGB(255, 188, 237, 131),
-                          icon: Icons.account_circle,
+                        child: SupportCard(
+                          title: card['title'],
+                          subtitle: card['subtitle'],
+                          color: card['color'],
+                          icon: card['icon'],
                         ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 25,
-                    ),
-                    SupportCard(
-                      title: '롯데 한국 시리즈',
-                      subtitle: '최강 롯데',
-                      color: Colors.lightGreen,
-                      icon: Icons.account_circle,
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ),
+                      ),
+                      const SizedBox(
+                        height: 25,
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -125,7 +141,6 @@ class SupportCard extends StatelessWidget {
   final String subtitle;
   final Color color;
   final IconData icon;
-  final double widthFactor;
 
   const SupportCard({
     super.key,
@@ -133,31 +148,31 @@ class SupportCard extends StatelessWidget {
     required this.subtitle,
     required this.color,
     required this.icon,
-    this.widthFactor = 1.35,
   });
 
   @override
   Widget build(BuildContext context) {
-    return FractionallySizedBox(
-      widthFactor: widthFactor,
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ExampleScreen(title: title),
+          ),
+        );
+      },
       child: Card(
         color: color,
         child: ListTile(
-          leading: Icon(
-            icon,
-            size: 40,
-          ),
-          title: Text(
-            title,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          subtitle: Text(
-            subtitle,
-          ),
+          leading: Icon(icon),
+          title: Text(title),
+          subtitle: Text(subtitle),
         ),
       ),
     );
   }
+}
+
+void main() {
+  runApp(const PolicyScreen());
 }
