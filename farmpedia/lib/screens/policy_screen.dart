@@ -12,43 +12,43 @@ class PolicyScreen extends StatelessWidget {
         'title': '롯데가 언제나 승리한다',
         'subtitle': '롯데한국시리즈',
         'color': const Color.fromARGB(255, 188, 237, 131),
-        'icon': Icons.account_circle,
+        'icon': Icons.spa,
       },
       {
         'title': '롯데가 언제나 승리한다',
         'subtitle': '최강 롯데',
         'color': Colors.lightGreen,
-        'icon': Icons.account_circle,
+        'icon': Icons.spa,
       },
       {
         'title': '엔씨 다이노스',
         'subtitle': '이기자',
         'color': const Color.fromARGB(255, 188, 237, 131),
-        'icon': Icons.account_circle,
+        'icon': Icons.spa,
       },
       {
         'title': '롯데 한국 시리즈',
         'subtitle': '최강 롯데',
         'color': Colors.lightGreen,
-        'icon': Icons.account_circle,
+        'icon': Icons.spa,
       },
       {
         'title': '롯데 한국 시리즈',
         'subtitle': '최강 롯데',
         'color': Colors.lightGreen,
-        'icon': Icons.account_circle,
+        'icon': Icons.spa,
       },
       {
         'title': '롯데 한국 시리즈',
         'subtitle': '최강 롯데',
         'color': Colors.lightGreen,
-        'icon': Icons.account_circle,
+        'icon': Icons.spa,
       },
       {
         'title': '롯데 한국 시리즈',
         'subtitle': '최강 롯데',
         'color': Colors.lightGreen,
-        'icon': Icons.account_circle,
+        'icon': Icons.spa,
       },
     ];
 
@@ -104,7 +104,7 @@ class PolicyScreen extends StatelessWidget {
                       Container(
                         clipBehavior: Clip.hardEdge,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
+                          borderRadius: BorderRadius.circular(25),
                           boxShadow: [
                             BoxShadow(
                               blurRadius: 10,
@@ -141,6 +141,10 @@ class SupportCard extends StatelessWidget {
   final String subtitle;
   final Color color;
   final IconData icon;
+  final double height;
+  final double titleFontSize;
+  final double subtitleFontSize;
+  final double iconSize;
 
   const SupportCard({
     super.key,
@@ -148,6 +152,10 @@ class SupportCard extends StatelessWidget {
     required this.subtitle,
     required this.color,
     required this.icon,
+    this.height = 100.0,
+    this.titleFontSize = 23.0,
+    this.subtitleFontSize = 16.0,
+    this.iconSize = 47.0,
   });
 
   @override
@@ -161,12 +169,26 @@ class SupportCard extends StatelessWidget {
           ),
         );
       },
-      child: Card(
-        color: color,
-        child: ListTile(
-          leading: Icon(icon),
-          title: Text(title),
-          subtitle: Text(subtitle),
+      child: SizedBox(
+        height: height,
+        child: Card(
+          color: color,
+          child: ListTile(
+            leading: Icon(
+              icon,
+              size: iconSize,
+            ),
+            title: Text(
+              title,
+              style: TextStyle(
+                  fontSize: titleFontSize, fontWeight: FontWeight.w500),
+            ),
+            subtitle: Text(
+              subtitle,
+              style: TextStyle(
+                  fontSize: subtitleFontSize, fontWeight: FontWeight.w500),
+            ),
+          ),
         ),
       ),
     );
