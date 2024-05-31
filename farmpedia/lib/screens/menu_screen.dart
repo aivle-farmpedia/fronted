@@ -3,6 +3,7 @@ import 'package:farmpedia/screens/gpt_screen.dart';
 import 'package:farmpedia/screens/method_screen.dart';
 import 'package:farmpedia/screens/policy_screen.dart';
 import 'package:farmpedia/screens/search_screen.dart';
+import 'package:farmpedia/widgets/backpage_widget.dart';
 import 'package:flutter/material.dart';
 
 class MenuScreen extends StatelessWidget {
@@ -15,11 +16,8 @@ class MenuScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         appBar: AppBar(
           centerTitle: true,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.pop(context); // 이전 페이지로 돌아가기
-            },
+          leading: BackpageWidget(
+            beforeContext: context,
           ),
           backgroundColor: const Color.fromARGB(255, 241, 240, 240),
           title: const Text(

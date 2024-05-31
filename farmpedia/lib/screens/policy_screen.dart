@@ -1,5 +1,6 @@
 import 'package:farmpedia/screens/example_screen.dart';
 import 'package:farmpedia/screens/menu_screen.dart';
+import 'package:farmpedia/widgets/backpage_widget.dart';
 import 'package:flutter/material.dart';
 
 class PolicyScreen extends StatelessWidget {
@@ -57,6 +58,9 @@ class PolicyScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         appBar: AppBar(
           centerTitle: true,
+          leading: BackpageWidget(
+            beforeContext: context,
+          ),
           actions: [
             GestureDetector(
               onTap: () {

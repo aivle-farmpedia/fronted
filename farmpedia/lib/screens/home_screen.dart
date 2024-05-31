@@ -1,6 +1,9 @@
+import 'package:farmpedia/widgets/home_menu_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../widgets/announcement_widget.dart';
 import '../widgets/custom_searchbar_widget.dart';
 import 'menu_screen.dart';
 
@@ -17,7 +20,19 @@ class _HomeScreenState extends State<HomeScreen> {
   late List<String> userId;
 
   // Search 기능을 로컬에서 확인하기
-  List<String> allItems = ["사과", "바나나", "체리", "밀", "포도", "보리", "사실"];
+  List<String> allItems = [
+    "사과",
+    "바나나",
+    "체리",
+    "밀",
+    "포도",
+    "보리",
+    "사실",
+    "사주",
+    "사명",
+    "사표",
+    "사망"
+  ];
   List<String> filteredItems = [];
   // 사용자의 입력값을 확인함
   TextEditingController searchController = TextEditingController();
@@ -31,13 +46,14 @@ class _HomeScreenState extends State<HomeScreen> {
       userId = [widget.id];
       await prefs.setStringList('userId', userId);
     }
+    // userId(uuid) 확인용
+    debugPrint("$userId");
   }
 
   @override
   void initState() {
     super.initState();
     initPrefs();
-
     // Search 기능
     filteredItems = allItems;
     // 사용자가 입력하면
@@ -80,8 +96,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    const Color mainColor = Color(0xff95C461);
-    // const Color barColor = Color(0xffF1F1F1);
+    // const Color mainColor = Color(0xff95C461);
+    const Color barColor = Color(0xffF1F1F1);
     return MaterialApp(
       home: Scaffold(
         backgroundColor: Colors.white,
@@ -115,48 +131,113 @@ class _HomeScreenState extends State<HomeScreen> {
           backgroundColor: Colors.white,
         ),
         body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
           child: Column(
             children: [
               // 길어서 따로 위젯으로 뺌
-              Expanded(
+              SizedBox(
+                // color: Colors.pink,
+                height: onTextField ? 200 : 70,
                 child: CustomSearch(
-                  mainColor: mainColor,
+                  mainColor: barColor,
                   searchController: searchController,
                   filteredItems: filteredItems,
                   onTextField: onTextField,
                 ),
               ),
-              Container(),
+              const SizedBox(
+                height: 20,
+              ),
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  HomeMenuWidget(),
+                  AnnouncementWidget(),
+                ],
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  color: const Color(0xff95C461),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 10,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("요즘 유행하는 작물 재배"),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Text("사과"),
+                          Text("포도"),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      color: const Color(0xffBFD19A),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: const Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("인기영상"),
+                          SizedBox(
+                            width: 130,
+                            height: 100,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: const Color(0xff63A212),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: const Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("1:1문의"),
+                          SizedBox(
+                            width: 130,
+                            height: 100,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
       ),
-    );
-  }
-
-  FutureBuilder imageList(Future<List<String>> images) {
-    return FutureBuilder(
-      future: images,
-      builder: (context, snapshot) {
-        List<String> imagePaths = snapshot.data ?? [];
-        // print(imagePaths);
-        return ListView.separated(
-          scrollDirection: Axis.horizontal,
-          itemCount: imagePaths.length,
-          itemBuilder: (context, index) {
-            return SizedBox(
-              height: 150,
-              child: Image.asset(
-                imagePaths[index],
-              ),
-            );
-          },
-          separatorBuilder: (context, index) => const SizedBox(
-            width: 20,
-          ),
-        );
-      },
     );
   }
 }

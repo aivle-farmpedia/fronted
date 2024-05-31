@@ -1,4 +1,5 @@
 import 'package:farmpedia/screens/menu_screen.dart';
+import 'package:farmpedia/widgets/backpage_widget.dart';
 import 'package:flutter/material.dart';
 
 class CommunityScreen extends StatelessWidget {
@@ -11,6 +12,9 @@ class CommunityScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         appBar: AppBar(
           centerTitle: true,
+          leading: BackpageWidget(
+            beforeContext: context,
+          ),
           actions: [
             GestureDetector(
               onTap: () {

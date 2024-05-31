@@ -27,7 +27,7 @@ class CustomSearch extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 20),
             child: Row(
               children: [
-                Expanded(
+                Flexible(
                   child: TextField(
                     controller: searchController,
                     autocorrect: false, // 자동 수정 비활성화
@@ -54,10 +54,11 @@ class CustomSearch extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(height: 20),
+
         // 사용자가 단어를 입력했거나 단어 리스트가 공백 아닐 때
         // 입력된 단어의 리스트들을 보여줌
-        Expanded(
+
+        Flexible(
           child: filteredItems.isNotEmpty && onTextField
               ? ListView.builder(
                   itemCount: filteredItems.length,
@@ -67,7 +68,9 @@ class CustomSearch extends StatelessWidget {
                     );
                   },
                 )
-              : Container(),
+              : const SizedBox(
+                  height: 20,
+                ),
         ),
       ],
     );

@@ -80,18 +80,24 @@ class _HomeScreenState extends State<StartScreen>
                   );
                 },
                 child: Container(
+                  width: double.infinity,
                   decoration: BoxDecoration(
                     color: mainColor,
                     borderRadius: BorderRadius.circular(30),
                   ),
                   child: const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 80, vertical: 20),
-                    child: Text(
-                      '시작하기',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.white,
-                      ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          '시작하기',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
