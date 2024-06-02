@@ -1,5 +1,5 @@
 import 'package:farmpedia/widgets/backpage_widget.dart';
-import 'package:farmpedia/widgets/meun_widget.dart';
+import 'package:farmpedia/widgets/menu_widget.dart';
 import 'package:flutter/material.dart';
 
 class SearchDetailScreen extends StatefulWidget {
@@ -26,7 +26,7 @@ class _SearchDetailScreenState extends State<SearchDetailScreen> {
           centerTitle: true,
           title: Text(widget.crops),
           actions: const [
-            MeunWidget(),
+            MenuWidget(),
           ],
         ),
         body: Padding(

@@ -1,6 +1,6 @@
 import 'package:farmpedia/screens/example_screen.dart';
 import 'package:farmpedia/widgets/backpage_widget.dart';
-import 'package:farmpedia/widgets/meun_widget.dart';
+import 'package:farmpedia/widgets/menu_widget.dart';
 import 'package:flutter/material.dart';
 
 class PolicyScreen extends StatelessWidget {
@@ -61,7 +61,7 @@ class PolicyScreen extends StatelessWidget {
           leading: BackpageWidget(
             beforeContext: context,
           ),
-          actions: const [MeunWidget()],
+          actions: const [MenuWidget()],
           backgroundColor: const Color.fromARGB(255, 241, 240, 240),
           title: const Text(
             "지원 정책",

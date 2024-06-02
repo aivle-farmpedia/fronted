@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../screens/menu_screen.dart';
 
-class MeunWidget extends StatelessWidget {
-  const MeunWidget({super.key});
+class MenuWidget extends StatelessWidget {
+  const MenuWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
