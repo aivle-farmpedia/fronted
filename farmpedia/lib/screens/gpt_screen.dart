@@ -1,5 +1,5 @@
-import 'package:farmpedia/screens/menu_screen.dart';
 import 'package:farmpedia/widgets/backpage_widget.dart';
+import 'package:farmpedia/widgets/meun_widget.dart';
 import 'package:flutter/material.dart';
 
 class GPTScreen extends StatelessWidget {
@@ -15,25 +15,7 @@ class GPTScreen extends StatelessWidget {
           leading: BackpageWidget(
             beforeContext: context,
           ),
-          actions: [
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const MenuScreen(),
-                  ),
-                );
-              },
-              child: const Padding(
-                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                child: Icon(
-                  Icons.menu,
-                  size: 30.0,
-                ),
-              ),
-            ),
-          ],
+          actions: const [MeunWidget()],
           backgroundColor: const Color.fromARGB(255, 241, 240, 240),
           title: const Text(
             "귀농GPT",

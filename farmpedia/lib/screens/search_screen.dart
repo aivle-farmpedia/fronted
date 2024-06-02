@@ -1,5 +1,5 @@
-import 'package:farmpedia/screens/home_screen.dart';
 import 'package:farmpedia/screens/menu_screen.dart';
+import 'package:farmpedia/screens/search_detail_screen.dart';
 import 'package:farmpedia/widgets/backpage_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -18,6 +18,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   // 사용자의 입력값을 확인함
   TextEditingController searchController = TextEditingController();
+  late String searchContent;
   bool onTextField = false;
 
   @override
@@ -27,7 +28,10 @@ class _SearchScreenState extends State<SearchScreen> {
     filteredItems = allItems;
     // 사용자가 입력하면
     searchController.addListener(() {
-      setState(() => onTextField = true);
+      setState(() {
+        onTextField = true;
+        searchContent = searchController.text;
+      });
       // 입력값을 filterSearchResults로 보냄
       filterSearchResults(searchController.text);
     });
@@ -121,8 +125,8 @@ class _SearchScreenState extends State<SearchScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => (const HomeScreen(
-                        id: '1',
+                      builder: (context) => (SearchDetailScreen(
+                        crops: searchContent,
                       )),
                     ),
                   );

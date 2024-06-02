@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 
-class ImageSerivce {
+class ImageService {
   static Future<List<String>> getImageList() async {
     // pubspec.yaml에 명시된 assets의 경로
     final manifestContent = await rootBundle.loadString('AssetManifest.json');

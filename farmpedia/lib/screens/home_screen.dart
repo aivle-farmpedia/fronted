@@ -1,11 +1,10 @@
 import 'package:farmpedia/widgets/home_menu_widget.dart';
+import 'package:farmpedia/widgets/meun_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../widgets/announcement_widget.dart';
 import '../widgets/custom_searchbar_widget.dart';
-import 'menu_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   final String id;
@@ -102,25 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
       home: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          actions: [
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const MenuScreen(),
-                  ),
-                );
-              },
-              child: const Padding(
-                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                child: Icon(
-                  Icons.menu,
-                  size: 30.0,
-                ),
-              ),
-            ),
-          ],
+          actions: const [MeunWidget()],
           title: const Text(
             '귀농백과',
             style: TextStyle(

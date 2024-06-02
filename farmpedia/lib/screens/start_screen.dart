@@ -30,7 +30,7 @@ class _HomeScreenState extends State<StartScreen>
     // PageView 위젯 제어하는데 사용
     _pageViewController = PageController();
     // images/ 아래에 있는 이미지들을 불어롬
-    images = ImageSerivce.getImageList();
+    images = ImageService.getImageList();
     // 이미지 파일들 로드 하면 실행
     images.then((imagePaths) {
       // 상태가 변경되면 반영
