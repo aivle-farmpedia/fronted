@@ -1,6 +1,8 @@
+import 'package:flutter/material.dart';
+import 'package:farmpedia/screens/community_write_screen.dart';
+import 'package:farmpedia/screens/community_view_screen.dart';
 import 'package:farmpedia/widgets/backpage_widget.dart';
 import 'package:farmpedia/widgets/menu_widget.dart';
-import 'package:flutter/material.dart';
 
 class CommunityScreen extends StatelessWidget {
   const CommunityScreen({super.key});
@@ -16,7 +18,7 @@ class CommunityScreen extends StatelessWidget {
             beforeContext: context,
           ),
           actions: const [MenuWidget()],
-          backgroundColor: const Color.fromARGB(255, 241, 240, 240),
+          backgroundColor: const Color(0xff95C461),
           title: const Text(
             "커뮤니티",
             style: TextStyle(
@@ -31,7 +33,11 @@ class CommunityScreen extends StatelessWidget {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  // Action for 글쓰기 button
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const CommunityWriteScreen()),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green,
@@ -46,16 +52,36 @@ class CommunityScreen extends StatelessWidget {
               const SizedBox(height: 16),
               Expanded(
                 child: ListView(
-                  children: const [
-                    PostCard(
-                      title: '사과 재배시 해충관리에 관해',
-                      content: '잘 아시는 분 계신가요?',
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const CommunityViewScreen()),
+                        );
+                      },
+                      child: const PostCard(
+                        title: '대전은 뭐가 유명한가요?',
+                        content: '잘 아시는 분 계신가요?',
+                      ),
                     ),
-                    SizedBox(height: 16),
-                    PostCard(
-                      title: '마늘이 썩어요',
-                      content: '보관방법에 대해 잘 아시는 분',
-                    ),
+                    const SizedBox(height: 16),
+                    // GestureDetector(
+                    //   onTap: () {
+                    //     Navigator.push(
+                    //       context,
+                    //       MaterialPageRoute(
+                    //           builder: (context) =>
+                    //               const CommunityViewScreen()),
+                    //     );
+                    //   },
+                    //   child: const PostCard(
+                    //     title: '마늘이 썩어요',
+                    //     content: '보관방법에 대해 잘 아시는 분',
+                    //   ),
+                    // ),
                   ],
                 ),
               ),

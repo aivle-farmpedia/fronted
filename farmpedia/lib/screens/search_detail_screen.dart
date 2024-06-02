@@ -21,7 +21,7 @@ class _SearchDetailScreenState extends State<SearchDetailScreen> {
       home: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: const Color(0xff95C461),
           leading: BackpageWidget(beforeContext: context),
           centerTitle: true,
           title: Text(widget.crops),

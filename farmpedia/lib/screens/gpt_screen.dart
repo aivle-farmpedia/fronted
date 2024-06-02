@@ -16,7 +16,7 @@ class GPTScreen extends StatelessWidget {
             beforeContext: context,
           ),
           actions: const [MenuWidget()],
-          backgroundColor: const Color.fromARGB(255, 241, 240, 240),
+          backgroundColor: const Color(0xff95C461),
           title: const Text(
             "귀농GPT",
             style: TextStyle(
