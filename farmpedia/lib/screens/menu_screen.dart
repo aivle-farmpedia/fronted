@@ -19,7 +19,7 @@ class MenuScreen extends StatelessWidget {
           leading: BackpageWidget(
             beforeContext: context,
           ),
-          backgroundColor: const Color.fromARGB(255, 241, 240, 240),
+          backgroundColor: const Color(0xFF95c452),
           title: const Text(
             "귀농가이드",
             style: TextStyle(
@@ -33,6 +33,9 @@ class MenuScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const SizedBox(
+                height: 20,
+              ),
               const Padding(
                 padding: EdgeInsets.symmetric(
                     horizontal: 15), // 패딩 추가해서 '메뉴'만 왼쪽으로 이동

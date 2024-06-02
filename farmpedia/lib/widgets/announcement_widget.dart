@@ -12,7 +12,7 @@ class AnnouncementWidget extends StatelessWidget {
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(
-          horizontal: 20,
+          horizontal: 25,
           vertical: 25,
         ),
         child: Column(
