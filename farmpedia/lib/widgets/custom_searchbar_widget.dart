@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class CustomSearch extends StatelessWidget {
+class CustomSearch extends StatefulWidget {
   const CustomSearch({
     super.key,
     required this.mainColor,
@@ -13,14 +13,18 @@ class CustomSearch extends StatelessWidget {
   final TextEditingController searchController;
   final List<String> filteredItems;
   final bool onTextField;
+  @override
+  State<CustomSearch> createState() => _CustomSearchState();
+}
 
+class _CustomSearchState extends State<CustomSearch> {
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Container(
           decoration: BoxDecoration(
-            color: mainColor,
+            color: widget.mainColor,
             borderRadius: BorderRadius.circular(30),
           ),
           child: Padding(
@@ -29,7 +33,7 @@ class CustomSearch extends StatelessWidget {
               children: [
                 Flexible(
                   child: TextField(
-                    controller: searchController,
+                    controller: widget.searchController,
                     autocorrect: false, // 자동 수정 비활성화
                     textCapitalization: TextCapitalization.none,
                     keyboardType: TextInputType.text, // 텍스트 입력 설정
@@ -59,12 +63,19 @@ class CustomSearch extends StatelessWidget {
         // 입력된 단어의 리스트들을 보여줌
 
         Flexible(
-          child: filteredItems.isNotEmpty && onTextField
+          child: widget.filteredItems.isNotEmpty && widget.onTextField
               ? ListView.builder(
-                  itemCount: filteredItems.length,
+                  itemCount: widget.filteredItems.length,
                   itemBuilder: (context, index) {
                     return ListTile(
-                      title: Text(filteredItems[index]),
+                      title: GestureDetector(
+                        onTap: () {
+                          // 단어 클릭시 그 단어로 searchbar에 바로 반영 된다
+                          widget.searchController.text =
+                              widget.filteredItems[index];
+                        },
+                        child: Text(widget.filteredItems[index]),
+                      ),
                     );
                   },
                 )
