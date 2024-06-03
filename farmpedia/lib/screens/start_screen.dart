@@ -110,8 +110,18 @@ class _HomeScreenState extends State<StartScreen>
   }
 
   FutureBuilder imageList(Future<List<String>> images) {
-    final List<String> words = ['귀농백과1', '샤넬이 사진'];
-    final List<String> stances = ['다양한 농사 지식을 습득하세요\n 초보 농부를 위한 앱', '샤넬이 귀여워'];
+    final List<String> words = [
+      '귀농백과1',
+      '정책이나 혜택\n 한눈에 알아보기',
+      'GPT에게 물어봐!',
+      '귀농을 향한 첫 발걸음'
+    ];
+    final List<String> stances = [
+      '다양한 농사 지식을 습득하세요\n 초보 농부를 위한 앱',
+      '샤넬이 귀여워',
+      '귀농 지피티가 여러분의 궁금점을\n 해결해드릴게요',
+      '귀농백과에서 다 알려드립니다!'
+    ];
 
     return FutureBuilder(
       future: images,
@@ -159,6 +169,7 @@ class _HomeScreenState extends State<StartScreen>
                 width: 400,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Image.asset(
                       imagePaths[index],
@@ -169,6 +180,7 @@ class _HomeScreenState extends State<StartScreen>
                     ),
                     Text(
                       words[index],
+                      textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.w900,

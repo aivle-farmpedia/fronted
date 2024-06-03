@@ -1,3 +1,4 @@
+import 'package:farmpedia/widgets/backpage_widget.dart';
 import 'package:farmpedia/widgets/home_menu_widget.dart';
 import 'package:farmpedia/widgets/menu_widget.dart';
 import 'package:flutter/material.dart';
@@ -101,6 +102,9 @@ class _HomeScreenState extends State<HomeScreen> {
       home: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
+          leading: BackpageWidget(
+            beforeContext: context,
+          ),
           actions: const [MenuWidget()],
           title: const Text(
             '귀농백과',

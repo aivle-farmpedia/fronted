@@ -22,7 +22,7 @@ class CustomPagebar extends StatelessWidget {
           builder: (context, child) {
             return Container(
               margin: const EdgeInsets.symmetric(horizontal: 5),
-              width: 40,
+              width: 80,
               height: 4,
               decoration: BoxDecoration(
                 color: controller?.index == index
