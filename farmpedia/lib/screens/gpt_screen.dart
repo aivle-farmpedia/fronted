@@ -1,9 +1,109 @@
+import 'dart:convert';
 import 'package:farmpedia/widgets/backpage_widget.dart';
 import 'package:farmpedia/widgets/menu_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
-class GPTScreen extends StatelessWidget {
+class GPTScreen extends StatefulWidget {
   const GPTScreen({super.key});
+
+  @override
+  State<GPTScreen> createState() => _GPTScreenState();
+}
+
+class _GPTScreenState extends State<GPTScreen> {
+  TextEditingController searchController = TextEditingController();
+  List<Map<String, dynamic>> messages = [];
+  bool onTextField = false;
+  bool isLoading = false;
+
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    searchController.addListener(() {
+      setState(() {
+        onTextField = searchController.text.isNotEmpty;
+      });
+    });
+  }
+
+  // api만 잘 받아오면 gpt 끝
+  Future<String> fetchGPTResponse(String message) async {
+    const apiKey = 'OPENAI_API_KEY'; // OpenAI API 키를 여기에 입력하세요
+    const url = 'https://api.openai.com/v1/engines/davinci-codex/completions';
+
+    final response = await http.post(
+      Uri.parse(url),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $apiKey',
+      },
+      body: jsonEncode({
+        'prompt': message,
+        'max_tokens': 100,
+        'temperature': 0.7,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      return data['choices'][0]['text'].trim();
+    } else {
+      throw Exception('Failed to load response from OpenAI');
+    }
+  }
+
+  void sendMessage() async {
+    if (searchController.text.isNotEmpty) {
+      setState(() {
+        // text : 내용, isUser: 사용자인지 gpt인지 판별
+        messages.add({'text': searchController.text, 'isUser': true});
+        isLoading = true;
+        searchController.clear();
+        onTextField = false;
+      });
+
+      try {
+        final response = await fetchGPTResponse(messages.last['text']);
+        setState(() {
+          messages.add({'text': response, 'isUser': false});
+        });
+      } catch (error) {
+        setState(() {
+          messages.add({'text': 'Error: ${error.toString()}', 'isUser': false});
+        });
+      } finally {
+        setState(() {
+          isLoading = false;
+        });
+      }
+    }
+  }
+
+  Widget buildMessage(String message, bool isUserMessage) {
+    return Align(
+      // 사용자가 보내면 오른쪽, gpt가 보낸거면 왼쪽
+      alignment: isUserMessage ? Alignment.centerRight : Alignment.centerLeft,
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        margin: const EdgeInsets.symmetric(vertical: 4),
+        decoration: BoxDecoration(
+          color: isUserMessage ? const Color(0xFFE0F2CD) : Colors.grey[200],
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Text(
+          message,
+          style: const TextStyle(fontSize: 16),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,54 +128,36 @@ class GPTScreen extends StatelessWidget {
         body: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Align(
-                alignment: Alignment.centerRight,
-                child: Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFE0F2CD),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: const Text(
-                    '사과에 대해 설명해줘',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
               Expanded(
-                child: SingleChildScrollView(
-                  child: Container(
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: const Text(
-                      '사과 품종 정보\n'
-                      '주요 사과 품종: 조생종 아오리, 중생종 홍로, 만생종 후지(부사) 등\n\n'
-                      '* 아오리 사과: 일본에서 도입된 품종으로 초기에는 재배가 어려웠으나 점차 인기 상승\n'
-                      '* 홍로 사과: 추석 명절에 많이 소비되는 중생종 품종\n'
-                      '* 양광 사과: 일본에서 도입된 품종으로 아름다운 색상과 감미 당도가 높음\n'
-                      '* 후지(부사) 사과: 국내에서 가장 많이 재배되는 만생종 품종\n\n'
-                      '- 사과 재배 기술\n'
-                      '* 사과나무 수형 관리, 수확 및 과실 품질 향상을 위한 재배 기술\n'
-                      '* 토양 조건, 재식 방법, 대목 선택에 따른 차이가 큼\n'
-                      '* 키 낮은 사과원 조성 시 필수 조건\n'
-                      '* 기상 재해 방지를 위한 재배 방법 중요',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                  ),
+                child: ListView.builder(
+                  itemCount: messages.length,
+                  itemBuilder: (context, index) {
+                    bool isUserMessage = messages[index]['isUser'];
+                    return buildMessage(messages[index]['text'], isUserMessage);
+                  },
                 ),
               ),
+              if (isLoading) const CircularProgressIndicator(),
               const SizedBox(height: 16),
-              const TextField(
-                decoration: InputDecoration(
-                  hintText: '입력하세요',
-                  border: OutlineInputBorder(),
-                ),
+              Row(
+                children: [
+                  Flexible(
+                    child: TextField(
+                      controller: searchController,
+                      decoration: InputDecoration(
+                        hintText: '입력하세요',
+                        suffixIcon: onTextField
+                            ? IconButton(
+                                icon: const Icon(Icons.send),
+                                onPressed: sendMessage,
+                              )
+                            : const SizedBox(),
+                        border: const OutlineInputBorder(),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
