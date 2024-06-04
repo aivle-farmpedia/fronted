@@ -18,13 +18,13 @@ class AnnouncementWidget extends StatelessWidget {
         child: Column(
           children: [
             const Text(
-              "공지사항",
+              "지원 정책",
               style: TextStyle(
                 fontSize: 20,
               ),
             ),
             Container(
-              height: 220,
+              height: 100,
             ),
           ],
         ),

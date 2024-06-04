@@ -17,21 +17,14 @@ class HomeMenuWidget extends StatelessWidget {
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(
-          horizontal: 20,
-          vertical: 25,
+          horizontal: 24,
+          vertical: 15,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              "메뉴",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 30,
-                  fontWeight: FontWeight.w700),
-            ),
             const SizedBox(
-              height: 20,
+              height: 10,
             ),
             Row(
               children: [
@@ -55,14 +48,14 @@ class HomeMenuWidget extends StatelessWidget {
                         "귀농백과",
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 20,
+                          fontSize: 18,
                         ),
                       ),
                     ],
                   ),
                 ),
                 const SizedBox(
-                  width: 30,
+                  width: 10,
                 ),
                 GestureDetector(
                   onTap: () {
@@ -84,19 +77,15 @@ class HomeMenuWidget extends StatelessWidget {
                         "지원정책",
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 20,
+                          fontSize: 18,
                         ),
                       ),
                     ],
                   ),
                 ),
-              ],
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            Row(
-              children: [
+                const SizedBox(
+                  width: 10,
+                ),
                 GestureDetector(
                   onTap: () {
                     Navigator.push(
@@ -117,14 +106,14 @@ class HomeMenuWidget extends StatelessWidget {
                         "귀농GPT",
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 20,
+                          fontSize: 18,
                         ),
                       ),
                     ],
                   ),
                 ),
                 const SizedBox(
-                  width: 30,
+                  width: 10,
                 ),
                 GestureDetector(
                   onTap: () {
@@ -146,7 +135,7 @@ class HomeMenuWidget extends StatelessWidget {
                         "커뮤니티",
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 20,
+                          fontSize: 18,
                         ),
                       ),
                     ],
