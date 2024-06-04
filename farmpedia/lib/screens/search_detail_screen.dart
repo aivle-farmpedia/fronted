@@ -74,7 +74,7 @@ class _SearchDetailScreenState extends State<SearchDetailScreen> {
                           height: 20,
                         ),
                         const Text(
-                          "1. 판매 가겨 추이(3개년)",
+                          "1. 판매 가격 추이(3개년)",
                           style: TextStyle(
                             fontSize: 18,
                           ),

@@ -1,7 +1,28 @@
 import 'package:flutter/material.dart';
 
-class CommunityWriteScreen extends StatelessWidget {
+class CommunityWriteScreen extends StatefulWidget {
   const CommunityWriteScreen({super.key});
+
+  @override
+  _CommunityWriteScreenState createState() => _CommunityWriteScreenState();
+}
+
+class _CommunityWriteScreenState extends State<CommunityWriteScreen> {
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _contentController = TextEditingController();
+
+  void _submitPost() {
+    if (_titleController.text.isNotEmpty &&
+        _contentController.text.isNotEmpty) {
+      Navigator.pop(
+        context,
+        {
+          'title': _titleController.text,
+          'content': _contentController.text,
+        },
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +50,7 @@ class CommunityWriteScreen extends StatelessWidget {
         child: Column(
           children: [
             TextField(
+              controller: _titleController,
               decoration: InputDecoration(
                 labelText: '제목',
                 border: OutlineInputBorder(
@@ -39,6 +61,7 @@ class CommunityWriteScreen extends StatelessWidget {
             const SizedBox(height: 16.0),
             Expanded(
               child: TextField(
+                controller: _contentController,
                 maxLines: null,
                 expands: true,
                 decoration: InputDecoration(
@@ -59,16 +82,15 @@ class CommunityWriteScreen extends StatelessWidget {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green[300],
+                    foregroundColor: Colors.white, // Set text color to white
                   ),
                   child: const Text('취소'),
                 ),
                 ElevatedButton(
-                  onPressed: () {
-                    // Add your onPressed code here!
-                    // e.g., save the post and navigate back
-                  },
+                  onPressed: _submitPost,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green,
+                    foregroundColor: Colors.white, // Set text color to white
                   ),
                   child: const Text('등록'),
                 ),
@@ -78,6 +100,7 @@ class CommunityWriteScreen extends StatelessWidget {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.grey,
+                    foregroundColor: Colors.white, // Set text color to white
                   ),
                   child: const Text('목록'),
                 ),
