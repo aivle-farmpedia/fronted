@@ -1,10 +1,10 @@
+import 'package:farmpedia/services/api_service.dart';
 import 'package:farmpedia/widgets/backpage_widget.dart';
 import 'package:farmpedia/widgets/home_menu_widget.dart';
 import 'package:farmpedia/widgets/menu_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import '../widgets/announcement_widget.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -18,6 +18,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late SharedPreferences prefs;
   late List<String> userId;
+  String uuid = '';
 
   final List<String> videoUrls = [
     'https://www.youtube.com/watch?v=eQxuRe2Syh0',
@@ -38,11 +39,13 @@ class _HomeScreenState extends State<HomeScreen> {
     prefs = await SharedPreferences.getInstance();
     userId = prefs.getStringList('userId') ?? [];
     if (userId.isEmpty) {
+      // 비어있을 때 즉, 처음 접속 할 때 uuid 확인 후 추가
       userId = [widget.id];
-      await prefs.setStringList('userId', userId);
+      uuid = await ApiService().postUuid(userId, prefs);
+      debugPrint(uuid);
     }
-    // userId(uuid) 확인용
-    debugPrint("$userId");
+    // userId(uuid) 확인용6
+    debugPrint("확인용 $userId");
   }
 
   @override
