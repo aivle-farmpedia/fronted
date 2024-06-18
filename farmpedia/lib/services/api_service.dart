@@ -3,31 +3,29 @@ import 'dart:convert';
 // import 'package:farmpedia/models/uuid_model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../urls/urls.dart';
 
 class ApiService {
   final baseurl = Urls().uuidBaseUrl();
 
-  Future<String> postUuid(List<String> userId, SharedPreferences prefs) async {
-    String uuidInstance = '';
+  Future<String> postUuid(String userId) async {
+    // String uuidInstance = '';
+    debugPrint("???????? $userId");
     final url = Uri.parse(baseurl);
-    final Map<String, dynamic> params = {'uuid': userId[0]};
+    final Map<String, dynamic> params = {'uuid': userId};
     final response = await http.post(
       url,
       headers: {'Content-type': 'application/json'},
       body: json.encode(params),
     );
-    if (response.statusCode == 200) {
+    debugPrint(response.statusCode.toString());
+    if (response.statusCode == 201) {
       debugPrint("성공");
-      final dynamic uuids = await jsonDecode(response.body);
-      uuidInstance = uuids;
-      await prefs.setStringList('userId', [uuidInstance]);
-      return uuidInstance;
+      return "성공";
+    } else {
+      debugPrint("화면이 나오면 안됨");
+      throw Error();
     }
-
-    debugPrint("이건 언제됨? ${response.body}");
-    throw Error();
   }
 }

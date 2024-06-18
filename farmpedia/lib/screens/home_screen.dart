@@ -17,9 +17,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late SharedPreferences prefs;
-  late List<String> userId;
-  String uuid = '';
-
   final List<String> videoUrls = [
     'https://www.youtube.com/watch?v=eQxuRe2Syh0',
     'https://www.youtube.com/watch?v=eQxuRe2Syh0',
@@ -34,18 +31,18 @@ class _HomeScreenState extends State<HomeScreen> {
     'https://i.ytimg.com/vi/KkMRy_Viz-s/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLA9VZXpG2KWZF1rAMXur1tUGrjUTA',
   ];
 
-  // 사용자의 개인 Id를 로컬 저장소에 저장한것
-  Future initPrefs() async {
+  Future<void> initPrefs() async {
     prefs = await SharedPreferences.getInstance();
-    userId = prefs.getStringList('userId') ?? [];
-    if (userId.isEmpty) {
-      // 비어있을 때 즉, 처음 접속 할 때 uuid 확인 후 추가
-      userId = [widget.id];
-      uuid = await ApiService().postUuid(userId, prefs);
-      debugPrint(uuid);
+
+    String? userId = prefs.getString('userId');
+    if (userId == null) {
+      await prefs.setString('userId', widget.id);
+
+      await ApiService().postUuid(widget.id);
+      debugPrint(widget.id);
+    } else {
+      debugPrint("이미 존재 $userId");
     }
-    // userId(uuid) 확인용6
-    debugPrint("확인용 $userId");
   }
 
   @override
