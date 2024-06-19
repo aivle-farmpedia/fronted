@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import '../screens/menu_screen.dart';
 
 class MenuWidget extends StatelessWidget {
-  const MenuWidget({super.key});
+  final String id;
+  const MenuWidget({super.key, required this.id});
 
   @override
   Widget build(BuildContext context) {
@@ -12,9 +13,10 @@ class MenuWidget extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const MenuScreen(),
+            builder: (context) => MenuScreen(id: id),
           ),
         );
+        debugPrint("시발 $id");
       },
       child: const Padding(
         padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),

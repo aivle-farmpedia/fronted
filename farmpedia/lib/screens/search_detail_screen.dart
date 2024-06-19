@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 
 class SearchDetailScreen extends StatefulWidget {
   final String crops;
-  const SearchDetailScreen({super.key, required this.crops});
+  final String id;
+  const SearchDetailScreen({super.key, required this.crops, required this.id});
   @override
   State<SearchDetailScreen> createState() => _SearchDetailScreenState();
 }
@@ -41,8 +42,8 @@ class _SearchDetailScreenState extends State<SearchDetailScreen> {
           leading: BackpageWidget(beforeContext: context),
           centerTitle: true,
           title: Text(widget.crops),
-          actions: const [
-            MenuWidget(),
+          actions: [
+            MenuWidget(id: widget.id),
           ],
         ),
         body: Stack(

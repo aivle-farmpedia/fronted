@@ -5,7 +5,8 @@ import 'package:farmpedia/widgets/backpage_widget.dart';
 import 'package:farmpedia/widgets/menu_widget.dart';
 
 class CommunityScreen extends StatefulWidget {
-  const CommunityScreen({super.key});
+  final String id;
+  const CommunityScreen({super.key, required this.id});
 
   @override
   _CommunityScreenState createState() => _CommunityScreenState();
@@ -13,7 +14,6 @@ class CommunityScreen extends StatefulWidget {
 
 class _CommunityScreenState extends State<CommunityScreen> {
   final List<Map<String, String>> posts = [];
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -24,7 +24,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
           leading: BackpageWidget(
             beforeContext: context,
           ),
-          actions: const [MenuWidget()],
+          actions: [MenuWidget(id: widget.id)],
           backgroundColor: const Color(0xff95C461),
           title: const Text(
             "커뮤니티",
@@ -43,7 +43,8 @@ class _CommunityScreenState extends State<CommunityScreen> {
                   final result = await Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const CommunityWriteScreen()),
+                        builder: (context) =>
+                            CommunityWriteScreen(id: widget.id)),
                   );
 
                   if (result != null && mounted) {

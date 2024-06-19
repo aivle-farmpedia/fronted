@@ -5,8 +5,21 @@ import '../screens/gpt_screen.dart';
 import '../screens/policy_screen.dart';
 import '../screens/search_screen.dart';
 
-class HomeMenuWidget extends StatelessWidget {
-  const HomeMenuWidget({super.key});
+class HomeMenuWidget extends StatefulWidget {
+  final String id;
+  const HomeMenuWidget({super.key, required this.id});
+
+  @override
+  State<HomeMenuWidget> createState() => _HomeMenuWidgetState();
+}
+
+class _HomeMenuWidgetState extends State<HomeMenuWidget> {
+  @override
+  void initState() {
+    super.initState();
+    String a = widget.id;
+    debugPrint("너 이상한놈인데? $a");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +46,7 @@ class HomeMenuWidget extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const SearchScreen(),
+                        builder: (context) => SearchScreen(id: widget.id),
                       ),
                     );
                   },
@@ -62,7 +75,7 @@ class HomeMenuWidget extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const PolicyScreen(),
+                        builder: (context) => PolicyScreen(id: widget.id),
                       ),
                     );
                   },
@@ -91,7 +104,7 @@ class HomeMenuWidget extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const GPTScreen(),
+                        builder: (context) => GPTScreen(id: widget.id),
                       ),
                     );
                   },
@@ -120,7 +133,7 @@ class HomeMenuWidget extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const CommunityScreen(),
+                        builder: (context) => CommunityScreen(id: widget.id),
                       ),
                     );
                   },

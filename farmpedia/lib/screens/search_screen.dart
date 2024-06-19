@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 import '../widgets/custom_searchbar_widget.dart';
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+  final String id;
+  const SearchScreen({super.key, required this.id});
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -85,7 +86,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const MenuScreen(),
+                    builder: (context) => MenuScreen(id: widget.id),
                   ),
                 );
               },
@@ -126,6 +127,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => (SearchDetailScreen(
+                        id: widget.id,
                         crops: searchContent,
                       )),
                     ),

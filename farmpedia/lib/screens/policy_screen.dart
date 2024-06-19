@@ -4,7 +4,8 @@ import 'package:farmpedia/widgets/menu_widget.dart';
 import 'package:flutter/material.dart';
 
 class PolicyScreen extends StatelessWidget {
-  const PolicyScreen({super.key});
+  final String id;
+  const PolicyScreen({super.key, required this.id});
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +62,7 @@ class PolicyScreen extends StatelessWidget {
           leading: BackpageWidget(
             beforeContext: context,
           ),
-          actions: const [MenuWidget()],
+          actions: [MenuWidget(id: id)],
           backgroundColor: const Color.fromARGB(255, 241, 240, 240),
           title: const Text(
             "지원 정책",
@@ -190,6 +191,6 @@ class SupportCard extends StatelessWidget {
   }
 }
 
-void main() {
-  runApp(const PolicyScreen());
-}
+// void main() {
+//   runApp(const PolicyScreen(id:id));
+// }

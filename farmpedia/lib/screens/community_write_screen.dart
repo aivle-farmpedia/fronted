@@ -1,12 +1,12 @@
-import 'package:farmpedia/screens/community_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../services/api_service.dart';
 import '../widgets/backpage_widget.dart';
 import '../widgets/menu_widget.dart';
-import 'home_screen.dart';
 
 class CommunityWriteScreen extends StatefulWidget {
-  const CommunityWriteScreen({super.key});
+  final String id;
+  const CommunityWriteScreen({super.key, required this.id});
 
   @override
   _CommunityWriteScreenState createState() => _CommunityWriteScreenState();
@@ -16,9 +16,11 @@ class _CommunityWriteScreenState extends State<CommunityWriteScreen> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _contentController = TextEditingController();
 
-  void _submitPost() {
+  void _submitPost() async {
     if (_titleController.text.isNotEmpty &&
         _contentController.text.isNotEmpty) {
+      await ApiService()
+          .postBoard(_titleController.text, _contentController.text, widget.id);
       Navigator.pop(
         context,
         {
@@ -38,7 +40,7 @@ class _CommunityWriteScreenState extends State<CommunityWriteScreen> {
         leading: BackpageWidget(
           beforeContext: context,
         ),
-        actions: const [MenuWidget()],
+        actions: [MenuWidget(id: widget.id)],
         backgroundColor: const Color(0xff95C461),
         title: const Text(
           "글작성",

@@ -9,7 +9,7 @@ import '../urls/urls.dart';
 class ApiService {
   final baseurl = Urls().uuidBaseUrl();
 
-  Future<String> postUuid(String userId) async {
+  Future<void> postUuid(String userId) async {
     // String uuidInstance = '';
     final url = Uri.parse("${baseurl}api/auth/save");
     final Map<String, dynamic> params = {'uuid': userId};
@@ -21,16 +21,29 @@ class ApiService {
     debugPrint(response.statusCode.toString());
     if (response.statusCode == 201) {
       debugPrint("성공");
-      return "성공";
     } else {
-      debugPrint("화면이 나오면 안됨");
       throw Error();
     }
   }
 
-  Future<String> postBoard(String userId) async {
+  Future<void> postBoard(String title, String content, String id) async {
     final url = Uri.parse("${baseurl}api/board");
-    debugPrint(url.toString());
-    return "1";
+    final Map<String, dynamic> params = {
+      'title': title,
+      'content': content,
+    };
+    final response = await http.post(
+      url,
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': id,
+      },
+      body: json.encode(params),
+    );
+    if (response.statusCode == 201) {
+      debugPrint(response.body.toString());
+    } else {
+      throw Error;
+    }
   }
 }

@@ -7,7 +7,8 @@ import 'package:farmpedia/widgets/backpage_widget.dart';
 import 'package:flutter/material.dart';
 
 class MenuScreen extends StatelessWidget {
-  const MenuScreen({super.key});
+  final String id;
+  const MenuScreen({super.key, required this.id});
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +60,7 @@ class MenuScreen extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const SearchScreen()));
+                                builder: (context) => SearchScreen(id: id)));
                       },
                       child: const Text(
                         "귀농백과",
@@ -75,7 +76,7 @@ class MenuScreen extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const GPTScreen()));
+                                builder: (context) => GPTScreen(id: id)));
                       },
                       child: const Text(
                         "귀농GPT",
@@ -91,7 +92,7 @@ class MenuScreen extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const MethodScreen()));
+                                builder: (context) => MethodScreen(id: id)));
                       },
                       child: const Text(
                         "농작물 재배 방법",
@@ -107,7 +108,7 @@ class MenuScreen extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const PolicyScreen()));
+                                builder: (context) => PolicyScreen(id: id)));
                       },
                       child: const Text(
                         "귀농 정책 및 혜택",
@@ -123,7 +124,7 @@ class MenuScreen extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const CommunityScreen()));
+                                builder: (context) => CommunityScreen(id: id)));
                       },
                       child: const Text(
                         "커뮤니티",

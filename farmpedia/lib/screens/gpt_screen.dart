@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class GPTScreen extends StatefulWidget {
-  const GPTScreen({super.key});
+  final String id;
+  const GPTScreen({super.key, required this.id});
 
   @override
   State<GPTScreen> createState() => _GPTScreenState();
@@ -115,7 +116,7 @@ class _GPTScreenState extends State<GPTScreen> {
           leading: BackpageWidget(
             beforeContext: context,
           ),
-          actions: const [MenuWidget()],
+          actions: [MenuWidget(id: widget.id)],
           backgroundColor: const Color(0xff95C461),
           title: const Text(
             "귀농GPT",
