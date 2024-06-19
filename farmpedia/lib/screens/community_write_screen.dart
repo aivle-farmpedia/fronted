@@ -1,4 +1,9 @@
+import 'package:farmpedia/screens/community_screen.dart';
 import 'package:flutter/material.dart';
+
+import '../widgets/backpage_widget.dart';
+import '../widgets/menu_widget.dart';
+import 'home_screen.dart';
 
 class CommunityWriteScreen extends StatefulWidget {
   const CommunityWriteScreen({super.key});
@@ -30,12 +35,10 @@ class _CommunityWriteScreenState extends State<CommunityWriteScreen> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+        leading: BackpageWidget(
+          beforeContext: context,
         ),
+        actions: const [MenuWidget()],
         backgroundColor: const Color(0xff95C461),
         title: const Text(
           "글작성",

@@ -34,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> initPrefs() async {
     prefs = await SharedPreferences.getInstance();
 
-    String? userId = prefs.getString('userId');
+    List<String>? userId = prefs.getStringList('userId');
     if (userId == null) {
       await prefs.setString('userId', widget.id);
 

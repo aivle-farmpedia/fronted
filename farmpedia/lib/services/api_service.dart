@@ -11,8 +11,7 @@ class ApiService {
 
   Future<String> postUuid(String userId) async {
     // String uuidInstance = '';
-    debugPrint("???????? $userId");
-    final url = Uri.parse(baseurl);
+    final url = Uri.parse("${baseurl}api/auth/save");
     final Map<String, dynamic> params = {'uuid': userId};
     final response = await http.post(
       url,
@@ -27,5 +26,11 @@ class ApiService {
       debugPrint("화면이 나오면 안됨");
       throw Error();
     }
+  }
+
+  Future<String> postBoard(String userId) async {
+    final url = Uri.parse("${baseurl}api/board");
+    debugPrint(url.toString());
+    return "1";
   }
 }
