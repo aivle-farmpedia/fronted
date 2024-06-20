@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:farmpedia/services/api_service.dart';
 import 'package:farmpedia/screens/community_write_screen.dart';
 import 'package:farmpedia/screens/community_view_screen.dart';
 import 'package:farmpedia/widgets/backpage_widget.dart';
 import 'package:farmpedia/widgets/menu_widget.dart';
+
+import '../models/board_model.dart';
 
 class CommunityScreen extends StatefulWidget {
   final String id;
@@ -13,7 +16,25 @@ class CommunityScreen extends StatefulWidget {
 }
 
 class _CommunityScreenState extends State<CommunityScreen> {
-  final List<Map<String, String>> posts = [];
+  late Future<List<Board>> futureBoards;
+
+  @override
+  void initState() {
+    super.initState();
+    futureBoards = fetchBoards();
+  }
+
+  Future<List<Board>> fetchBoards() async {
+    try {
+      List<Board> fetchedBoards = await ApiService().getBoardList(widget.id);
+      fetchedBoards.sort((a, b) => b.updatedAt
+          .compareTo(a.updatedAt)); // Sort by updatedAt in descending order
+      return fetchedBoards;
+    } catch (e) {
+      throw Exception('Failed to load boards');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -43,21 +64,15 @@ class _CommunityScreenState extends State<CommunityScreen> {
                   final result = await Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            CommunityWriteScreen(id: widget.id)),
+                      builder: (context) => CommunityWriteScreen(id: widget.id),
+                    ),
                   );
 
                   if (result != null && mounted) {
-                    setState(
-                      () {
-                        posts.add(
-                          {
-                            'title': result['title'],
-                            'content': result['content'],
-                          },
-                        );
-                      },
-                    );
+                    setState(() {
+                      futureBoards =
+                          fetchBoards(); // Re-fetch the boards to include the new one
+                    });
                   }
                 },
                 style: ElevatedButton.styleFrom(
@@ -72,27 +87,41 @@ class _CommunityScreenState extends State<CommunityScreen> {
               ),
               const SizedBox(height: 16),
               Expanded(
-                child: ListView.builder(
-                  itemCount: posts.length,
-                  itemBuilder: (context, index) {
-                    final post = posts[index];
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => CommunityViewScreen(
-                              title: post['title']!,
-                              content: post['content']!,
+                child: FutureBuilder<List<Board>>(
+                  future: futureBoards,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasError) {
+                      return Center(child: Text('Error: ${snapshot.error}'));
+                    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                      return const Center(child: Text('No boards available'));
+                    } else {
+                      final boards = snapshot.data!;
+                      return ListView.builder(
+                        itemCount: boards.length,
+                        itemBuilder: (context, index) {
+                          final board = boards[index];
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CommunityViewScreen(
+                                    title: board.title,
+                                    content: board.content,
+                                  ),
+                                ),
+                              );
+                            },
+                            child: PostCard(
+                              title: board.title,
+                              content: board.content,
                             ),
-                          ),
-                        );
-                      },
-                      child: PostCard(
-                        title: post['title']!,
-                        content: post['content']!,
-                      ),
-                    );
+                          );
+                        },
+                      );
+                    }
                   },
                 ),
               ),
