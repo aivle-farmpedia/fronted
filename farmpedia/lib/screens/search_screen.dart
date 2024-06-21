@@ -19,7 +19,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   // 사용자의 입력값을 확인함
   TextEditingController searchController = TextEditingController();
-  late String searchContent;
+  String searchContent = '';
   bool onTextField = false;
 
   @override
