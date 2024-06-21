@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../screens/search_detail_screen.dart';
+
 class CustomSearch extends StatefulWidget {
   const CustomSearch({
     super.key,
@@ -7,8 +9,11 @@ class CustomSearch extends StatefulWidget {
     required this.searchController,
     required this.filteredItems,
     required this.onTextField,
+    required this.id,
+    required this.crops,
   });
-
+  final String id;
+  final String crops;
   final Color mainColor;
   final TextEditingController searchController;
   final List<String> filteredItems;
@@ -52,6 +57,17 @@ class _CustomSearchState extends State<CustomSearch> {
                         horizontal: 10,
                       ),
                     ),
+                    onSubmitted: ((value) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => (SearchDetailScreen(
+                            id: widget.id,
+                            crops: widget.crops,
+                          )),
+                        ),
+                      );
+                    }),
                   ),
                 ),
               ],

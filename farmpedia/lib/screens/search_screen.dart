@@ -119,41 +119,8 @@ class _SearchScreenState extends State<SearchScreen> {
                   searchController: searchController,
                   filteredItems: filteredItems,
                   onTextField: onTextField,
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => (SearchDetailScreen(
-                        id: widget.id,
-                        crops: searchContent,
-                      )),
-                    ),
-                  );
-                },
-                child: Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: mainColor,
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  child: const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "검색",
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  id: widget.id,
+                  crops: searchContent,
                 ),
               ),
             ],
