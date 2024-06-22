@@ -45,12 +45,22 @@ class _CommunityViewScreenState extends State<CommunityViewScreen> {
 
   void _addComment() async {
     if (_commentController.text.isNotEmpty) {
-      await ApiService().postContent(widget.content, widget.boardId, widget.id);
-      setState(() {
-        _comments.add(_commentController.text);
-        _commentController.clear();
-      });
-      _saveComments();
+      try {
+        await ApiService().postComment(
+          _commentController.text,
+          widget.boardId,
+          widget.id,
+        );
+        setState(() {
+          _comments.add(_commentController.text);
+          _commentController.clear();
+        });
+        _saveComments();
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to post comment: $e')),
+        );
+      }
     }
   }
 
