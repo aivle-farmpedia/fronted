@@ -121,11 +121,8 @@ class ApiService {
     }
   }
 
-  // 댓글 작성 -> API 요청 성공 했는데 이걸
-  // return값을 어떻게 사용할지 또 이걸 어떻게 community_screen에 사용하도록 변경 필요
-  Future<void> postContent(String content, int boardId, String id) async {
+  Future<void> postComment(String content, int boardId, String id) async {
     final url = Uri.parse("${baseurl}api/comment/board/$boardId");
-
     final body = json.encode({"content": content});
     final response = await http.post(
       url,
@@ -136,11 +133,14 @@ class ApiService {
       body: body,
     );
 
+    debugPrint("Response status: ${response.statusCode}");
+    debugPrint("Response body: ${response.body}");
     debugPrint(boardId.toString());
     if (response.statusCode == 201) {
-      debugPrint("제대로 불러와짐");
+      debugPrint("댓글이 성공적으로 전송되었습니다.");
     } else {
-      throw Error;
+      debugPrint("댓글 전송에 실패하였습니다.");
+      throw Exception("Failed to post comment");
     }
   }
 }
