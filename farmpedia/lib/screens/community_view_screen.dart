@@ -71,56 +71,58 @@ class _CommunityViewScreenState extends State<CommunityViewScreen> {
         title: const Text('게시물 보기'),
         backgroundColor: const Color(0xff95C461),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(16.0),
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade200,
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                child: Text(
-                  widget.title,
-                  style: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(16.0),
+              decoration: BoxDecoration(
+                color: Colors.grey.shade200,
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: Text(
+                widget.title,
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 8),
-              const Divider(),
-              Container(
-                height: 200,
-                width: double.infinity,
-                padding: const EdgeInsets.all(20.0),
-                margin: const EdgeInsets.symmetric(vertical: 12.0),
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade100,
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                child: Text(
-                  widget.content,
-                  style: const TextStyle(
-                    fontSize: 16,
-                  ),
+            ),
+            const SizedBox(height: 8),
+            const Divider(),
+            Container(
+              height: 200,
+              width: double.infinity,
+              padding: const EdgeInsets.all(20.0),
+              margin: const EdgeInsets.symmetric(vertical: 12.0),
+              decoration: BoxDecoration(
+                color: Colors.grey.shade100,
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: Text(
+                widget.content,
+                style: const TextStyle(
+                  fontSize: 16,
                 ),
               ),
-              const SizedBox(height: 8),
-              const Divider(),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
+            ),
+            const SizedBox(height: 8),
+            const Divider(),
+            const Text(
+              '댓글',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+            Expanded(
+              child: ListView.builder(
                 itemCount: _comments.length,
                 itemBuilder: (context, index) {
                   return Container(
                     padding: const EdgeInsets.all(12.0),
-                    margin: const EdgeInsets.symmetric(vertical: 12.0),
+                    margin: const EdgeInsets.symmetric(vertical: 6.0),
                     decoration: BoxDecoration(
                       color: Colors.grey.shade200,
                       borderRadius: BorderRadius.circular(8.0),
@@ -129,52 +131,42 @@ class _CommunityViewScreenState extends State<CommunityViewScreen> {
                   );
                 },
               ),
-              const Divider(),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: _commentController,
-                      decoration: InputDecoration(
-                        labelText: '댓글을 입력하세요',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
+            ),
+            const Divider(),
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _commentController,
+                    decoration: InputDecoration(
+                      labelText: '댓글을 입력하세요',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.0),
                       ),
                     ),
+                    onSubmitted: (value) => _addComment(),
                   ),
-                  const SizedBox(width: 8),
-                  ElevatedButton(
-                    onPressed: _addComment,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
-                    ),
-                    child: const Text(
-                      '추가',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              Center(
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
-                  ),
-                  child: const Text(
-                    '목록으로 돌아가기',
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green,
+                ),
+                child: const Text(
+                  '목록',
+                  style: TextStyle(
+                    color: Colors.white,
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
