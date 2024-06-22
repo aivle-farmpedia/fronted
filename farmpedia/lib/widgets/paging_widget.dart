@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 
 class PagingWidget extends StatefulWidget {
   final int totalPages;
+  final Function onDelete;
+
   const PagingWidget({
     super.key,
     required this.totalPages,
+    required this.onDelete,
   });
 
   @override
@@ -39,7 +42,10 @@ class _PaginationState extends State<PagingWidget> {
         i++) {
       widgets.add(
         ElevatedButton(
+          // 해당 페이지 버튼 눌렸을 때
+          // 그 페이지로 API 요청하고 그 데이터들 받아오기
           onPressed: () {
+            widget.onDelete(i);
             // Handle page number click
             setState(() {
               currentPage = (i / itemsPerPage).ceil();

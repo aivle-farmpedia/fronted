@@ -189,6 +189,13 @@ class _CommunityScreenState extends State<CommunityScreen> {
               const SizedBox(height: 16),
               PagingWidget(
                 totalPages: totalPages,
+                onDelete: (int curPage) {
+                  setState(() {
+                    futureBoards = fetchBoards(curPage);
+                    // currentPage = 1;
+                    allBoards.clear();
+                  });
+                },
               )
             ],
           ),
