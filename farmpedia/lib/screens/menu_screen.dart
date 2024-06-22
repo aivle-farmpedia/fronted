@@ -14,122 +14,199 @@ class MenuScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: const Color(0xFF95c452),
         appBar: AppBar(
           centerTitle: true,
           leading: BackpageWidget(
             beforeContext: context,
           ),
           backgroundColor: const Color(0xFF95c452),
-          title: const Text(
-            "귀농가이드",
-            style: TextStyle(
-              fontSize: 25,
-              fontWeight: FontWeight.w800,
-            ),
-          ),
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(
-                height: 20,
+                height: 30,
               ),
               const Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: 15), // 패딩 추가해서 '메뉴'만 왼쪽으로 이동
-                child: Text(
-                  "메뉴",
-                  style: TextStyle(fontSize: 40, fontWeight: FontWeight.w800),
+                padding: EdgeInsets.symmetric(horizontal: 15),
+                child: Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "귀농백과",
+                        style: TextStyle(
+                          fontSize: 50,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'GmarketSans',
+                          color: Colors.white,
+                        ),
+                      ),
+                      SizedBox(width: 10), // 텍스트와 아이콘 사이의 간격
+                      Icon(
+                        Icons.book, // 책 아이콘 추가
+                        size: 50,
+                        color: Colors.white,
+                      ),
+                    ],
+                  ),
                 ),
               ),
               const SizedBox(
-                height: 50,
+                height: 60,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 50),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment:
-                      CrossAxisAlignment.start, // 시작 라인을 맞추기 위해 추가
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     GestureDetector(
                       onTap: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SearchScreen(id: id)));
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SearchScreen(id: id),
+                          ),
+                        );
                       },
-                      child: const Text(
-                        "귀농백과",
-                        style: TextStyle(
-                            fontSize: 30, fontWeight: FontWeight.w400),
+                      child: Container(
+                        padding: const EdgeInsets.all(15),
+                        margin: const EdgeInsets.only(bottom: 20),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: const Center(
+                          child: Text(
+                            "귀농백과",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'GmarketSans',
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 50,
                     ),
                     GestureDetector(
                       onTap: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => GPTScreen(id: id)));
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => GPTScreen(id: id),
+                          ),
+                        );
                       },
-                      child: const Text(
-                        "귀농GPT",
-                        style: TextStyle(
-                            fontSize: 30, fontWeight: FontWeight.w400),
+                      child: Container(
+                        padding: const EdgeInsets.all(15),
+                        margin: const EdgeInsets.only(bottom: 20),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: const Center(
+                          child: Text(
+                            "귀농GPT",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'GmarketSans',
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 50,
                     ),
                     GestureDetector(
                       onTap: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MethodScreen(id: id)));
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MethodScreen(id: id),
+                          ),
+                        );
                       },
-                      child: const Text(
-                        "농작물 재배 방법",
-                        style: TextStyle(
-                            fontSize: 30, fontWeight: FontWeight.w400),
+                      child: Container(
+                        padding: const EdgeInsets.all(15),
+                        margin: const EdgeInsets.only(bottom: 20),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: const Center(
+                          child: Text(
+                            "농작물 재배 방법",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'GmarketSans',
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 50,
                     ),
                     GestureDetector(
                       onTap: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => PolicyScreen(id: id)));
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PolicyScreen(id: id),
+                          ),
+                        );
                       },
-                      child: const Text(
-                        "귀농 정책 및 혜택",
-                        style: TextStyle(
-                            fontSize: 30, fontWeight: FontWeight.w400),
+                      child: Container(
+                        padding: const EdgeInsets.all(15),
+                        margin: const EdgeInsets.only(bottom: 20),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: const Center(
+                          child: Text(
+                            "귀농 정책 및 혜택",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'GmarketSans',
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 50,
                     ),
                     GestureDetector(
                       onTap: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => CommunityScreen(id: id)));
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CommunityScreen(id: id),
+                          ),
+                        );
                       },
-                      child: const Text(
-                        "커뮤니티",
-                        style: TextStyle(
-                            fontSize: 30, fontWeight: FontWeight.w400),
+                      child: Container(
+                        padding: const EdgeInsets.all(15),
+                        margin: const EdgeInsets.only(bottom: 20),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: const Center(
+                          child: Text(
+                            "커뮤니티",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'GmarketSans',
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ],
