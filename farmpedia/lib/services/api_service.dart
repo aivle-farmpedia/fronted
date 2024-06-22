@@ -50,6 +50,9 @@ class ApiService {
   }
 
   // 게시글 전체 조회
+  // 게시글 전체 조회할 때 뭐가 문제가 되냐
+  // 이거 페이징 되어있어서 현재 페이지 알아야하고, 마지막페이지 알아야하고,
+
   Future<Map<String, dynamic>> getBoardList(String id, int page) async {
     final url = Uri.parse("${baseurl}api/board?page=$page");
     final response = await http.get(

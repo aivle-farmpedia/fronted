@@ -1,3 +1,4 @@
+import 'package:farmpedia/widgets/paging_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:farmpedia/services/api_service.dart';
 import 'package:farmpedia/screens/community_write_screen.dart';
@@ -19,7 +20,6 @@ class CommunityScreen extends StatefulWidget {
 class _CommunityScreenState extends State<CommunityScreen> {
   late Future<Map<String, dynamic>> futureBoards;
   int currentPage = 1;
-  final int pageSize = 10;
   bool isLoadingMore = false;
   List<Board> allBoards = [];
   int totalPages = 1;
@@ -43,19 +43,19 @@ class _CommunityScreenState extends State<CommunityScreen> {
     }
   }
 
-  void loadMoreBoards() async {
-    if (!isLoadingMore && currentPage < totalPages) {
-      setState(() {
-        isLoadingMore = true;
-      });
-      currentPage++;
-      Map<String, dynamic> newBoards = await fetchBoards(currentPage);
-      setState(() {
-        allBoards.addAll(newBoards['boards']);
-        isLoadingMore = false;
-      });
-    }
-  }
+  // void loadMoreBoards() async {
+  //   if (!isLoadingMore && currentPage < totalPages) {
+  //     setState(() {
+  //       isLoadingMore = true;
+  //     });
+  //     currentPage++;
+  //     Map<String, dynamic> newBoards = await fetchBoards(currentPage);
+  //     setState(() {
+  //       allBoards.addAll(newBoards['boards']);
+  //       isLoadingMore = false;
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -113,22 +113,33 @@ class _CommunityScreenState extends State<CommunityScreen> {
                 child: FutureBuilder<Map<String, dynamic>>(
                   future: futureBoards,
                   builder: (context, snapshot) {
+                    // 데이터 로딩 중이면 로딩 아이콘 띄우기
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator());
-                    } else if (snapshot.hasError) {
+                    }
+                    // 데이터 로딩 중 에러떴을 때 에러 메세지 띄움
+                    else if (snapshot.hasError) {
                       return Center(child: Text('Error: ${snapshot.error}'));
-                    } else if (!snapshot.hasData ||
+                    }
+                    // 불러온 데이터가 없거나 게시물이 없을 때는 메세지 띄움
+                    else if (!snapshot.hasData ||
                         snapshot.data!['boards'].isEmpty) {
                       return const Center(child: Text('No boards available'));
-                    } else {
+                    }
+                    // 데이터가 성공적으로 로드됐을 때
+                    else {
+                      // 불러온 게시물 데이터를 allBoards에 저장한다
                       allBoards.addAll(snapshot.data!['boards']);
+                      // NotificationListener<ScrollNotification> : 스크롤 이벤트 감지함
                       return NotificationListener<ScrollNotification>(
+                        // onNotification : 스크롤 이벤트 발생 했을 때 실행되는 함수
                         onNotification: (scrollNotification) {
+                          // 스크롤 가능할 때까지 하고, 현재 페이지가 총 페이지보다 작을 때 데이터 로드
                           if (scrollNotification is ScrollEndNotification &&
                               scrollNotification.metrics.pixels ==
                                   scrollNotification.metrics.maxScrollExtent &&
                               currentPage < totalPages) {
-                            loadMoreBoards();
+                            // loadMoreBoards();
                           }
                           return false;
                         },
@@ -175,6 +186,10 @@ class _CommunityScreenState extends State<CommunityScreen> {
                   },
                 ),
               ),
+              const SizedBox(height: 16),
+              PagingWidget(
+                totalPages: totalPages,
+              )
             ],
           ),
         ),
