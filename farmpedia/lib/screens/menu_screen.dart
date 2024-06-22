@@ -40,8 +40,6 @@ class MenuScreen extends StatelessWidget {
                         "귀농백과",
                         style: TextStyle(
                           fontSize: 50,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'GmarketSans',
                           color: Colors.white,
                         ),
                       ),
@@ -85,8 +83,6 @@ class MenuScreen extends StatelessWidget {
                             "귀농백과",
                             style: TextStyle(
                               fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'GmarketSans',
                               color: Colors.black,
                             ),
                           ),
@@ -114,8 +110,6 @@ class MenuScreen extends StatelessWidget {
                             "귀농GPT",
                             style: TextStyle(
                               fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'GmarketSans',
                               color: Colors.black,
                             ),
                           ),
@@ -143,8 +137,6 @@ class MenuScreen extends StatelessWidget {
                             "농작물 재배 방법",
                             style: TextStyle(
                               fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'GmarketSans',
                               color: Colors.black,
                             ),
                           ),
@@ -172,8 +164,6 @@ class MenuScreen extends StatelessWidget {
                             "귀농 정책 및 혜택",
                             style: TextStyle(
                               fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'GmarketSans',
                               color: Colors.black,
                             ),
                           ),
@@ -201,8 +191,6 @@ class MenuScreen extends StatelessWidget {
                             "커뮤니티",
                             style: TextStyle(
                               fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'GmarketSans',
                               color: Colors.black,
                             ),
                           ),
