@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-// import 'package:farmpedia/models/uuid_model.dart';
-import 'package:farmpedia/models/board_content_model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -52,8 +50,8 @@ class ApiService {
   }
 
   // 게시글 전체 조회
-  Future<List<Board>> getBoardList(String id) async {
-    final url = Uri.parse("${baseurl}api/board");
+  Future<Map<String, dynamic>> getBoardList(String id, int page) async {
+    final url = Uri.parse("${baseurl}api/board?page=$page");
     final response = await http.get(
       url,
       headers: {
@@ -65,15 +63,19 @@ class ApiService {
     if (response.statusCode == 200) {
       final body = utf8.decode(response.bodyBytes);
       final Map<String, dynamic> jsonData = jsonDecode(body);
-
-      // Check if the JSON has the 'boards' key and it is a list
-      if (jsonData.containsKey('boards') && jsonData['boards'] is List) {
-        List<dynamic> boardsJson = jsonData['boards'];
+      debugPrint(body);
+      if (jsonData.containsKey('data') && jsonData['data'] is List) {
+        List<dynamic> boardsJson = jsonData['data'];
         List<Board> boards =
             boardsJson.map((json) => Board.fromJson(json)).toList();
-        // debugPrint(boardsJson.toString());
-        // Debug print to check the boards
-        return boards;
+        boards.sort((a, b) => b.updatedAt.compareTo(a.updatedAt));
+        return {
+          'boards': boards,
+          'page': jsonData['page'],
+          'size': jsonData['size'],
+          'totalElements': jsonData['totalElements'],
+          'totalPages': jsonData['totalPages'],
+        };
       } else {
         throw Exception('Invalid JSON structure');
       }
