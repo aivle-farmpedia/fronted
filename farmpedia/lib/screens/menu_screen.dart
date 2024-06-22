@@ -8,7 +8,12 @@ import 'package:flutter/material.dart';
 
 class MenuScreen extends StatelessWidget {
   final String id;
-  const MenuScreen({super.key, required this.id});
+  final int privateId;
+  const MenuScreen({
+    super.key,
+    required this.id,
+    required this.privateId,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +72,10 @@ class MenuScreen extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => SearchScreen(id: id),
+                            builder: (context) => SearchScreen(
+                              id: id,
+                              privateId: privateId,
+                            ),
                           ),
                         );
                       },
@@ -94,7 +102,10 @@ class MenuScreen extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => GPTScreen(id: id),
+                            builder: (context) => GPTScreen(
+                              id: id,
+                              privateId: privateId,
+                            ),
                           ),
                         );
                       },
@@ -121,7 +132,10 @@ class MenuScreen extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => MethodScreen(id: id),
+                            builder: (context) => MethodScreen(
+                              id: id,
+                              privateId: privateId,
+                            ),
                           ),
                         );
                       },
@@ -148,7 +162,10 @@ class MenuScreen extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => PolicyScreen(id: id),
+                            builder: (context) => PolicyScreen(
+                              id: id,
+                              privateId: privateId,
+                            ),
                           ),
                         );
                       },
@@ -175,7 +192,10 @@ class MenuScreen extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => CommunityScreen(id: id),
+                            builder: (context) => CommunityScreen(
+                              id: id,
+                              privateId: privateId,
+                            ),
                           ),
                         );
                       },

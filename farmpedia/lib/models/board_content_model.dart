@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class BoardContent {
   final int id;
   final String content;

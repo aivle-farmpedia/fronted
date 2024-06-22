@@ -11,7 +11,8 @@ import '../widgets/postcard_widget.dart';
 
 class CommunityScreen extends StatefulWidget {
   final String id;
-  const CommunityScreen({super.key, required this.id});
+  final int privateId;
+  const CommunityScreen({super.key, required this.id, required this.privateId});
 
   @override
   _CommunityScreenState createState() => _CommunityScreenState();
@@ -28,6 +29,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
   void initState() {
     super.initState();
     futureBoards = fetchBoards(currentPage);
+    debugPrint(widget.privateId.toString());
   }
 
   Future<Map<String, dynamic>> fetchBoards(int page) async {
@@ -67,7 +69,12 @@ class _CommunityScreenState extends State<CommunityScreen> {
           leading: BackpageWidget(
             beforeContext: context,
           ),
-          actions: [MenuWidget(id: widget.id)],
+          actions: [
+            MenuWidget(
+              id: widget.id,
+              privateId: widget.privateId,
+            )
+          ],
           backgroundColor: const Color(0xff95C461),
           title: const Text(
             "커뮤니티",
@@ -86,7 +93,10 @@ class _CommunityScreenState extends State<CommunityScreen> {
                   final result = await Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => CommunityWriteScreen(id: widget.id),
+                      builder: (context) => CommunityWriteScreen(
+                        id: widget.id,
+                        privateId: widget.privateId,
+                      ),
                     ),
                   );
 
@@ -151,6 +161,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
                                   child: CircularProgressIndicator());
                             }
                             final board = allBoards[index];
+                            debugPrint("${board.userId} 이거 어떻게 나오는지 확이좀");
                             return GestureDetector(
                               onTap: () {
                                 Navigator.push(
@@ -170,6 +181,8 @@ class _CommunityScreenState extends State<CommunityScreen> {
                                 content: board.content,
                                 boardId: board.id,
                                 id: widget.id,
+                                boardUserId: board.userId,
+                                privateId: widget.privateId,
                                 onDelete: () {
                                   setState(() {
                                     futureBoards = fetchBoards(1);

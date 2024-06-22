@@ -1,5 +1,4 @@
 import 'package:farmpedia/screens/menu_screen.dart';
-import 'package:farmpedia/screens/search_detail_screen.dart';
 import 'package:farmpedia/widgets/backpage_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -7,7 +6,8 @@ import '../widgets/custom_searchbar_widget.dart';
 
 class SearchScreen extends StatefulWidget {
   final String id;
-  const SearchScreen({super.key, required this.id});
+  final int privateId;
+  const SearchScreen({super.key, required this.id, required this.privateId});
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -70,7 +70,6 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    const Color mainColor = Color(0xff95C461);
     const Color barColor = Color(0xffE7E7E7);
     return MaterialApp(
       home: Scaffold(
@@ -86,7 +85,10 @@ class _SearchScreenState extends State<SearchScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => MenuScreen(id: widget.id),
+                    builder: (context) => MenuScreen(
+                      id: widget.id,
+                      privateId: widget.privateId,
+                    ),
                   ),
                 );
               },
@@ -121,6 +123,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   onTextField: onTextField,
                   id: widget.id,
                   crops: searchContent,
+                  privateId: widget.privateId,
                 ),
               ),
             ],

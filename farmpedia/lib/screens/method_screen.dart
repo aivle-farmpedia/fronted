@@ -4,7 +4,12 @@ import 'package:flutter/material.dart';
 
 class MethodScreen extends StatelessWidget {
   final String id;
-  const MethodScreen({super.key, required this.id});
+  final int privateId;
+  const MethodScreen({
+    super.key,
+    required this.id,
+    required this.privateId,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +21,12 @@ class MethodScreen extends StatelessWidget {
           leading: BackpageWidget(
             beforeContext: context,
           ),
-          actions: [MenuWidget(id: id)],
+          actions: [
+            MenuWidget(
+              id: id,
+              privateId: privateId,
+            )
+          ],
           backgroundColor: const Color.fromARGB(255, 241, 240, 240),
           title: const Text(
             "농작물 재배 방법",

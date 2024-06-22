@@ -4,7 +4,8 @@ import '../screens/menu_screen.dart';
 
 class MenuWidget extends StatelessWidget {
   final String id;
-  const MenuWidget({super.key, required this.id});
+  final int privateId;
+  const MenuWidget({super.key, required this.id, required this.privateId});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +14,10 @@ class MenuWidget extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => MenuScreen(id: id),
+            builder: (context) => MenuScreen(
+              id: id,
+              privateId: privateId,
+            ),
           ),
         );
         debugPrint("시발 $id");

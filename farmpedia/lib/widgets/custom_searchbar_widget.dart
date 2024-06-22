@@ -3,6 +3,13 @@ import 'package:flutter/material.dart';
 import '../screens/search_detail_screen.dart';
 
 class CustomSearch extends StatefulWidget {
+  final String id;
+  final String crops;
+  final Color mainColor;
+  final TextEditingController searchController;
+  final List<String> filteredItems;
+  final bool onTextField;
+  final int privateId;
   const CustomSearch({
     super.key,
     required this.mainColor,
@@ -11,13 +18,8 @@ class CustomSearch extends StatefulWidget {
     required this.onTextField,
     required this.id,
     required this.crops,
+    required this.privateId,
   });
-  final String id;
-  final String crops;
-  final Color mainColor;
-  final TextEditingController searchController;
-  final List<String> filteredItems;
-  final bool onTextField;
   @override
   State<CustomSearch> createState() => _CustomSearchState();
 }
@@ -64,6 +66,7 @@ class _CustomSearchState extends State<CustomSearch> {
                           builder: (context) => (SearchDetailScreen(
                             id: widget.id,
                             crops: widget.crops,
+                            privateId: widget.privateId,
                           )),
                         ),
                       );

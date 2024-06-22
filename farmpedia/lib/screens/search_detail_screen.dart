@@ -5,7 +5,12 @@ import 'package:flutter/material.dart';
 class SearchDetailScreen extends StatefulWidget {
   final String crops;
   final String id;
-  const SearchDetailScreen({super.key, required this.crops, required this.id});
+  final int privateId;
+  const SearchDetailScreen(
+      {super.key,
+      required this.crops,
+      required this.id,
+      required this.privateId});
   @override
   State<SearchDetailScreen> createState() => _SearchDetailScreenState();
 }
@@ -43,7 +48,10 @@ class _SearchDetailScreenState extends State<SearchDetailScreen> {
           centerTitle: true,
           title: Text(widget.crops),
           actions: [
-            MenuWidget(id: widget.id),
+            MenuWidget(
+              id: widget.id,
+              privateId: widget.privateId,
+            ),
           ],
         ),
         body: Stack(

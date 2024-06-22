@@ -7,7 +7,12 @@ import '../screens/search_screen.dart';
 
 class HomeMenuWidget extends StatefulWidget {
   final String id;
-  const HomeMenuWidget({super.key, required this.id});
+  final int privateId;
+  const HomeMenuWidget({
+    super.key,
+    required this.id,
+    required this.privateId,
+  });
 
   @override
   State<HomeMenuWidget> createState() => _HomeMenuWidgetState();
@@ -46,7 +51,10 @@ class _HomeMenuWidgetState extends State<HomeMenuWidget> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => SearchScreen(id: widget.id),
+                        builder: (context) => SearchScreen(
+                          id: widget.id,
+                          privateId: widget.privateId,
+                        ),
                       ),
                     );
                   },
@@ -75,7 +83,10 @@ class _HomeMenuWidgetState extends State<HomeMenuWidget> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => PolicyScreen(id: widget.id),
+                        builder: (context) => PolicyScreen(
+                          id: widget.id,
+                          privateId: widget.privateId,
+                        ),
                       ),
                     );
                   },
@@ -104,7 +115,10 @@ class _HomeMenuWidgetState extends State<HomeMenuWidget> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => GPTScreen(id: widget.id),
+                        builder: (context) => GPTScreen(
+                          id: widget.id,
+                          privateId: widget.privateId,
+                        ),
                       ),
                     );
                   },
@@ -133,7 +147,10 @@ class _HomeMenuWidgetState extends State<HomeMenuWidget> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => CommunityScreen(id: widget.id),
+                        builder: (context) => CommunityScreen(
+                          id: widget.id,
+                          privateId: widget.privateId,
+                        ),
                       ),
                     );
                   },

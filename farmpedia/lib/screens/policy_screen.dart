@@ -5,7 +5,12 @@ import 'package:flutter/material.dart';
 
 class PolicyScreen extends StatelessWidget {
   final String id;
-  const PolicyScreen({super.key, required this.id});
+  final int privateId;
+  const PolicyScreen({
+    super.key,
+    required this.id,
+    required this.privateId,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +67,12 @@ class PolicyScreen extends StatelessWidget {
           leading: BackpageWidget(
             beforeContext: context,
           ),
-          actions: [MenuWidget(id: id)],
+          actions: [
+            MenuWidget(
+              id: id,
+              privateId: privateId,
+            )
+          ],
           backgroundColor: const Color.fromARGB(255, 241, 240, 240),
           title: const Text(
             "지원 정책",

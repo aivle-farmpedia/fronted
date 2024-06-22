@@ -16,13 +16,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // late SharedPreferences prefs;
   late Future<String?> userIdFuture;
+  late Future<int> privateIdFuture;
   final List<String> videoUrls = [
     'https://www.youtube.com/watch?v=eQxuRe2Syh0',
     'https://www.youtube.com/watch?v=eQxuRe2Syh0',
-    'https://www.youtube.com/watch?v=KkMRy_Viz-s-s',
-    'https://www.youtube.com/watch?v=KkMRy_Viz-s-s',
+    'https://www.youtube.com/watch?v=KkMRy_Viz-s',
+    'https://www.youtube.com/watch?v=KkMRy_Viz-s',
   ];
 
   final List<String> imageUrls = [
@@ -37,28 +37,38 @@ class _HomeScreenState extends State<HomeScreen> {
     String? userId = prefs.getString('userId');
 
     debugPrint(userId);
-    // await ApiService().postUuid(widget.id);
     if (userId == null) {
       await prefs.setString('userId', widget.id);
-
-      await ApiService().postUuid(widget.id);
-      debugPrint(widget.id);
       userId = widget.id;
     } else {
-      debugPrint("이미 존재 $userId");
+      debugPrint("이미 존재? $userId");
     }
     return userId;
+  }
+
+  Future<int> initPrivateId() async {
+    final prefs = await SharedPreferences.getInstance();
+    // prefs.clear();
+    int? privateId = prefs.getInt('privateId');
+
+    if (privateId == null) {
+      privateId = await ApiService().postUuid(widget.id);
+      await prefs.setInt('privateId', privateId);
+    } else {
+      debugPrint("이미 존재 $privateId");
+    }
+    return privateId;
   }
 
   @override
   void initState() {
     super.initState();
     userIdFuture = initPrefs();
+    privateIdFuture = initPrivateId();
   }
 
   @override
   Widget build(BuildContext context) {
-    // const Color mainColor = Color(0xff95C461);
     return MaterialApp(
       home: Scaffold(
         backgroundColor: Colors.white,
@@ -77,7 +87,24 @@ class _HomeScreenState extends State<HomeScreen> {
                       Icons.error); // Error icon if there's an error
                 } else {
                   final userId = snapshot.data ?? '';
-                  return MenuWidget(id: userId);
+                  return FutureBuilder<int>(
+                    future: privateIdFuture,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const SizedBox
+                            .shrink(); // Placeholder while waiting
+                      } else if (snapshot.hasError) {
+                        return const Icon(
+                            Icons.error); // Error icon if there's an error
+                      } else {
+                        final privateId = snapshot.data ?? 0;
+                        return MenuWidget(
+                          id: userId,
+                          privateId: privateId,
+                        );
+                      }
+                    },
+                  );
                 }
               },
             ),
@@ -111,7 +138,25 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           const AnnouncementWidget(),
                           const SizedBox(height: 15),
-                          HomeMenuWidget(id: userId),
+                          FutureBuilder<int>(
+                            future: privateIdFuture,
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const Center(
+                                    child: CircularProgressIndicator());
+                              } else if (snapshot.hasError) {
+                                return const Center(
+                                    child: Text('Error loading privateId'));
+                              } else {
+                                final privateId = snapshot.data ?? 0;
+                                return HomeMenuWidget(
+                                  id: userId,
+                                  privateId: privateId,
+                                );
+                              }
+                            },
+                          ),
                         ],
                       ),
                       const SizedBox(height: 20),

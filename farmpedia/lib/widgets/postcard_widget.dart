@@ -7,6 +7,8 @@ class PostCard extends StatelessWidget {
   final String content;
   final String id;
   final int boardId;
+  final int boardUserId;
+  final int privateId;
   final Function onDelete;
 
   const PostCard({
@@ -15,6 +17,8 @@ class PostCard extends StatelessWidget {
     required this.content,
     required this.id,
     required this.boardId,
+    required this.boardUserId,
+    required this.privateId,
     required this.onDelete,
   });
 
@@ -44,12 +48,13 @@ class PostCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              IconButton(
-                icon: const Icon(Icons.delete),
-                onPressed: () {
-                  _showDeleteConfirmationDialog(context, boardId, id);
-                },
-              ),
+              if (boardUserId == privateId)
+                IconButton(
+                  icon: const Icon(Icons.delete),
+                  onPressed: () {
+                    _showDeleteConfirmationDialog(context, boardId, id);
+                  },
+                ),
             ],
           ),
         ],

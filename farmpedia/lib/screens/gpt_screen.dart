@@ -6,7 +6,12 @@ import 'package:http/http.dart' as http;
 
 class GPTScreen extends StatefulWidget {
   final String id;
-  const GPTScreen({super.key, required this.id});
+  final int privateId;
+  const GPTScreen({
+    super.key,
+    required this.id,
+    required this.privateId,
+  });
 
   @override
   State<GPTScreen> createState() => _GPTScreenState();
@@ -116,7 +121,12 @@ class _GPTScreenState extends State<GPTScreen> {
           leading: BackpageWidget(
             beforeContext: context,
           ),
-          actions: [MenuWidget(id: widget.id)],
+          actions: [
+            MenuWidget(
+              id: widget.id,
+              privateId: widget.privateId,
+            )
+          ],
           backgroundColor: const Color(0xff95C461),
           title: const Text(
             "귀농GPT",

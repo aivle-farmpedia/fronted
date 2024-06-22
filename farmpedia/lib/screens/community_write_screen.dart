@@ -6,7 +6,12 @@ import '../widgets/menu_widget.dart';
 
 class CommunityWriteScreen extends StatefulWidget {
   final String id;
-  const CommunityWriteScreen({super.key, required this.id});
+  final int privateId;
+  const CommunityWriteScreen({
+    super.key,
+    required this.id,
+    required this.privateId,
+  });
 
   @override
   _CommunityWriteScreenState createState() => _CommunityWriteScreenState();
@@ -40,7 +45,12 @@ class _CommunityWriteScreenState extends State<CommunityWriteScreen> {
         leading: BackpageWidget(
           beforeContext: context,
         ),
-        actions: [MenuWidget(id: widget.id)],
+        actions: [
+          MenuWidget(
+            id: widget.id,
+            privateId: widget.privateId,
+          )
+        ],
         backgroundColor: const Color(0xff95C461),
         title: const Text(
           "글작성",

@@ -10,7 +10,7 @@ class ApiService {
   final baseurl = Urls().uuidBaseUrl();
 
   // uuid 저장 -> 최초 접속시
-  Future<void> postUuid(String userId) async {
+  Future<int> postUuid(String userId) async {
     // String uuidInstance = '';
     final url = Uri.parse("${baseurl}api/auth/save");
     final Map<String, dynamic> params = {'uuid': userId};
@@ -19,9 +19,11 @@ class ApiService {
       headers: {'Content-type': 'application/json'},
       body: json.encode(params),
     );
-    debugPrint(response.statusCode.toString());
+    // debugPrint(response.statusCode.toString());
+    debugPrint("???? ${response.statusCode.toString()}");
     if (response.statusCode == 201) {
-      debugPrint("성공");
+      final Map<String, dynamic> jsonData = jsonDecode(response.body);
+      return jsonData['id'];
     } else {
       throw Error();
     }
@@ -71,7 +73,7 @@ class ApiService {
         List<dynamic> boardsJson = jsonData['data'];
         List<Board> boards =
             boardsJson.map((json) => Board.fromJson(json)).toList();
-        boards.sort((a, b) => b.updatedAt.compareTo(a.updatedAt));
+        // boards.sort((a, b) => b.updatedAt.compareTo(a.updatedAt));
         return {
           'boards': boards,
           'page': jsonData['page'],
