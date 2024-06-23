@@ -1,9 +1,11 @@
-import 'package:farmpedia/screens/example_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import '../services/policy_api_service.dart';
+import 'package:farmpedia/models/policy_model.dart';
 import 'package:farmpedia/widgets/backpage_widget.dart';
 import 'package:farmpedia/widgets/menu_widget.dart';
-import 'package:flutter/material.dart';
 
-class PolicyScreen extends StatelessWidget {
+class PolicyScreen extends StatefulWidget {
   final String id;
   final int privateId;
   const PolicyScreen({
@@ -13,52 +15,43 @@ class PolicyScreen extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> supportCards = [
-      {
-        'title': '롯데가 언제나 승리한다',
-        'subtitle': '롯데한국시리즈',
-        'color': const Color.fromARGB(255, 188, 237, 131),
-        'icon': Icons.spa,
-      },
-      {
-        'title': '롯데가 언제나 승리한다',
-        'subtitle': '최강 롯데',
-        'color': Colors.lightGreen,
-        'icon': Icons.spa,
-      },
-      {
-        'title': '엔씨 다이노스',
-        'subtitle': '이기자',
-        'color': const Color.fromARGB(255, 188, 237, 131),
-        'icon': Icons.spa,
-      },
-      {
-        'title': '롯데 한국 시리즈',
-        'subtitle': '최강 롯데',
-        'color': Colors.lightGreen,
-        'icon': Icons.spa,
-      },
-      {
-        'title': '롯데 한국 시리즈',
-        'subtitle': '최강 롯데',
-        'color': Colors.lightGreen,
-        'icon': Icons.spa,
-      },
-      {
-        'title': '롯데 한국 시리즈',
-        'subtitle': '최강 롯데',
-        'color': Colors.lightGreen,
-        'icon': Icons.spa,
-      },
-      {
-        'title': '롯데 한국 시리즈',
-        'subtitle': '최강 롯데',
-        'color': Colors.lightGreen,
-        'icon': Icons.spa,
-      },
-    ];
+  _PolicyScreenState createState() => _PolicyScreenState();
+}
 
+class _PolicyScreenState extends State<PolicyScreen> {
+  late Future<List<PolicyBoard>> futurePolicies;
+  int currentPage = 1;
+  bool isLoadingMore = false;
+  List<PolicyBoard> allBoards = [];
+  int totalPages = 1;
+
+  @override
+  void initState() {
+    super.initState();
+    futurePolicies = fetchPolicies(currentPage);
+  }
+
+  Future<List<PolicyBoard>> fetchPolicies(int page) async {
+    try {
+      Map<String, dynamic> fetchedData =
+          await PolicyApiService().getPolicyList(widget.id, page);
+
+      // Extract policies from fetchedData
+      List<PolicyBoard> policies = List<PolicyBoard>.from(fetchedData['data']
+          .map((policyJson) => PolicyBoard.fromJson(policyJson)));
+
+      setState(() {
+        totalPages = fetchedData['totalPages'];
+      });
+
+      return policies;
+    } catch (e) {
+      throw Exception('Failed to load boards');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         backgroundColor: Colors.white,
@@ -69,8 +62,8 @@ class PolicyScreen extends StatelessWidget {
           ),
           actions: [
             MenuWidget(
-              id: id,
-              privateId: privateId,
+              id: widget.id,
+              privateId: widget.privateId,
             )
           ],
           backgroundColor: const Color.fromARGB(255, 241, 240, 240),
@@ -90,48 +83,64 @@ class PolicyScreen extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Text(
-                "총 ${supportCards.length}건의 데이터",
-                style:
-                    const TextStyle(fontSize: 30, fontWeight: FontWeight.w800),
+              child: FutureBuilder<List<PolicyBoard>>(
+                future: futurePolicies,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return const Center(child: Text('사용 가능한 정책이 없습니다'));
+                  } else {
+                    final policies = snapshot.data!;
+                    return Text(
+                      "총 ${policies.length}건의 데이터",
+                      style: const TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    );
+                  }
+                },
               ),
             ),
             const SizedBox(
               height: 20,
             ),
             Expanded(
-              child: ListView.builder(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                itemCount: supportCards.length,
-                itemBuilder: (context, index) {
-                  final card = supportCards[index];
-                  return Column(
-                    children: [
-                      Container(
-                        clipBehavior: Clip.hardEdge,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(25),
-                          boxShadow: [
-                            BoxShadow(
-                              blurRadius: 10,
-                              offset: const Offset(10, 10),
-                              color: const Color.fromARGB(255, 200, 198, 198)
-                                  .withOpacity(0.5),
+              child: FutureBuilder<List<PolicyBoard>>(
+                future: futurePolicies,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return const Center(child: Text('사용 가능한 정책이 없습니다'));
+                  } else {
+                    final policies = snapshot.data!;
+                    return ListView.builder(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      itemCount: policies.length,
+                      itemBuilder: (context, index) {
+                        final policy = policies[index];
+                        return Column(
+                          children: [
+                            SupportCard(
+                              title: policy.title,
+                              subtitle: policy.title,
+                              color: Colors.lightGreen,
+                              icon: Icons.spa,
+                            ),
+                            const SizedBox(
+                              height: 25,
                             ),
                           ],
-                        ),
-                        child: SupportCard(
-                          title: card['title'],
-                          subtitle: card['subtitle'],
-                          color: card['color'],
-                          icon: card['icon'],
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 25,
-                      ),
-                    ],
-                  );
+                        );
+                      },
+                    );
+                  }
                 },
               ),
             ),
@@ -187,12 +196,15 @@ class SupportCard extends StatelessWidget {
             title: Text(
               title,
               style: TextStyle(
-                  fontSize: titleFontSize, fontWeight: FontWeight.w500),
+                fontSize: titleFontSize,
+                fontWeight: FontWeight.w500,
+              ),
             ),
             subtitle: Text(
               subtitle,
-              style: TextStyle(
-                  fontSize: subtitleFontSize, fontWeight: FontWeight.w500),
+              style: TextStyle(fontSize: subtitleFontSize),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
         ),
@@ -200,6 +212,25 @@ class SupportCard extends StatelessWidget {
     );
   }
 }
+
+class ExampleScreen extends StatelessWidget {
+  final String title;
+
+  const ExampleScreen({super.key, required this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(title),
+      ),
+      body: Center(
+        child: Text('Example Screen for $title'),
+      ),
+    );
+  }
+}
+
 
 // void main() {
 //   runApp(const PolicyScreen(id:id));

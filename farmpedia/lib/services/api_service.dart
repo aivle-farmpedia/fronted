@@ -45,6 +45,7 @@ class ApiService {
       },
       body: json.encode(params),
     );
+    debugPrint(response.statusCode.toString());
     if (response.statusCode == 201) {
       debugPrint(utf8.decode(response.bodyBytes));
     } else {
@@ -161,6 +162,25 @@ class ApiService {
       return CropInfo.fromJson(json);
     } else {
       throw Exception('Failed to load crop info');
+    }
+  }
+
+  Future<Board> getSingleBoard(String id, int boardId) async {
+    final url = Uri.parse("${baseurl}api/support-policy/$boardId");
+    final response = await http.get(
+      url,
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': id,
+        'Accept-Encoding': 'identity',
+      },
+    );
+    if (response.statusCode == 200) {
+      final body = utf8.decode(response.bodyBytes);
+      final jsonData = jsonDecode(body);
+      return Board.fromJson(jsonData);
+    } else {
+      throw Exception('Failed to load board');
     }
   }
 }

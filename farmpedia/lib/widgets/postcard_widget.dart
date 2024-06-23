@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../screens/community_edit_screen.dart';
 import '../services/api_service.dart';
 
 class PostCard extends StatelessWidget {
