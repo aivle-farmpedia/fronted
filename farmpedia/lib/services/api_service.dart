@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/board_model.dart';
+import '../models/crop_info_model.dart';
 import '../urls/urls.dart';
 
 class ApiService {
@@ -106,7 +107,7 @@ class ApiService {
     );
   }
 
-  // 게시글 삭제 -> 수정
+  // 게시글 삭제
   Future<bool> deleteBoard(String id, int boardId) async {
     final url = Uri.parse("${baseurl}api/board/$boardId");
     final response = await http.delete(
@@ -143,6 +144,23 @@ class ApiService {
     } else {
       debugPrint("댓글 전송에 실패하였습니다.");
       throw Exception("Failed to post comment");
+    }
+  }
+
+  Future<CropInfo> getCropsInfo(String id, int cropsId) async {
+    final url = Uri.parse("${baseurl}api/crop/$cropsId");
+    final response = await http.get(url, headers: {
+      'Content-type': 'application/json',
+      'Authorization': id,
+    });
+
+    debugPrint("확인합시다. ${response.statusCode.toString()}");
+    if (response.statusCode == 200) {
+      final body = utf8.decode(response.bodyBytes);
+      final json = jsonDecode(body);
+      return CropInfo.fromJson(json);
+    } else {
+      throw Exception('Failed to load crop info');
     }
   }
 }
