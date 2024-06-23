@@ -50,12 +50,29 @@ class PostCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               if (boardUserId == privateId)
-                IconButton(
-                  icon: const Icon(Icons.delete),
+                TextButton(
                   onPressed: () {
-                    _showDeleteConfirmationDialog(context, boardId, id);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CommunityEditScreen(
+                          title: title,
+                          content: content,
+                          boardId: boardId,
+                          id: id,
+                          privateId: privateId,
+                        ),
+                      ),
+                    );
                   },
+                  child: const Text('수정'),
                 ),
+              IconButton(
+                icon: const Icon(Icons.delete),
+                onPressed: () {
+                  _showDeleteConfirmationDialog(context, boardId, id);
+                },
+              ),
             ],
           ),
         ],

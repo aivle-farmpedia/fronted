@@ -161,7 +161,6 @@ class _CommunityScreenState extends State<CommunityScreen> {
                                   child: CircularProgressIndicator());
                             }
                             final board = allBoards[index];
-                            debugPrint("${board.userId} 이거 어떻게 나오는지 확이좀");
                             return GestureDetector(
                               onTap: () {
                                 Navigator.push(

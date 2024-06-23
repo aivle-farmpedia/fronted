@@ -60,6 +60,7 @@ class _CustomSearchState extends State<CustomSearch> {
                       ),
                     ),
                     onSubmitted: ((value) {
+                      widget.searchController.clear();
                       Navigator.push(
                         context,
                         MaterialPageRoute(

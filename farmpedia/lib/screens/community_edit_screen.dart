@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 
+import '../services/api_service.dart';
+import 'community_screen.dart';
+
 class CommunityEditScreen extends StatefulWidget {
   final String title;
   final String content;
   final int boardId;
   final String id;
+  final int privateId;
 
   const CommunityEditScreen({
     super.key,
@@ -12,6 +16,7 @@ class CommunityEditScreen extends StatefulWidget {
     required this.content,
     required this.boardId,
     required this.id,
+    required this.privateId,
   });
 
   @override
@@ -36,23 +41,33 @@ class _CommunityEditScreenState extends State<CommunityEditScreen> {
     super.dispose();
   }
 
-  // Future<void> _updatePost() async {
-  //   String newTitle = _titleController.text;
-  //   String newContent = _contentController.text;
+  Future<void> _updatePost() async {
+    debugPrint("hello");
+    String newTitle = _titleController.text;
+    String newContent = _contentController.text;
 
-  //   bool updated = await ApiService().updateBoard(
-  //     widget.id,
-  //     widget.boardId,
-  //     newTitle,
-  //     newContent,
-  //   );
+    bool updated = await ApiService().putBoard(
+      newTitle,
+      newContent,
+      widget.id,
+      widget.boardId,
+    );
+    debugPrint(updated.toString());
 
-  //   if (updated) {
-  //     Navigator.of(context).pop(true);
-  //   } else {
-  //     debugPrint("수정 실패");
-  //   }
-  // }
+    if (updated) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => CommunityScreen(
+            id: widget.id,
+            privateId: widget.privateId,
+          ),
+        ),
+      );
+    } else {
+      debugPrint("수정 실패");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,23 +75,39 @@ class _CommunityEditScreenState extends State<CommunityEditScreen> {
       appBar: AppBar(
         title: const Text('게시글 수정'),
         backgroundColor: const Color(0xff95C461),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.check),
+            onPressed: _updatePost,
+          ),
+        ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            TextField(
-              controller: _titleController,
-              decoration: const InputDecoration(labelText: '제목'),
-            ),
-            const SizedBox(height: 8),
-            TextField(
-              controller: _contentController,
-              decoration: const InputDecoration(labelText: '내용'),
-              maxLines: 10,
-            ),
-            const SizedBox(height: 16),
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              TextField(
+                controller: _titleController,
+                decoration: const InputDecoration(labelText: '제목'),
+              ),
+              const SizedBox(height: 8),
+              TextField(
+                controller: _contentController,
+                decoration: const InputDecoration(labelText: '내용'),
+                maxLines: 10,
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: _updatePost,
+                style: ElevatedButton.styleFrom(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                ),
+                child: const Text('수정 완료'),
+              ),
+            ],
+          ),
         ),
       ),
     );

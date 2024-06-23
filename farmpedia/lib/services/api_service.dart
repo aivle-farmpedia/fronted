@@ -92,20 +92,29 @@ class ApiService {
   }
 
   // 게시글 수정 -> 수정해야함
-  Future<void> putBoard(
+  Future<bool> putBoard(
       String title, String content, String id, int boardId) async {
-    final url = Uri.parse("$baseurl/api/board/$boardId");
+    final url = Uri.parse("${baseurl}api/board/$boardId");
+    debugPrint("$title $content $id $boardId");
     final Map<String, dynamic> params = {
       'title': title,
       'content': content,
     };
+    debugPrint(json.encode(params));
     final response = await http.put(
       url,
       headers: {
         'Content-type': 'application/json',
         'Authorization': id,
       },
+      body: json.encode(params),
     );
+    debugPrint(response.statusCode.toString());
+    if (response.statusCode == 204) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   // 게시글 삭제
