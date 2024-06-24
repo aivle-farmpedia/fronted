@@ -1,10 +1,11 @@
-import 'package:farmpedia/widgets/backpage_widget.dart';
-import 'package:farmpedia/widgets/menu_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart'; // Updated import
 
 import '../models/crop_info_model.dart';
 import '../services/api_service.dart';
+import '../widgets/backpage_widget.dart';
+import '../widgets/menu_widget.dart';
+import '../widgets/price_char_widget.dart';
 
 class SearchDetailScreen extends StatefulWidget {
   final String crops;
@@ -50,6 +51,20 @@ class _SearchDetailScreenState extends State<SearchDetailScreen> {
     cropInfoFuture = cropsInfo();
   }
 
+  Map<int, List<PriceEntry>> _groupEntriesByYear(List<PriceEntry> entries) {
+    Map<int, List<PriceEntry>> groupedByYear = {};
+
+    for (var entry in entries) {
+      int year = DateTime.parse(entry.priceDate).year;
+      if (!groupedByYear.containsKey(year)) {
+        groupedByYear[year] = [];
+      }
+      groupedByYear[year]!.add(entry);
+    }
+
+    return groupedByYear;
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -78,6 +93,8 @@ class _SearchDetailScreenState extends State<SearchDetailScreen> {
                   return Center(child: Text('Error: ${snapshot.error}'));
                 } else if (snapshot.hasData) {
                   final cropInfo = snapshot.data!;
+                  final groupedEntries =
+                      _groupEntriesByYear(cropInfo.priceEntries);
                   return SingleChildScrollView(
                     controller: _scrollController,
                     child: Padding(
@@ -110,13 +127,31 @@ class _SearchDetailScreenState extends State<SearchDetailScreen> {
                               ),
                               const SizedBox(height: 20),
                               Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: cropInfo.priceEntries.map((entry) {
-                                  return Text(
-                                      'Date: ${entry.priceDate}, Price: ${entry.price}');
+                                children: groupedEntries.entries.map((entry) {
+                                  return Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "${entry.key}년",
+                                        style: const TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      SizedBox(
+                                        height: 300,
+                                        width: double
+                                            .infinity, // Ensure it fits the parent
+                                        child: CustomPaint(
+                                          painter: BarChartPainter(
+                                              priceEntries: entry.value),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 30),
+                                    ],
+                                  );
                                 }).toList(),
                               ),
-                              const SizedBox(height: 20),
                               const Text(
                                 "2. 면적당 수확량(계산기)",
                                 style: TextStyle(
@@ -126,6 +161,8 @@ class _SearchDetailScreenState extends State<SearchDetailScreen> {
                               const SizedBox(height: 20),
                               Text(
                                   'Area Per Yield: ${cropInfo.crop.areaPerYield}'),
+                              Text(
+                                  'Time Per Yield: ${cropInfo.crop.timePerYield}'),
                               const SizedBox(height: 20),
                               const SizedBox(height: 20),
                               const Text(
@@ -198,7 +235,7 @@ class _SearchDetailScreenState extends State<SearchDetailScreen> {
                     ),
                   );
                 } else {
-                  return const Center(child: Text('No data available'));
+                  return const Center(child: Text('No data found.'));
                 }
               },
             ),

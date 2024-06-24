@@ -67,12 +67,13 @@ class PostCard extends StatelessWidget {
                   },
                   child: const Text('수정'),
                 ),
-              IconButton(
-                icon: const Icon(Icons.delete),
-                onPressed: () {
-                  _showDeleteConfirmationDialog(context, boardId, id);
-                },
-              ),
+              if (boardUserId == privateId)
+                IconButton(
+                  icon: const Icon(Icons.delete),
+                  onPressed: () {
+                    _showDeleteConfirmationDialog(context, boardId, id);
+                  },
+                ),
             ],
           ),
         ],

@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:farmpedia/models/auto_complete_item_model.dart';
+import 'package:farmpedia/models/search_keyword_model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -190,6 +192,81 @@ class ApiService {
       return Board.fromJson(jsonData);
     } else {
       throw Exception('Failed to load board');
+    }
+  }
+
+  // 입력창
+  Future<List<AutocompleteItem>> getContent(String id, String keywords) async {
+    final url =
+        Uri.parse("${baseurl}api/search/autocomplete?keyword=$keywords");
+    debugPrint(url.toString());
+    final response = await http.get(
+      url,
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': id,
+      },
+    );
+    debugPrint(response.statusCode.toString());
+    if (response.statusCode == 200) {
+      final List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
+      return body.map((item) => AutocompleteItem.fromJson(item)).toList();
+    } else {
+      debugPrint("에러");
+      throw Exception('Failed to load autocomplete items');
+    }
+  }
+
+  Future<List<SearchKeyword>> postKeyword(String id, String keyword) async {
+    final url = Uri.parse("${baseurl}api/search?keyword=$keyword");
+    final response = await http.post(url, headers: {
+      'Content-type': 'application/json',
+      'Authorization': id,
+    });
+    debugPrint("???????? ${response.statusCode.toString()}");
+    if (response.statusCode == 200) {
+      final List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
+      debugPrint("cropName 있는지 확인 ${body.toString()}");
+      List<SearchKeyword> a =
+          body.map((item) => SearchKeyword.fromJson(item)).toList();
+      debugPrint(a.toString());
+      return a;
+    } else {
+      debugPrint("에러");
+      throw Exception('Failed to load autocomplete items');
+    }
+  }
+
+  Future<List<String>> getrecent(String id) async {
+    final url = Uri.parse("${baseurl}api/search/recent");
+    final response = await http.get(url, headers: {
+      'Content-type': 'application/json',
+      'Authorization': id,
+    });
+    if (response.statusCode == 200) {
+      final List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
+      final List<String> recentItems =
+          body.map((item) => item.toString()).toList();
+      debugPrint(
+          "맞나요? ${recentItems.toString()} ${response.statusCode.toString()}");
+      return recentItems;
+    } else {
+      throw Exception('Failed to load autocomplete items');
+    }
+  }
+
+  // {{server}}/api/search?keyword=
+  Future<bool> deleteKeyword(String id, String keywords) async {
+    final url = Uri.parse("${baseurl}api/search?keyword=$keywords");
+    final response = await http.delete(url, headers: {
+      'Content-type': 'application/json',
+      'Authorization': id,
+    });
+    debugPrint(response.statusCode.toString());
+    if (response.statusCode == 204) {
+      return true;
+    } else {
+      return false;
     }
   }
 }

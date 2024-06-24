@@ -14,10 +14,6 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  List<String> allItems = ["사과", "바나나", "체리", "밀", "포도", "보리", "사실"];
-  List<String> filteredItems = [];
-
-  // 사용자의 입력값을 확인함
   TextEditingController searchController = TextEditingController();
   String searchContent = '';
   bool onTextField = false;
@@ -25,40 +21,14 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   void initState() {
     super.initState();
-    // Search 기능
-    filteredItems = allItems;
-    // 사용자가 입력하면
     searchController.addListener(() {
-      setState(() {
-        onTextField = true;
-        searchContent = searchController.text;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        setState(() {
+          onTextField = true;
+          searchContent = searchController.text;
+        });
       });
-      // 입력값을 filterSearchResults로 보냄
-      filterSearchResults(searchController.text);
     });
-  }
-
-  // 사용자가 입력한 단어와 같은 단어가 있는지 확인
-  void filterSearchResults(String query) {
-    if (query.isNotEmpty) {
-      List<String> dummyListData = [];
-      for (var item in allItems) {
-        // 단어를 영어를 예로 들었기 떄문에 이렇게 사용했던거임
-        // 리스트 단어를 한글로 수정함 -> 나중에 수정 필요
-        if (item.toLowerCase().contains(query.toLowerCase())) {
-          dummyListData.add(item);
-        }
-      }
-      setState(() {
-        // 해당 단어를 포함한 단어 리스트를 갱신
-        filteredItems = dummyListData;
-      });
-    } else {
-      setState(() {
-        // 단어 입력이 없으면 공백으로 갱신
-        filteredItems = [];
-      });
-    }
   }
 
   @override
@@ -119,7 +89,6 @@ class _SearchScreenState extends State<SearchScreen> {
                 child: CustomSearch(
                   mainColor: barColor,
                   searchController: searchController,
-                  filteredItems: filteredItems,
                   onTextField: onTextField,
                   id: widget.id,
                   crops: searchContent,
