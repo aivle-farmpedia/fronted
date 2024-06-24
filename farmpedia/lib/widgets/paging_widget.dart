@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class PagingWidget extends StatefulWidget {
   final int totalPages;
@@ -41,20 +42,28 @@ class _PaginationState extends State<PagingWidget> {
         i < startNumber + itemsPerPage && i <= widget.totalPages;
         i++) {
       widgets.add(
-        ElevatedButton(
+        InkWell(
           // 해당 페이지 버튼 눌렸을 때
           // 그 페이지로 API 요청하고 그 데이터들 받아오기
-          onPressed: () {
+
+          onTap: () {
             widget.onDelete(i);
             // Handle page number click
             setState(() {
               currentPage = (i / itemsPerPage).ceil();
             });
           },
-          child: Text(
-            '$i',
-            style: const TextStyle(color: Colors.black),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 23),
+            child: Text(
+              '$i',
+              style: const TextStyle(
+                color: Colors.black,
+                // backgroundColor: Colors.white,
+              ),
+            ),
           ),
+          // SizedBox(width: 20)
         ),
       );
     }
@@ -68,7 +77,7 @@ class _PaginationState extends State<PagingWidget> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           // 왼쪽 버튼은 5보다 작을 경우 비활성화
-          if (widget.totalPages > itemsPerPage)
+          if (widget.totalPages > itemsPerPage && currentPage > 1)
             IconButton(
               icon: const Icon(Icons.arrow_back, color: Colors.black),
               onPressed: currentPage > 1 ? _previousPage : null,
