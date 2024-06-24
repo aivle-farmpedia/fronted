@@ -72,7 +72,7 @@ class ApiService {
     if (response.statusCode == 200) {
       final body = utf8.decode(response.bodyBytes);
       final Map<String, dynamic> jsonData = jsonDecode(body);
-      debugPrint(body);
+      // debugPrint(body);
       if (jsonData.containsKey('data') && jsonData['data'] is List) {
         List<dynamic> boardsJson = jsonData['data'];
         List<Board> boards =
@@ -136,29 +136,6 @@ class ApiService {
     }
   }
 
-  Future<void> postComment(String content, int boardId, String id) async {
-    final url = Uri.parse("${baseurl}api/comment/board/$boardId");
-    final body = json.encode({"content": content});
-    final response = await http.post(
-      url,
-      headers: {
-        'Content-type': 'application/json',
-        'Authorization': id,
-      },
-      body: body,
-    );
-
-    debugPrint("Response status: ${response.statusCode}");
-    debugPrint("Response body: ${response.body}");
-    debugPrint(boardId.toString());
-    if (response.statusCode == 201) {
-      debugPrint("댓글이 성공적으로 전송되었습니다.");
-    } else {
-      debugPrint("댓글 전송에 실패하였습니다.");
-      throw Exception("Failed to post comment");
-    }
-  }
-
   Future<CropInfo> getCropsInfo(String id, int cropsId) async {
     final url = Uri.parse("${baseurl}api/crop/$cropsId");
     final response = await http.get(url, headers: {
@@ -176,22 +153,108 @@ class ApiService {
     }
   }
 
-  Future<Board> getSingleBoard(String id, int boardId) async {
-    final url = Uri.parse("${baseurl}api/support-policy/$boardId");
-    final response = await http.get(
+  // 댓글 추가 함수
+  Future<String> postComment(String content, int boardId, String id) async {
+    final url = Uri.parse("${baseurl}api/comment/board/$boardId");
+    final body = json.encode({"content": content});
+    final response = await http.post(
       url,
       headers: {
         'Content-type': 'application/json',
         'Authorization': id,
-        'Accept-Encoding': 'identity',
       },
+      body: body,
     );
-    if (response.statusCode == 200) {
-      final body = utf8.decode(response.bodyBytes);
-      final jsonData = jsonDecode(body);
-      return Board.fromJson(jsonData);
+
+    if (response.statusCode == 201) {
+      final responseData = json.decode(response.body);
+      final commentId =
+          responseData['id']; // Assuming the response body contains the ID
+      debugPrint("댓글이 성공적으로 전송되었습니다. ID: $commentId");
+      return commentId.toString(); // Return the comment ID as string
     } else {
-      throw Exception('Failed to load board');
+      debugPrint("댓글 전송에 실패하였습니다.");
+      throw Exception("Failed to post comment");
+    }
+  }
+
+  // 답글 추가 함수
+  Future<Map<String, dynamic>> postReply(
+      String text, int boardId, String id, String commentId) async {
+    debugPrint("ParentID: $commentId");
+
+    final url = Uri.parse("${baseurl}api/comment/reply/$boardId");
+    final body = json.encode({"content": text, "parentId": commentId});
+    final response = await http.post(
+      url,
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': id,
+      },
+      body: body,
+    );
+
+    debugPrint("Request URL: ${url.toString()}");
+    if (response.statusCode == 201) {
+      debugPrint("답글이 성공적으로 전송되었습니다.");
+      return jsonDecode(response.body);
+    } else {
+      debugPrint("답글 전송에 실패하였습니다.");
+      debugPrint("Response: ${response.body}"); // 추가: 응답 본문 디버깅
+      throw Exception("Failed to post reply");
+    }
+  }
+
+  // 댓글 수정 함수
+  Future<void> editComment(
+      String newComment, int boardId, String postId, String commentId) async {
+    final url = Uri.parse('$baseurl/api/comment/$boardId');
+    final body = jsonEncode({
+      'newComment': newComment,
+      'postId': postId,
+      'parentId': commentId, // 댓글 ID 추가
+    });
+
+    final response = await http.put(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': postId,
+      },
+      body: body,
+    );
+
+    if (response.statusCode == 200) {
+      debugPrint("댓글이 성공적으로 수정되었습니다.");
+    } else {
+      debugPrint("댓글 수정에 실패하였습니다.");
+      throw Exception("Failed to edit comment");
+    }
+  }
+
+  // 댓글 삭제 함수
+  Future<void> deleteComment(
+      int boardId, String postId, String commentId) async {
+    final url = Uri.parse('$baseurl/api/comment/$boardId');
+    final body = jsonEncode({
+      'postId': postId,
+      'parentId': commentId, // 댓글 ID 추가
+    });
+
+    final response = await http.delete(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': postId,
+      },
+      body: body,
+    );
+
+    if (response.statusCode == 200) {
+      debugPrint("댓글이 성공적으로 삭제되었습니다.");
+    } else {
+      debugPrint("댓글 삭제에 실패하였습니다.");
+      throw Exception("Failed to delete comment");
     }
   }
 
