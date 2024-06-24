@@ -71,7 +71,8 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
             ),
           ],
-          backgroundColor: const Color.fromARGB(255, 241, 240, 240),
+          // backgroundColor: const Color.fromARGB(255, 241, 240, 240),
+          backgroundColor: const Color(0xff95C461),
           title: const Text(
             "검색창",
             style: TextStyle(

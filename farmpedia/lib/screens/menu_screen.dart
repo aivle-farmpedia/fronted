@@ -6,6 +6,8 @@ import 'package:farmpedia/screens/search_screen.dart';
 import 'package:farmpedia/widgets/backpage_widget.dart';
 import 'package:flutter/material.dart';
 
+import 'home_screen.dart';
+
 class MenuScreen extends StatelessWidget {
   final String id;
   final int privateId;
@@ -22,8 +24,22 @@ class MenuScreen extends StatelessWidget {
         backgroundColor: const Color(0xFF95c452),
         appBar: AppBar(
           centerTitle: true,
-          leading: BackpageWidget(
-            beforeContext: context,
+          leading: GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  // HomeScreen 으로 이동할 때 생성한 userId HomeScreen 으로 넘겨줌
+                  builder: (context) => HomeScreen(
+                    id: id,
+                  ),
+                ),
+              );
+            },
+            child: const Icon(
+              Icons.home_outlined,
+              size: 40,
+            ),
           ),
           backgroundColor: const Color(0xFF95c452),
         ),
