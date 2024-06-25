@@ -4,6 +4,7 @@ import 'package:farmpedia/models/chat_room_messages_model.dart';
 import 'package:farmpedia/models/chat_rooms_list_model.dart';
 import 'package:flutter/material.dart';
 
+import '../models/chat_room_id.model.dart';
 import '../urls/urls.dart';
 import 'package:http/http.dart' as http;
 
@@ -11,7 +12,7 @@ class GPTApiService {
   final baseurl = Urls().uuidBaseUrl();
 
   // 채팅창 생성
-  Future<bool> postNewChat(String id) async {
+  Future<ChatRoomId> postNewChat(String id) async {
     final url = Uri.parse("${baseurl}api/chat-bot/chat-rooms");
     final response = await http.post(
       url,
@@ -23,9 +24,13 @@ class GPTApiService {
     debugPrint("어떻게 나오는지 봅시다 ${response.statusCode.toString()}");
     if (response.statusCode == 201) {
       debugPrint("create 채팅");
-      return true;
+
+      final body = utf8.decode(response.bodyBytes);
+      Map<String, dynamic> jsonData = jsonDecode(body);
+
+      return ChatRoomId.fromJson(jsonData);
     } else {
-      return false;
+      throw Exception('Failed to load chat rooms');
     }
   }
 
@@ -45,10 +50,10 @@ class GPTApiService {
       },
       body: json.encode(params),
     );
-    debugPrint("어떻게 나오는지 봅시다 ${response.statusCode.toString()}");
     // response가 200 나오긴하는데 챗봇이 대답한 answer는 어디 있는거야?
     if (response.statusCode == 200) {
       debugPrint("postChatBotMessage 성공");
+
       return true;
     } else {
       return false;
