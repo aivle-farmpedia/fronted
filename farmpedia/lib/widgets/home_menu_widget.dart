@@ -1,7 +1,7 @@
+import 'package:farmpedia/screens/gpt_chat_list_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../screens/community_screen.dart';
-import '../screens/gpt_screen.dart';
 import '../screens/policy_screen.dart';
 import '../screens/search_screen.dart';
 
@@ -115,7 +115,7 @@ class _HomeMenuWidgetState extends State<HomeMenuWidget> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => GPTScreen(
+                        builder: (context) => GptChatListScreen(
                           id: widget.id,
                           privateId: widget.privateId,
                         ),

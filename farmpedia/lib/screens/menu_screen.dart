@@ -1,11 +1,10 @@
 import 'package:farmpedia/screens/community_screen.dart';
-import 'package:farmpedia/screens/gpt_screen.dart';
 import 'package:farmpedia/screens/method_screen.dart';
 import 'package:farmpedia/screens/policy_screen.dart';
 import 'package:farmpedia/screens/search_screen.dart';
-import 'package:farmpedia/widgets/backpage_widget.dart';
 import 'package:flutter/material.dart';
 
+import 'gpt_chat_list_screen.dart';
 import 'home_screen.dart';
 
 class MenuScreen extends StatelessWidget {
@@ -118,7 +117,7 @@ class MenuScreen extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => GPTScreen(
+                            builder: (context) => GptChatListScreen(
                               id: id,
                               privateId: privateId,
                             ),
