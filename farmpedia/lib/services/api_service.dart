@@ -306,6 +306,7 @@ class ApiService {
       'Content-type': 'application/json',
       'Authorization': id,
     });
+    debugPrint("정신차려 ${response.statusCode}");
     if (response.statusCode == 200) {
       final List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
       final List<String> recentItems =

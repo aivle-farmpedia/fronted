@@ -37,7 +37,7 @@ class cropsDetail extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "${widget.crops} 입니다~~",
+                  widget.crops,
                   style: const TextStyle(
                     fontSize: 25,
                   ),
@@ -72,6 +72,12 @@ class cropsDetail extends StatelessWidget {
                     );
                   }).toList(),
                 ),
+                Container(
+                  height: 2.0,
+                  width: 500,
+                  color: const Color(0xFF95c452),
+                ),
+                const SizedBox(height: 20),
                 const Text(
                   "2. 면적당 수확량(계산기)",
                   style: TextStyle(
@@ -82,6 +88,11 @@ class cropsDetail extends StatelessWidget {
                 Text('Area Per Yield: ${cropInfo.crop.areaPerYield}'),
                 Text('Time Per Yield: ${cropInfo.crop.timePerYield}'),
                 const SizedBox(height: 20),
+                Container(
+                  height: 2.0,
+                  width: 500,
+                  color: const Color(0xFF95c452),
+                ),
                 const SizedBox(height: 20),
                 const Text(
                   "3. 재배영상",
@@ -107,6 +118,13 @@ class cropsDetail extends StatelessWidget {
                     ),
                   ),
                 ),
+                const SizedBox(height: 20),
+                Container(
+                  height: 2.0,
+                  width: 500,
+                  color: const Color(0xFF95c452),
+                ),
+                const SizedBox(height: 20),
                 const Text(
                   "4. 품종",
                   style: TextStyle(
@@ -126,6 +144,12 @@ class cropsDetail extends StatelessWidget {
                   }).toList(),
                 ),
                 const SizedBox(height: 20),
+                Container(
+                  height: 2.0,
+                  width: 500,
+                  color: const Color(0xFF95c452),
+                ),
+                const SizedBox(height: 20),
                 const Text(
                   "5. 생육과정",
                   style: TextStyle(
@@ -139,6 +163,12 @@ class cropsDetail extends StatelessWidget {
                     return [
                       Text(
                           '${process.processOrder}. ${process.task}: ${process.description}'),
+                      const SizedBox(height: 20),
+                      Container(
+                        height: 2.0,
+                        width: 500,
+                        color: const Color(0xFF95c452),
+                      ),
                       const SizedBox(height: 20),
                     ];
                   }).toList(),
