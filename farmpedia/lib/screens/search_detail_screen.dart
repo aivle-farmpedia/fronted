@@ -7,8 +7,8 @@ import '../widgets/menu_widget.dart';
 
 class SearchDetailScreen extends StatefulWidget {
   final String crops;
-  final String id;
-  final int privateId;
+  final int id;
+  final String privateId;
 
   const SearchDetailScreen({
     super.key,
@@ -26,7 +26,7 @@ class _SearchDetailScreenState extends State<SearchDetailScreen> {
   late Future<CropInfo> cropInfoFuture;
 
   Future<CropInfo> cropsInfo() async {
-    return await ApiService().getCropsInfo(widget.id, 2);
+    return await ApiService().getCropsInfo(widget.privateId, 2);
   }
 
   void _scrollToTop() {

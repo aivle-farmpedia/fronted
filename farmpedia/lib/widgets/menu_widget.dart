@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../screens/menu_screen.dart';
 
 class MenuWidget extends StatelessWidget {
-  final String id;
-  final int privateId;
+  final int id;
+  final String privateId;
   const MenuWidget({super.key, required this.id, required this.privateId});
 
   @override

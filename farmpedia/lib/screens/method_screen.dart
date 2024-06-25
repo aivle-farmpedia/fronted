@@ -3,8 +3,8 @@ import 'package:farmpedia/widgets/menu_widget.dart';
 import 'package:flutter/material.dart';
 
 class MethodScreen extends StatelessWidget {
-  final String id;
-  final int privateId;
+  final int id;
+  final String privateId;
   const MethodScreen({
     super.key,
     required this.id,

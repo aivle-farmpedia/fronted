@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import '../widgets/custom_searchbar_widget.dart';
 
 class SearchScreen extends StatefulWidget {
-  final String id;
-  final int privateId;
+  final int id;
+  final String privateId;
   const SearchScreen({super.key, required this.id, required this.privateId});
 
   @override

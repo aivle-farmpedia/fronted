@@ -10,8 +10,8 @@ import '../models/board_model.dart';
 import '../widgets/postcard_widget.dart';
 
 class CommunityScreen extends StatefulWidget {
-  final String id;
-  final int privateId;
+  final int id;
+  final String privateId;
   const CommunityScreen({super.key, required this.id, required this.privateId});
 
   @override
@@ -35,7 +35,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
   Future<Map<String, dynamic>> fetchBoards(int page) async {
     try {
       Map<String, dynamic> fetchedData =
-          await ApiService().getBoardList(widget.id, page);
+          await ApiService().getBoardList(widget.privateId, page);
       setState(() {
         totalPages = fetchedData['totalPages'];
       });
@@ -171,6 +171,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
                                       content: board.content,
                                       boardId: board.id,
                                       id: widget.id,
+                                      privateId: widget.privateId,
                                     ),
                                   ),
                                 );

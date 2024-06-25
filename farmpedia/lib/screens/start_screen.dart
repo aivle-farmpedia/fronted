@@ -74,7 +74,7 @@ class _HomeScreenState extends State<StartScreen>
                     MaterialPageRoute(
                       // HomeScreen 으로 이동할 때 생성한 userId HomeScreen 으로 넘겨줌
                       builder: (context) => HomeScreen(
-                        id: userId,
+                        privateId: userId,
                       ),
                     ),
                   );

@@ -5,10 +5,10 @@ import '../screens/gpt_chat_screen.dart';
 import '../services/gpt_api_service.dart';
 
 class BuildChatRoomList extends StatelessWidget {
-  final String id;
+  final int id;
   final int chatRoomId;
   final ChatRoomsList chatRoom;
-  final int privateId;
+  final String privateId;
   final Function reLoadFunc;
 
   const BuildChatRoomList({
@@ -81,7 +81,7 @@ class BuildChatRoomList extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.delete),
               onPressed: () {
-                _showDeleteConfirmationDialog(context, id, chatRoom.id);
+                _showDeleteConfirmationDialog(context, privateId, chatRoom.id);
               },
             ),
           ],

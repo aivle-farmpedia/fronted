@@ -6,8 +6,8 @@ import '../screens/policy_screen.dart';
 import '../screens/search_screen.dart';
 
 class HomeMenuWidget extends StatefulWidget {
-  final String id;
-  final int privateId;
+  final int id;
+  final String privateId;
   const HomeMenuWidget({
     super.key,
     required this.id,
@@ -22,7 +22,7 @@ class _HomeMenuWidgetState extends State<HomeMenuWidget> {
   @override
   void initState() {
     super.initState();
-    String a = widget.id;
+    String a = widget.privateId;
     debugPrint("너 이상한놈인데? $a");
   }
 

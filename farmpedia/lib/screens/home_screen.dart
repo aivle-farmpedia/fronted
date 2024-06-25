@@ -7,8 +7,8 @@ import 'package:url_launcher/url_launcher.dart';
 import '../widgets/announcement_widget.dart';
 
 class HomeScreen extends StatefulWidget {
-  final String id;
-  const HomeScreen({super.key, required this.id});
+  final String privateId;
+  const HomeScreen({super.key, required this.privateId});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -37,8 +37,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
     debugPrint(userId);
     if (userId == null) {
-      await prefs.setString('userId', widget.id);
-      userId = widget.id;
+      await prefs.setString('userId', widget.privateId);
+      userId = widget.privateId;
     } else {
       debugPrint("이미 존재? $userId");
     }
@@ -51,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
     int? privateId = prefs.getInt('privateId');
 
     if (privateId == null) {
-      privateId = await ApiService().postUuid(widget.id);
+      privateId = await ApiService().postUuid(widget.privateId);
       await prefs.setInt('privateId', privateId);
     } else {
       debugPrint("이미 존재 $privateId");
@@ -93,10 +93,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         return const Icon(
                             Icons.error); // Error icon if there's an error
                       } else {
-                        final privateId = snapshot.data ?? 0;
+                        final id = snapshot.data ?? 0;
                         return MenuWidget(
-                          id: userId,
-                          privateId: privateId,
+                          id: id,
+                          privateId: userId,
                         );
                       }
                     },
@@ -123,7 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
             } else if (snapshot.hasError) {
               return const Center(child: Text('Error loading userId'));
             } else {
-              final userId = snapshot.data ?? '';
+              final privateId = snapshot.data ?? '';
               return SingleChildScrollView(
                 child: Padding(
                   padding:
@@ -146,7 +146,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 return const Center(
                                     child: Text('Error loading privateId'));
                               } else {
-                                final privateId = snapshot.data ?? 0;
+                                final userId = snapshot.data ?? 0;
                                 return HomeMenuWidget(
                                   id: userId,
                                   privateId: privateId,

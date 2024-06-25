@@ -11,8 +11,8 @@ import 'package:farmpedia/widgets/backpage_widget.dart';
 import 'package:farmpedia/widgets/menu_widget.dart';
 
 class PolicyScreen extends StatefulWidget {
-  final String id;
-  final int privateId;
+  final int id;
+  final String privateId;
   final String category;
   const PolicyScreen({
     super.key,
@@ -48,8 +48,8 @@ class _PolicyScreenState extends State<PolicyScreen> {
 
   Future<Map<String, dynamic>> fetchPolicies(int page, String category) async {
     try {
-      Map<String, dynamic> fetchedData =
-          await PolicyApiService().getPolicyList(widget.id, page, category);
+      Map<String, dynamic> fetchedData = await PolicyApiService()
+          .getPolicyList(widget.privateId, page, category);
 
       setState(() {
         totalPages = fetchedData['totalPages'];
@@ -64,7 +64,7 @@ class _PolicyScreenState extends State<PolicyScreen> {
   Future<Map<String, dynamic>> fetchBoards(int page) async {
     try {
       Map<String, dynamic> fetchedData = await PolicyApiService()
-          .getPolicyList(widget.id, page, widget.category);
+          .getPolicyList(widget.privateId, page, widget.category);
       setState(() {
         totalPages = fetchedData['totalPages'];
       });
@@ -173,6 +173,7 @@ class _PolicyScreenState extends State<PolicyScreen> {
                               color: Colors.lightGreen,
                               icon: Icons.spa,
                               id: widget.id,
+                              privateId: widget.privateId,
                             ),
                             const SizedBox(
                               height: 25,
@@ -211,7 +212,8 @@ class SupportCard extends StatelessWidget {
   final double titleFontSize;
   final double subtitleFontSize;
   final double iconSize;
-  final String id;
+  final int id;
+  final String privateId;
 
   const SupportCard({
     super.key,
@@ -219,6 +221,7 @@ class SupportCard extends StatelessWidget {
     required this.color,
     required this.icon,
     required this.id,
+    required this.privateId,
     this.height = 100.0,
     this.titleFontSize = 23.0,
     this.subtitleFontSize = 16.0,
@@ -231,7 +234,7 @@ class SupportCard extends StatelessWidget {
       onTap: () async {
         try {
           SupportPolicy supportPolicy =
-              await PolicyApiService().getPolicyDetails(policy.id, id);
+              await PolicyApiService().getPolicyDetails(policy.id, privateId);
           Navigator.push(
             context,
             MaterialPageRoute(

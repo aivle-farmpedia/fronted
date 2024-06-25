@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import '../services/gpt_api_service.dart';
 
 class GPTChatScreen extends StatefulWidget {
-  final String id;
-  final int privateId;
+  final int id;
+  final String privateId;
   final int chatRoomId;
   const GPTChatScreen({
     super.key,
@@ -38,7 +38,8 @@ class _GPTScreenState extends State<GPTChatScreen> {
   @override
   void initState() {
     super.initState();
-    futureChatRoomMessages = fetchGPTRoomMessage(widget.id, widget.chatRoomId);
+    futureChatRoomMessages =
+        fetchGPTRoomMessage(widget.privateId, widget.chatRoomId);
     futureChatRoomMessages.then((value) {
       setState(() {
         messages = value;
@@ -104,7 +105,7 @@ class _GPTScreenState extends State<GPTChatScreen> {
 
       _scrollToBottom(); // Scroll to the bottom before starting the loading process
 
-      await fetchGPTResponse(widget.id, userMessage, widget.chatRoomId);
+      await fetchGPTResponse(widget.privateId, userMessage, widget.chatRoomId);
     }
   }
 

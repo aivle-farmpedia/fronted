@@ -9,8 +9,8 @@ import '../widgets/backpage_widget.dart';
 import '../widgets/menu_widget.dart';
 
 class GptChatListScreen extends StatefulWidget {
-  final String id;
-  final int privateId;
+  final int id;
+  final String privateId;
   const GptChatListScreen({
     super.key,
     required this.id,
@@ -47,7 +47,7 @@ class _GptChatListState extends State<GptChatListScreen> {
   @override
   void initState() {
     super.initState();
-    futureChatLists = fetchChatList(widget.id);
+    futureChatLists = fetchChatList(widget.privateId);
   }
 
   @override
@@ -98,7 +98,7 @@ class _GptChatListState extends State<GptChatListScreen> {
                     privateId: widget.privateId,
                     reLoadFunc: () {
                       setState(() {
-                        futureChatLists = fetchChatList(widget.id);
+                        futureChatLists = fetchChatList(widget.privateId);
                       });
                     },
                   );
@@ -108,28 +108,22 @@ class _GptChatListState extends State<GptChatListScreen> {
           },
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () async {
-            try {
-              debugPrint("여기는 실행되냐???? 왜 이런거지?");
-              ChatRoomId chatRoomId = await fetchNewChat(widget.id);
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => GPTChatScreen(
-                    id: widget.id,
-                    privateId: widget.privateId,
-                    chatRoomId: chatRoomId.id,
-                  ),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => GPTChatScreen(
+                  id: widget.id,
+                  privateId: widget.privateId,
+                  chatRoomId: 100,
                 ),
-              ).then((_) {
-                // Reload futureChatLists when returning to this screen
-                setState(() {
-                  futureChatLists = fetchChatList(widget.id);
-                });
+              ),
+            ).then((_) {
+              // Reload futureChatLists when returning to this screen
+              setState(() {
+                futureChatLists = fetchChatList(widget.privateId);
               });
-            } catch (e) {
-              debugPrint("Error: $e");
-            }
+            });
           },
           backgroundColor: const Color(0xff95C461),
           child: const Icon(

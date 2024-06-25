@@ -5,8 +5,8 @@ import '../widgets/backpage_widget.dart';
 import '../widgets/menu_widget.dart';
 
 class CommunityWriteScreen extends StatefulWidget {
-  final String id;
-  final int privateId;
+  final int id;
+  final String privateId;
 
   const CommunityWriteScreen({
     super.key,
@@ -25,8 +25,8 @@ class _CommunityWriteScreenState extends State<CommunityWriteScreen> {
   void _submitPost() async {
     if (_titleController.text.isNotEmpty &&
         _contentController.text.isNotEmpty) {
-      await ApiService()
-          .postBoard(_titleController.text, _contentController.text, widget.id);
+      await ApiService().postBoard(
+          _titleController.text, _contentController.text, widget.privateId);
       Navigator.pop(
         context,
         {

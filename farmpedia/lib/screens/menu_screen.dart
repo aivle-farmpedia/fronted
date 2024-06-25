@@ -8,8 +8,8 @@ import 'gpt_chat_list_screen.dart';
 import 'home_screen.dart';
 
 class MenuScreen extends StatelessWidget {
-  final String id;
-  final int privateId;
+  final int id;
+  final String privateId;
   const MenuScreen({
     super.key,
     required this.id,
@@ -30,7 +30,7 @@ class MenuScreen extends StatelessWidget {
                 MaterialPageRoute(
                   // HomeScreen 으로 이동할 때 생성한 userId HomeScreen 으로 넘겨줌
                   builder: (context) => HomeScreen(
-                    id: id,
+                    privateId: privateId,
                   ),
                 ),
               );

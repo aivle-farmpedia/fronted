@@ -1,12 +1,13 @@
+import 'package:farmpedia/services/comment_api_service.dart';
 import 'package:farmpedia/widgets/comment_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:farmpedia/services/api_service.dart';
 
 class CommunityViewScreen extends StatefulWidget {
   final String title;
   final String content;
   final int boardId;
-  final String id;
+  final int id;
+  final String privateId;
 
   const CommunityViewScreen({
     super.key,
@@ -14,6 +15,7 @@ class CommunityViewScreen extends StatefulWidget {
     required this.content,
     required this.boardId,
     required this.id,
+    required this.privateId,
   });
 
   @override
@@ -34,6 +36,14 @@ class _CommunityViewScreenState extends State<CommunityViewScreen> {
     _comments = [];
     _commentIds = [];
     _replies = [];
+  }
+
+  void _addComment(String comment, String commentId) {
+    setState(() {
+      _comments.add(comment);
+      _commentIds.add(commentId);
+      _replies.add([]);
+    });
   }
 
   @override
@@ -91,7 +101,8 @@ class _CommunityViewScreenState extends State<CommunityViewScreen> {
             Expanded(
               child: CommentWidget(
                 boardId: widget.boardId,
-                userId: widget.id,
+                privateId: widget.privateId,
+                id: widget.id,
                 comments: _comments,
                 commentIds: _commentIds,
                 replies: _replies,
@@ -129,14 +140,13 @@ class _CommunityViewScreenState extends State<CommunityViewScreen> {
                     onSubmitted: (value) async {
                       if (value.isNotEmpty) {
                         try {
-                          String commentId = await ApiService().postComment(
+                          String commentId =
+                              await CommentApiService().postComment(
                             value,
                             widget.boardId,
-                            widget.id,
+                            widget.privateId,
                           );
-                          _comments.add(value);
-                          _commentIds.add(commentId);
-                          _replies.add([]);
+                          _addComment(value, commentId); // 댓글을 추가하는 함수 호출
                           _commentController.clear();
                         } catch (e) {
                           ScaffoldMessenger.of(context).showSnackBar(

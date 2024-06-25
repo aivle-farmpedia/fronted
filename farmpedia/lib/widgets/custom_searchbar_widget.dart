@@ -6,12 +6,12 @@ import '../screens/search_detail_screen.dart';
 import 'recently_keywords_widget.dart';
 
 class CustomSearch extends StatefulWidget {
-  final String id;
+  final int id;
   final String crops;
   final Color mainColor;
   final TextEditingController searchController;
   final bool onTextField;
-  final int privateId;
+  final String privateId;
   const CustomSearch({
     super.key,
     required this.mainColor,
@@ -61,7 +61,7 @@ class _CustomSearchState extends State<CustomSearch> {
     if (_debounce?.isActive ?? false) _debounce!.cancel();
     _debounce = Timer(const Duration(milliseconds: 500), () {
       if (value.isNotEmpty) {
-        fetchSearch(widget.id, value);
+        fetchSearch(widget.privateId, value);
       } else {
         setState(() {
           _searchKeywords = [];
@@ -77,9 +77,9 @@ class _CustomSearchState extends State<CustomSearch> {
       _onSearchChanged(widget.searchController.text);
     });
     if (widget.searchController.text.isNotEmpty) {
-      fetchSearch(widget.id, widget.searchController.text);
+      fetchSearch(widget.privateId, widget.searchController.text);
     } else {
-      fetchRecentKeywords(widget.id);
+      fetchRecentKeywords(widget.privateId);
     }
   }
 
@@ -95,13 +95,13 @@ class _CustomSearchState extends State<CustomSearch> {
   void _deleteKeyword(String id, String keywords) async {
     _isDelete = await ApiService().deleteKeyword(id, keywords);
     if (_isDelete) {
-      fetchRecentKeywords(widget.id);
+      fetchRecentKeywords(widget.privateId);
     }
   }
 
   void _onKeywordTap(String keyword) {
     widget.searchController.text = keyword;
-    fetchSearch(widget.id, keyword);
+    fetchSearch(widget.privateId, keyword);
   }
 
   @override
@@ -152,7 +152,7 @@ class _CustomSearchState extends State<CustomSearch> {
                           ),
                         );
                         widget.searchController.clear();
-                        await fetchRecentKeywords(widget.id,
+                        await fetchRecentKeywords(widget.privateId,
                             newKeyword:
                                 value); // Add new keyword to recent list
                         setState(() {
@@ -174,7 +174,7 @@ class _CustomSearchState extends State<CustomSearch> {
                       ? RecentKeywordsWidget(
                           recentKeywords: _recentKeywords,
                           onDeleteKeyword: (keyword) {
-                            _deleteKeyword(widget.id, keyword);
+                            _deleteKeyword(widget.privateId, keyword);
                           },
                           onKeywordTap: _onKeywordTap,
                         )
@@ -202,7 +202,7 @@ class _CustomSearchState extends State<CustomSearch> {
               : RecentKeywordsWidget(
                   recentKeywords: _recentKeywords,
                   onDeleteKeyword: (keyword) {
-                    _deleteKeyword(widget.id, keyword);
+                    _deleteKeyword(widget.privateId, keyword);
                   },
                   onKeywordTap: _onKeywordTap,
                 ),

@@ -6,10 +6,10 @@ import '../services/api_service.dart';
 class PostCard extends StatelessWidget {
   final String title;
   final String content;
-  final String id;
+  final int id;
   final int boardId;
   final int boardUserId;
-  final int privateId;
+  final String privateId;
   final Function onDelete;
 
   const PostCard({
@@ -71,7 +71,7 @@ class PostCard extends StatelessWidget {
                 IconButton(
                   icon: const Icon(Icons.delete),
                   onPressed: () {
-                    _showDeleteConfirmationDialog(context, boardId, id);
+                    _showDeleteConfirmationDialog(context, boardId, privateId);
                   },
                 ),
             ],

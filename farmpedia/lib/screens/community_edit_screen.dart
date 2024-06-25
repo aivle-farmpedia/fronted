@@ -7,8 +7,8 @@ class CommunityEditScreen extends StatefulWidget {
   final String title;
   final String content;
   final int boardId;
-  final String id;
-  final int privateId;
+  final int id;
+  final String privateId;
 
   const CommunityEditScreen({
     super.key,
@@ -49,7 +49,7 @@ class _CommunityEditScreenState extends State<CommunityEditScreen> {
     bool updated = await ApiService().putBoard(
       newTitle,
       newContent,
-      widget.id,
+      widget.privateId,
       widget.boardId,
     );
     debugPrint(updated.toString());
