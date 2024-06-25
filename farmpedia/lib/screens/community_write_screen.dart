@@ -7,6 +7,7 @@ import '../widgets/menu_widget.dart';
 class CommunityWriteScreen extends StatefulWidget {
   final String id;
   final int privateId;
+
   const CommunityWriteScreen({
     super.key,
     required this.id,

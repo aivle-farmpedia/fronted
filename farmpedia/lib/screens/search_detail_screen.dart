@@ -1,5 +1,5 @@
+import 'package:farmpedia/widgets/price_chart_widget.dart';
 import 'package:flutter/material.dart';
-
 import '../models/crop_info_model.dart';
 import '../services/api_service.dart';
 import '../widgets/backpage_widget.dart';
