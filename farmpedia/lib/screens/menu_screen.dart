@@ -180,6 +180,7 @@ class MenuScreen extends StatelessWidget {
                             builder: (context) => PolicyScreen(
                               id: id,
                               privateId: privateId,
+                              category: 'ALL',
                             ),
                           ),
                         );

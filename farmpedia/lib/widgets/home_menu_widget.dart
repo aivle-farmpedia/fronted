@@ -86,6 +86,7 @@ class _HomeMenuWidgetState extends State<HomeMenuWidget> {
                         builder: (context) => PolicyScreen(
                           id: widget.id,
                           privateId: widget.privateId,
+                          category: 'ALL',
                         ),
                       ),
                     );

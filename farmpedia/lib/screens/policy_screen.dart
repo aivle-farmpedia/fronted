@@ -1,3 +1,8 @@
+import 'package:farmpedia/models/support_policy.dart';
+import 'package:farmpedia/screens/policy_view.dart';
+import 'package:farmpedia/widgets/paging_widget.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import '../services/policy_api_service.dart';
@@ -8,10 +13,12 @@ import 'package:farmpedia/widgets/menu_widget.dart';
 class PolicyScreen extends StatefulWidget {
   final String id;
   final int privateId;
+  final String category;
   const PolicyScreen({
     super.key,
     required this.id,
     required this.privateId,
+    required this.category,
   });
 
   @override
@@ -19,32 +26,49 @@ class PolicyScreen extends StatefulWidget {
 }
 
 class _PolicyScreenState extends State<PolicyScreen> {
-  late Future<List<PolicyBoard>> futurePolicies;
+  late Future<Map<String, dynamic>> futurePolicies;
   int currentPage = 1;
   bool isLoadingMore = false;
   List<PolicyBoard> allBoards = [];
   int totalPages = 1;
+  String category = "ALL";
 
   @override
   void initState() {
     super.initState();
-    futurePolicies = fetchPolicies(currentPage);
+    futurePolicies = fetchPolicies(currentPage, category);
   }
 
-  Future<List<PolicyBoard>> fetchPolicies(int page) async {
+  void _onCategoryChanged(String categoryType) {
+    setState(() {
+      category = categoryType;
+      futurePolicies = fetchPolicies(currentPage, category);
+    });
+  }
+
+  Future<Map<String, dynamic>> fetchPolicies(int page, String category) async {
     try {
       Map<String, dynamic> fetchedData =
-          await PolicyApiService().getPolicyList(widget.id, page);
-
-      // Extract policies from fetchedData
-      List<PolicyBoard> policies = List<PolicyBoard>.from(fetchedData['data']
-          .map((policyJson) => PolicyBoard.fromJson(policyJson)));
+          await PolicyApiService().getPolicyList(widget.id, page, category);
 
       setState(() {
         totalPages = fetchedData['totalPages'];
       });
 
-      return policies;
+      return fetchedData;
+    } catch (e) {
+      throw Exception('Failed to load boards');
+    }
+  }
+
+  Future<Map<String, dynamic>> fetchBoards(int page) async {
+    try {
+      Map<String, dynamic> fetchedData = await PolicyApiService()
+          .getPolicyList(widget.id, page, widget.category);
+      setState(() {
+        totalPages = fetchedData['totalPages'];
+      });
+      return fetchedData;
     } catch (e) {
       throw Exception('Failed to load boards');
     }
@@ -83,23 +107,38 @@ class _PolicyScreenState extends State<PolicyScreen> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: FutureBuilder<List<PolicyBoard>>(
+              child: FutureBuilder<Map<String, dynamic>>(
                 future: futurePolicies,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());
                   } else if (snapshot.hasError) {
                     return Center(child: Text('Error: ${snapshot.error}'));
-                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  } else if (!snapshot.hasData ||
+                      snapshot.data!['policyboards'].isEmpty) {
                     return const Center(child: Text('사용 가능한 정책이 없습니다'));
                   } else {
-                    final policies = snapshot.data!;
-                    return Text(
-                      "총 ${policies.length}건의 데이터",
-                      style: const TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.w800,
-                      ),
+                    final policies =
+                        snapshot.data!['policyboards'] as List<PolicyBoard>;
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            ElevatedButton(
+                                onPressed: () => _onCategoryChanged("ALL"),
+                                child: const Text('전체')),
+                            ElevatedButton(
+                                onPressed: () => _onCategoryChanged("BUSINESS"),
+                                child: const Text('사업')),
+                            ElevatedButton(
+                                onPressed: () =>
+                                    _onCategoryChanged("EDUCATION"),
+                                child: const Text('교육')),
+                          ],
+                        )
+                      ],
                     );
                   }
                 },
@@ -109,17 +148,19 @@ class _PolicyScreenState extends State<PolicyScreen> {
               height: 20,
             ),
             Expanded(
-              child: FutureBuilder<List<PolicyBoard>>(
+              child: FutureBuilder<Map<String, dynamic>>(
                 future: futurePolicies,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());
                   } else if (snapshot.hasError) {
                     return Center(child: Text('Error: ${snapshot.error}'));
-                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  } else if (!snapshot.hasData ||
+                      snapshot.data!['policyboards'].isEmpty) {
                     return const Center(child: Text('사용 가능한 정책이 없습니다'));
                   } else {
-                    final policies = snapshot.data!;
+                    final policies =
+                        snapshot.data!['policyboards'] as List<PolicyBoard>;
                     return ListView.builder(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       itemCount: policies.length,
@@ -128,10 +169,10 @@ class _PolicyScreenState extends State<PolicyScreen> {
                         return Column(
                           children: [
                             SupportCard(
-                              title: policy.title,
-                              subtitle: policy.title,
+                              policy: policy,
                               color: Colors.lightGreen,
                               icon: Icons.spa,
+                              id: widget.id,
                             ),
                             const SizedBox(
                               height: 25,
@@ -144,6 +185,17 @@ class _PolicyScreenState extends State<PolicyScreen> {
                 },
               ),
             ),
+            const SizedBox(height: 16),
+            PagingWidget(
+              totalPages: totalPages,
+              onDelete: (int curPage) {
+                setState(() {
+                  futurePolicies = fetchBoards(curPage);
+                  // currentPage = 1;
+                  allBoards.clear();
+                });
+              },
+            )
           ],
         ),
       ),
@@ -152,21 +204,21 @@ class _PolicyScreenState extends State<PolicyScreen> {
 }
 
 class SupportCard extends StatelessWidget {
-  final String title;
-  final String subtitle;
+  final PolicyBoard policy;
   final Color color;
   final IconData icon;
   final double height;
   final double titleFontSize;
   final double subtitleFontSize;
   final double iconSize;
+  final String id;
 
   const SupportCard({
     super.key,
-    required this.title,
-    required this.subtitle,
+    required this.policy,
     required this.color,
     required this.icon,
+    required this.id,
     this.height = 100.0,
     this.titleFontSize = 23.0,
     this.subtitleFontSize = 16.0,
@@ -176,13 +228,19 @@ class SupportCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ExampleScreen(title: title),
-          ),
-        );
+      onTap: () async {
+        try {
+          SupportPolicy supportPolicy =
+              await PolicyApiService().getPolicyDetails(policy.id, id);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => PolicyView(supportPolicy: supportPolicy)),
+          );
+        } catch (e) {
+          // 오류 처리
+          print('Failed to load policy details: $e');
+        }
       },
       child: SizedBox(
         height: height,
@@ -194,17 +252,11 @@ class SupportCard extends StatelessWidget {
               size: iconSize,
             ),
             title: Text(
-              title,
+              policy.title,
               style: TextStyle(
                 fontSize: titleFontSize,
                 fontWeight: FontWeight.w500,
               ),
-            ),
-            subtitle: Text(
-              subtitle,
-              style: TextStyle(fontSize: subtitleFontSize),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
             ),
           ),
         ),
@@ -212,26 +264,3 @@ class SupportCard extends StatelessWidget {
     );
   }
 }
-
-class ExampleScreen extends StatelessWidget {
-  final String title;
-
-  const ExampleScreen({super.key, required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
-      body: Center(
-        child: Text('Example Screen for $title'),
-      ),
-    );
-  }
-}
-
-
-// void main() {
-//   runApp(const PolicyScreen(id:id));
-// }
