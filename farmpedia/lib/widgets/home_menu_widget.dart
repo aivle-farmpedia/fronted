@@ -39,7 +39,7 @@ class _HomeMenuWidgetState extends State<HomeMenuWidget> {
           vertical: 15,
         ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const SizedBox(
               height: 10,
