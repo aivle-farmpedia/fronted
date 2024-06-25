@@ -49,7 +49,7 @@ class PostCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              if (boardUserId == privateId)
+              if (boardUserId == id)
                 TextButton(
                   onPressed: () {
                     Navigator.push(
@@ -67,7 +67,7 @@ class PostCard extends StatelessWidget {
                   },
                   child: const Text('수정'),
                 ),
-              if (boardUserId == privateId)
+              if (boardUserId == id)
                 IconButton(
                   icon: const Icon(Icons.delete),
                   onPressed: () {
