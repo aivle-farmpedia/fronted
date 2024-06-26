@@ -113,8 +113,8 @@ class _HomeScreenState extends State<HomeScreen> {
           title: const Text(
             '귀농백과',
             style: TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.w400,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'GmarketSans',
             ),
           ),
           backgroundColor: Colors.white,
@@ -172,14 +172,32 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("요즘 유행하는 작물 재배"),
+                              Text(
+                                "요즘 유행하는 작물 재배",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'GmarketSans',
+                                ),
+                              ),
                               SizedBox(height: 20),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
                                 children: [
-                                  Text("사과"),
-                                  Text("포도"),
+                                  Text(
+                                    "사과",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'GmarketSans',
+                                    ),
+                                  ),
+                                  Text(
+                                    "포도",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'GmarketSans',
+                                    ),
+                                  ),
                                 ],
                               ),
                             ],

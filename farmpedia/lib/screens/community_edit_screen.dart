@@ -73,7 +73,14 @@ class _CommunityEditScreenState extends State<CommunityEditScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('게시글 수정'),
+        title: const Text(
+          '게시글 수정',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontFamily: 'GmarketSans',
+            color: Colors.white,
+          ),
+        ),
         backgroundColor: const Color(0xff95C461),
         actions: [
           IconButton(
@@ -104,7 +111,14 @@ class _CommunityEditScreenState extends State<CommunityEditScreen> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                 ),
-                child: const Text('수정 완료'),
+                child: const Text(
+                  '수정 완료',
+                  style: TextStyle(
+                    fontWeight: FontWeight.normal,
+                    fontFamily: 'GmarketSans',
+                    color: Colors.white,
+                  ),
+                ),
               ),
             ],
           ),

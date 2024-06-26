@@ -61,12 +61,12 @@ flutter:
   uses-material-design: true
   assets:
     - images/
-  # fonts:
-  #   - family: GmarketSans
-  #     fonts:
-  #       - asset: GmarketSans-Bold.ttf
-  #       - asset: GmarketSans-Light.ttf
-  #       - asset: GmarketSans-Medium.ttf
+  fonts:
+    - family: GmarketSans
+      fonts:
+        - asset: assets/fonts/GmarketSans-Bold.ttf
+        - asset: assets/fonts/GmarketSans-Light.ttf
+        - asset: assets/fonts/GmarketSans-Medium.ttf
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

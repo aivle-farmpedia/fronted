@@ -87,7 +87,8 @@ class _CommunityScreenState extends State<CommunityScreen> {
             "커뮤니티",
             style: TextStyle(
               fontSize: 25,
-              fontWeight: FontWeight.w800,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'GmarketSans',
             ),
           ),
         ),
@@ -121,6 +122,8 @@ class _CommunityScreenState extends State<CommunityScreen> {
                 child: const Text(
                   '글쓰기',
                   style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'GmarketSans',
                     color: Colors.white,
                   ),
                 ),

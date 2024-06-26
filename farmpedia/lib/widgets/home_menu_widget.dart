@@ -68,8 +68,10 @@ class _HomeMenuWidgetState extends State<HomeMenuWidget> {
                       Text(
                         "귀농백과",
                         style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'GmarketSans',
                           color: Colors.white,
-                          fontSize: 18,
+                          fontSize: 15,
                         ),
                       ),
                     ],
@@ -102,7 +104,9 @@ class _HomeMenuWidgetState extends State<HomeMenuWidget> {
                         "지원정책",
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 18,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'GmarketSans',
                         ),
                       ),
                     ],
@@ -134,7 +138,9 @@ class _HomeMenuWidgetState extends State<HomeMenuWidget> {
                         "귀농GPT",
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 18,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'GmarketSans',
                         ),
                       ),
                     ],
@@ -165,8 +171,10 @@ class _HomeMenuWidgetState extends State<HomeMenuWidget> {
                       Text(
                         "커뮤니티",
                         style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'GmarketSans',
                           color: Colors.white,
-                          fontSize: 18,
+                          fontSize: 15,
                         ),
                       ),
                     ],

@@ -35,10 +35,8 @@ class MenuScreen extends StatelessWidget {
                 ),
               );
             },
-            child: const Icon(
-              Icons.home_outlined,
-              size: 40,
-            ),
+            child:
+                const Icon(Icons.home_outlined, size: 40, color: Colors.white),
           ),
           backgroundColor: const Color(0xFF95c452),
         ),
@@ -59,6 +57,8 @@ class MenuScreen extends StatelessWidget {
                       Text(
                         "귀농백과",
                         style: TextStyle(
+                          fontFamily: 'GmarketSans',
+                          fontWeight: FontWeight.bold,
                           fontSize: 50,
                           color: Colors.white,
                         ),
@@ -105,6 +105,8 @@ class MenuScreen extends StatelessWidget {
                           child: Text(
                             "귀농백과",
                             style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'GmarketSans',
                               fontSize: 20,
                               color: Colors.black,
                             ),
@@ -135,6 +137,8 @@ class MenuScreen extends StatelessWidget {
                           child: Text(
                             "귀농GPT",
                             style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'GmarketSans',
                               fontSize: 20,
                               color: Colors.black,
                             ),
@@ -165,6 +169,8 @@ class MenuScreen extends StatelessWidget {
                           child: Text(
                             "농작물 재배 방법",
                             style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'GmarketSans',
                               fontSize: 20,
                               color: Colors.black,
                             ),
@@ -196,6 +202,8 @@ class MenuScreen extends StatelessWidget {
                           child: Text(
                             "귀농 정책 및 혜택",
                             style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'GmarketSans',
                               fontSize: 20,
                               color: Colors.black,
                             ),
@@ -226,6 +234,8 @@ class MenuScreen extends StatelessWidget {
                           child: Text(
                             "커뮤니티",
                             style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'GmarketSans',
                               fontSize: 20,
                               color: Colors.black,
                             ),

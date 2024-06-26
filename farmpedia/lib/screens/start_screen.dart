@@ -93,6 +93,8 @@ class _HomeScreenState extends State<StartScreen>
                         Text(
                           '시작하기',
                           style: TextStyle(
+                            fontFamily: 'GmarketSans',
+                            fontWeight: FontWeight.bold,
                             fontSize: 16,
                             color: Colors.white,
                           ),
@@ -111,7 +113,7 @@ class _HomeScreenState extends State<StartScreen>
 
   FutureBuilder imageList(Future<List<String>> images) {
     final List<String> words = [
-      '귀농백과1',
+      '귀농백과',
       '정책이나 혜택\n 한눈에 알아보기',
       'GPT에게 물어봐!',
       '귀농을 향한 첫 발걸음'
@@ -183,7 +185,8 @@ class _HomeScreenState extends State<StartScreen>
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontSize: 30,
-                        fontWeight: FontWeight.w900,
+                        fontFamily: 'GmarketSans',
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                     const SizedBox(
@@ -194,6 +197,8 @@ class _HomeScreenState extends State<StartScreen>
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontSize: 20,
+                        fontFamily: 'GmarketSans',
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                     const SizedBox(

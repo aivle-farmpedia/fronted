@@ -69,6 +69,7 @@ class _CommunityViewScreenState extends State<CommunityViewScreen> {
                 widget.title,
                 style: const TextStyle(
                   fontSize: 24,
+                  fontFamily: 'GmaerketSans',
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -87,6 +88,7 @@ class _CommunityViewScreenState extends State<CommunityViewScreen> {
               child: Text(
                 widget.content,
                 style: const TextStyle(
+                  fontFamily: 'GmarketSans',
                   fontSize: 16,
                 ),
               ),
@@ -95,7 +97,10 @@ class _CommunityViewScreenState extends State<CommunityViewScreen> {
             const Divider(),
             const Text(
               '댓글',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  fontFamily: 'GmarketSans',
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             Expanded(
@@ -151,7 +156,13 @@ class _CommunityViewScreenState extends State<CommunityViewScreen> {
                         } catch (e) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                                content: Text('Failed to post comment: $e')),
+                                content: Text(
+                              'Failed to post comment: $e',
+                              style: const TextStyle(
+                                fontFamily: 'GmarketSans',
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )),
                           );
                         }
                       }
@@ -172,6 +183,8 @@ class _CommunityViewScreenState extends State<CommunityViewScreen> {
                 child: const Text(
                   '목록',
                   style: TextStyle(
+                    fontFamily: 'GmarketSans',
+                    fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
                 ),

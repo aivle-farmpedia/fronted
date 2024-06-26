@@ -31,8 +31,9 @@ class MethodScreen extends StatelessWidget {
           title: const Text(
             "농작물 재배 방법",
             style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontFamily: 'GmarketSans',
               fontSize: 25,
-              fontWeight: FontWeight.w800,
             ),
           ),
         ),

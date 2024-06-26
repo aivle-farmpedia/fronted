@@ -147,7 +147,11 @@ class _GPTScreenState extends State<GPTChatScreen> {
         ),
         child: Text(
           message,
-          style: const TextStyle(fontSize: 16),
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontFamily: 'GmarketSans',
+            fontSize: 16,
+          ),
         ),
       ),
     );
@@ -174,7 +178,8 @@ class _GPTScreenState extends State<GPTChatScreen> {
             "귀농GPT",
             style: TextStyle(
               fontSize: 25,
-              fontWeight: FontWeight.w800,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'GmarketSans',
             ),
           ),
         ),

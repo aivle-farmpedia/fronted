@@ -9,8 +9,12 @@ class App extends StatelessWidget {
   const App({super.key});
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: StartScreen(),
+    return MaterialApp(
+      home: const StartScreen(),
+      theme: ThemeData(
+        fontFamily: "GmarketSans",
+      ),
+      themeMode: ThemeMode.system,
     );
   }
 }

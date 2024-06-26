@@ -100,6 +100,7 @@ class _PolicyScreenState extends State<PolicyScreen> {
             "지원 정책",
             style: TextStyle(
               fontSize: 25,
+              fontFamily: 'GmarketSans',
               fontWeight: FontWeight.w800,
             ),
           ),
@@ -133,14 +134,32 @@ class _PolicyScreenState extends State<PolicyScreen> {
                           children: [
                             ElevatedButton(
                                 onPressed: () => _onCategoryChanged("ALL"),
-                                child: const Text('전체')),
+                                child: const Text(
+                                  '전체',
+                                  style: TextStyle(
+                                    fontFamily: 'GmarketSans',
+                                    fontSize: 20,
+                                  ),
+                                )),
                             ElevatedButton(
                                 onPressed: () => _onCategoryChanged("BUSINESS"),
-                                child: const Text('사업')),
+                                child: const Text(
+                                  '사업',
+                                  style: TextStyle(
+                                    fontFamily: 'GmarketSans',
+                                    fontSize: 20,
+                                  ),
+                                )),
                             ElevatedButton(
                                 onPressed: () =>
                                     _onCategoryChanged("EDUCATION"),
-                                child: const Text('교육')),
+                                child: const Text(
+                                  '교육',
+                                  style: TextStyle(
+                                    fontFamily: 'GmarketSans',
+                                    fontSize: 20,
+                                  ),
+                                )),
                           ],
                         )
                       ],
@@ -258,6 +277,7 @@ class SupportCard extends StatelessWidget {
                   ? '${policy.title.substring(0, 15)}...'
                   : policy.title,
               style: TextStyle(
+                fontFamily: 'GmarketSans',
                 fontSize: titleFontSize,
                 fontWeight: FontWeight.w500,
               ),

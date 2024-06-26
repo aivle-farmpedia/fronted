@@ -37,7 +37,7 @@ class _GptChatListState extends State<GptChatListScreen> {
   Future<List<ChatRoomsList>> fetchChatList(String id) async {
     try {
       List<ChatRoomsList> fetchedData = await GPTApiService().getChatRooms(id);
-      debugPrint("에렁뜨나요? $fetchedData");
+      debugPrint("에러뜨나요? $fetchedData");
       fetchedData.sort((a, b) => b.createdAt.compareTo(a.createdAt));
       return fetchedData;
     } catch (e) {
@@ -71,8 +71,9 @@ class _GptChatListState extends State<GptChatListScreen> {
           title: const Text(
             "GPT 채팅 목록",
             style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontFamily: 'GmarketSans',
               fontSize: 25,
-              fontWeight: FontWeight.w800,
             ),
           ),
         ),

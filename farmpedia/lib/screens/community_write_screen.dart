@@ -56,6 +56,7 @@ class _CommunityWriteScreenState extends State<CommunityWriteScreen> {
         title: const Text(
           "글작성",
           style: TextStyle(
+            fontFamily: 'GmarketSans',
             fontSize: 25,
             fontWeight: FontWeight.w800,
           ),
@@ -100,7 +101,13 @@ class _CommunityWriteScreenState extends State<CommunityWriteScreen> {
                     backgroundColor: Colors.green[300],
                     foregroundColor: Colors.white, // Set text color to white
                   ),
-                  child: const Text('취소'),
+                  child: const Text(
+                    '취소',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'GmarketSans',
+                    ),
+                  ),
                 ),
                 ElevatedButton(
                   onPressed: _submitPost,
@@ -108,7 +115,13 @@ class _CommunityWriteScreenState extends State<CommunityWriteScreen> {
                     backgroundColor: Colors.green,
                     foregroundColor: Colors.white, // Set text color to white
                   ),
-                  child: const Text('등록'),
+                  child: const Text(
+                    '등록',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'GmarketSans',
+                    ),
+                  ),
                 ),
                 ElevatedButton(
                   onPressed: () {
@@ -118,7 +131,13 @@ class _CommunityWriteScreenState extends State<CommunityWriteScreen> {
                     backgroundColor: Colors.grey,
                     foregroundColor: Colors.white, // Set text color to white
                   ),
-                  child: const Text('목록'),
+                  child: const Text(
+                    '목록',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'GmarketSans',
+                    ),
+                  ),
                 ),
               ],
             ),

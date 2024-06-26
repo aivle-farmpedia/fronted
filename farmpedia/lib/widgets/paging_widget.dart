@@ -59,6 +59,7 @@ class _PaginationState extends State<PagingWidget> {
             child: Text(
               '$i',
               style: const TextStyle(
+                fontFamily: 'GmarketSans',
                 color: Colors.black,
               ),
             ),
