@@ -56,12 +56,20 @@ class PolicyView extends StatelessWidget {
           children: [
             Text(
               '제목: ${supportPolicy.title}',
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: const TextStyle(
+                fontSize: 20,
+                fontFamily: 'GmarketSans',
+                fontWeight: FontWeight.bold,
+              ),
             ),
             const SizedBox(height: 10),
             const Text(
               '내용:',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                fontSize: 16,
+                fontFamily: 'GmarketSans',
+                fontWeight: FontWeight.bold,
+              ),
             ),
             ...contentParagraphs.map((paragraph) => Padding(
                   padding: const EdgeInsets.only(bottom: 10.0),

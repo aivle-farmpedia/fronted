@@ -74,7 +74,13 @@ class _SearchDetailScreenState extends State<SearchDetailScreen> {
           backgroundColor: const Color(0xff95C461),
           leading: BackpageWidget(beforeContext: context),
           centerTitle: true,
-          title: Text(widget.crops),
+          title: Text(
+            widget.crops,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontFamily: 'GmarketSans',
+            ),
+          ),
           actions: [
             MenuWidget(
               id: widget.id,

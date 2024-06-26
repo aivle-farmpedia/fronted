@@ -77,7 +77,8 @@ class _SearchScreenState extends State<SearchScreen> {
             "검색창",
             style: TextStyle(
               fontSize: 25,
-              fontWeight: FontWeight.w800,
+              fontFamily: 'GmarketSans',
+              fontWeight: FontWeight.bold,
             ),
           ),
         ),

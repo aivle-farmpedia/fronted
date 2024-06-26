@@ -20,8 +20,8 @@ class AnnouncementWidget extends StatelessWidget {
             const Text(
               "지원 정책",
               style: TextStyle(
-                fontWeight: FontWeight.bold,
                 fontFamily: 'GmarketSans',
+                fontWeight: FontWeight.bold,
                 fontSize: 20,
               ),
             ),
