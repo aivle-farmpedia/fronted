@@ -74,7 +74,7 @@ class _PolicyScreenState extends State<PolicyScreen> {
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             backgroundColor:
-                const Color.fromARGB(255, 167, 212, 103), // Button color
+                const Color.fromARGB(255, 173, 206, 128), // Button color
           ),
         ),
       ),

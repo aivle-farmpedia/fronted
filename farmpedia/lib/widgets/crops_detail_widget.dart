@@ -39,6 +39,8 @@ class cropsDetail extends StatelessWidget {
                 Text(
                   widget.crops,
                   style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'GmarketSans',
                     fontSize: 25,
                   ),
                 ),
@@ -46,6 +48,8 @@ class cropsDetail extends StatelessWidget {
                 const Text(
                   "1. 판매 가격 추이(3개년)",
                   style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'GmarketSans',
                     fontSize: 18,
                   ),
                 ),
@@ -58,7 +62,9 @@ class cropsDetail extends StatelessWidget {
                         Text(
                           "${entry.key}년",
                           style: const TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'GmarketSans',
+                              fontSize: 16),
                         ),
                         SizedBox(
                           height: 300,
@@ -81,6 +87,8 @@ class cropsDetail extends StatelessWidget {
                 const Text(
                   "2. 수확량",
                   style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'GmarketSans',
                     fontSize: 18,
                   ),
                 ),
@@ -97,6 +105,8 @@ class cropsDetail extends StatelessWidget {
                 const Text(
                   "3. 재배영상",
                   style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'GmarketSans',
                     fontSize: 18,
                   ),
                 ),
@@ -116,7 +126,7 @@ class cropsDetail extends StatelessWidget {
                     cropInfo.crop.cultivationUrl ?? 'No video available',
                     style: TextStyle(
                       color: cropInfo.crop.cultivationUrl != null
-                          ? Colors.blue
+                          ? Colors.green
                           : Colors.grey,
                       decoration: cropInfo.crop.cultivationUrl != null
                           ? TextDecoration.underline
@@ -134,6 +144,8 @@ class cropsDetail extends StatelessWidget {
                 const Text(
                   "4. 품종",
                   style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'GmarketSans',
                     fontSize: 18,
                   ),
                 ),
@@ -161,6 +173,8 @@ class cropsDetail extends StatelessWidget {
                 const Text(
                   "5. 생육과정",
                   style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'GmarketSans',
                     fontSize: 18,
                   ),
                 ),
