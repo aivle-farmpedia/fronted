@@ -13,7 +13,7 @@ class SearchKeyword {
 
   factory SearchKeyword.fromJson(Map<String, dynamic> json) {
     return SearchKeyword(
-      imageUrl: json['imageUrl'],
+      imageUrl: json['imageUrl'] ?? "",
       name: json['name'],
       cropName:
           json['cropName'] ?? json['name'], // Use name if cropName is missing

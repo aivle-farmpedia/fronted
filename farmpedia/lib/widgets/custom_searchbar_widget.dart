@@ -57,6 +57,33 @@ class _CustomSearchState extends State<CustomSearch> {
     }
   }
 
+  Future<void> _getAndNavigateToKeyword(String keyword) async {
+    try {
+      final autocompleteItems =
+          await ApiService().getKeyword(widget.privateId, keyword);
+      if (autocompleteItems.isNotEmpty) {
+        final cropId = autocompleteItems.first.id;
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => SearchDetailScreen(
+              id: widget.id,
+              crops: keyword,
+              privateId: widget.privateId,
+              cropId: cropId,
+            ),
+          ),
+        ).then((_) {
+          fetchRecentKeywords(widget.privateId);
+        });
+      } else {
+        debugPrint('No matching items found for keyword: $keyword');
+      }
+    } catch (e) {
+      debugPrint('Error fetching autocomplete items: $e');
+    }
+  }
+
   void _onSearchChanged(String value) {
     if (_debounce?.isActive ?? false) _debounce!.cancel();
     _debounce = Timer(const Duration(milliseconds: 500), () {
@@ -139,18 +166,10 @@ class _CustomSearchState extends State<CustomSearch> {
                       ),
                     ),
                     onSubmitted: (value) async {
-                      if (value.isNotEmpty &&
-                          _searchKeywords.any((item) => item.name == value)) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => SearchDetailScreen(
-                              id: widget.id,
-                              crops: widget.crops,
-                              privateId: widget.privateId,
-                            ),
-                          ),
-                        );
+                      if (value.isNotEmpty) {
+                        final matchingItem = _searchKeywords
+                            .firstWhere((item) => item.name == value);
+                        await _getAndNavigateToKeyword(matchingItem.cropName);
                         widget.searchController.clear();
                         await fetchRecentKeywords(widget.privateId,
                             newKeyword:
@@ -193,8 +212,9 @@ class _CustomSearchState extends State<CustomSearch> {
                               ),
                               title: Text(item.name),
                               subtitle: Text("품종 : ${item.cropName}"),
-                              onTap: () {
-                                widget.searchController.text = item.name;
+                              onTap: () async {
+                                await _getAndNavigateToKeyword(item.cropName);
+                                widget.searchController.clear();
                               },
                             );
                           },

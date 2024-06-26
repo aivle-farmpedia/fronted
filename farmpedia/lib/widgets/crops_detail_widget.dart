@@ -79,14 +79,14 @@ class cropsDetail extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 const Text(
-                  "2. 면적당 수확량(계산기)",
+                  "2. 수확량",
                   style: TextStyle(
                     fontSize: 18,
                   ),
                 ),
                 const SizedBox(height: 20),
-                Text('Area Per Yield: ${cropInfo.crop.areaPerYield}'),
-                Text('Time Per Yield: ${cropInfo.crop.timePerYield}'),
+                Text('면적당 생산량: ${cropInfo.crop.areaPerYield ?? '정보없음'}'),
+                Text('시간당 생산량: ${cropInfo.crop.timePerYield ?? '정보없음'}'),
                 const SizedBox(height: 20),
                 Container(
                   height: 2.0,
@@ -102,19 +102,25 @@ class cropsDetail extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 GestureDetector(
-                  onTap: () async {
-                    final url = Uri.parse(cropInfo.crop.cultivationUrl);
-                    if (await canLaunchUrl(url)) {
-                      await launchUrl(url);
-                    } else {
-                      throw 'Could not launch $url';
-                    }
-                  },
+                  onTap: cropInfo.crop.cultivationUrl != null
+                      ? () async {
+                          final url = Uri.parse(cropInfo.crop.cultivationUrl!);
+                          if (await canLaunchUrl(url)) {
+                            await launchUrl(url);
+                          } else {
+                            throw 'Could not launch $url';
+                          }
+                        }
+                      : null,
                   child: Text(
-                    cropInfo.crop.cultivationUrl,
-                    style: const TextStyle(
-                      color: Colors.blue,
-                      decoration: TextDecoration.underline,
+                    cropInfo.crop.cultivationUrl ?? 'No video available',
+                    style: TextStyle(
+                      color: cropInfo.crop.cultivationUrl != null
+                          ? Colors.blue
+                          : Colors.grey,
+                      decoration: cropInfo.crop.cultivationUrl != null
+                          ? TextDecoration.underline
+                          : TextDecoration.none,
                     ),
                   ),
                 ),
@@ -139,7 +145,9 @@ class cropsDetail extends StatelessWidget {
                       title: Text(variety.name),
                       subtitle: Text(
                           'Purpose: ${variety.purpose}\nSkill: ${variety.skill}'),
-                      leading: Image.network(variety.imageUrl),
+                      leading: variety.imageUrl.isNotEmpty
+                          ? Image.network(variety.imageUrl)
+                          : const Icon(Icons.image_not_supported),
                     );
                   }).toList(),
                 ),

@@ -1,24 +1,24 @@
 class Crop {
   final int cropId;
   final String cropName;
-  final double areaPerYield;
-  final double timePerYield;
-  final String cultivationUrl;
+  final double? areaPerYield;
+  final double? timePerYield;
+  final String? cultivationUrl;
 
   Crop({
     required this.cropId,
     required this.cropName,
-    required this.areaPerYield,
-    required this.timePerYield,
-    required this.cultivationUrl,
+    this.areaPerYield,
+    this.timePerYield,
+    this.cultivationUrl,
   });
 
   factory Crop.fromJson(Map<String, dynamic> json) {
     return Crop(
       cropId: json['cropId'],
       cropName: json['cropName'],
-      areaPerYield: json['areaPerYield'],
-      timePerYield: json['timePerYield'],
+      areaPerYield: json['areaPerYield']?.toDouble(),
+      timePerYield: json['timePerYield']?.toDouble(),
       cultivationUrl: json['cultivationUrl'],
     );
   }
@@ -39,10 +39,10 @@ class Variety {
 
   factory Variety.fromJson(Map<String, dynamic> json) {
     return Variety(
-      name: json['name'],
-      purpose: json['purpose'],
-      skill: json['skill'],
-      imageUrl: json['imageUrl'],
+      name: json['name'] ?? "",
+      purpose: json['purpose'] ?? "",
+      skill: json['skill'] ?? "",
+      imageUrl: json['imageUrl'] ?? "",
     );
   }
 }
@@ -58,8 +58,8 @@ class PriceEntry {
 
   factory PriceEntry.fromJson(Map<String, dynamic> json) {
     return PriceEntry(
-      priceDate: json['priceDate'],
-      price: json['price'],
+      priceDate: json['priceDate'] ?? "",
+      price: json['price']?.toDouble() ?? 0.0,
     );
   }
 }
@@ -78,8 +78,8 @@ class CropProcess {
   factory CropProcess.fromJson(Map<String, dynamic> json) {
     return CropProcess(
       processOrder: json['processOrder'],
-      task: json['task'],
-      description: json['description'],
+      task: json['task'] ?? "",
+      description: json['description'] ?? "",
     );
   }
 }
@@ -98,9 +98,9 @@ class CropInfo {
   });
 
   factory CropInfo.fromJson(Map<String, dynamic> json) {
-    var varietiesJson = json['varieties'] as List;
-    var priceEntriesJson = json['priceEntries'] as List;
-    var cropProcessesJson = json['cropProcesses'] as List;
+    var varietiesJson = json['varieties'] as List<dynamic>? ?? [];
+    var priceEntriesJson = json['priceEntries'] as List<dynamic>? ?? [];
+    var cropProcessesJson = json['cropProcesses'] as List<dynamic>? ?? [];
 
     List<Variety> varietiesList =
         varietiesJson.map((i) => Variety.fromJson(i)).toList();

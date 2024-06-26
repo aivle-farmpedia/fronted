@@ -9,12 +9,14 @@ class SearchDetailScreen extends StatefulWidget {
   final String crops;
   final int id;
   final String privateId;
+  final int cropId;
 
   const SearchDetailScreen({
     super.key,
     required this.crops,
     required this.id,
     required this.privateId,
+    required this.cropId,
   });
 
   @override
@@ -25,8 +27,8 @@ class _SearchDetailScreenState extends State<SearchDetailScreen> {
   final ScrollController _scrollController = ScrollController();
   late Future<CropInfo> cropInfoFuture;
 
-  Future<CropInfo> cropsInfo() async {
-    return await ApiService().getCropsInfo(widget.privateId, 2);
+  Future<CropInfo> cropsInfo(int cropId) async {
+    return await ApiService().getCropsInfo(widget.privateId, cropId);
   }
 
   void _scrollToTop() {
@@ -46,7 +48,7 @@ class _SearchDetailScreenState extends State<SearchDetailScreen> {
   @override
   void initState() {
     super.initState();
-    cropInfoFuture = cropsInfo();
+    cropInfoFuture = cropsInfo(widget.cropId);
   }
 
   Map<int, List<PriceEntry>> _groupEntriesByYear(List<PriceEntry> entries) {

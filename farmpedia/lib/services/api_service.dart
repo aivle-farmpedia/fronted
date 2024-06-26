@@ -22,8 +22,6 @@ class ApiService {
       headers: {'Content-type': 'application/json'},
       body: json.encode(params),
     );
-    // debugPrint(response.statusCode.toString());
-    debugPrint("???? ${response.statusCode.toString()}");
     if (response.statusCode == 201) {
       final Map<String, dynamic> jsonData = jsonDecode(response.body);
       return jsonData['id'];
@@ -47,9 +45,8 @@ class ApiService {
       },
       body: json.encode(params),
     );
-    debugPrint(response.statusCode.toString());
     if (response.statusCode == 201) {
-      debugPrint(utf8.decode(response.bodyBytes));
+      debugPrint("게시글 작성 성공${utf8.decode(response.bodyBytes)}");
     } else {
       throw Error;
     }
@@ -72,7 +69,6 @@ class ApiService {
     if (response.statusCode == 200) {
       final body = utf8.decode(response.bodyBytes);
       final Map<String, dynamic> jsonData = jsonDecode(body);
-      // debugPrint(body);
       if (jsonData.containsKey('data') && jsonData['data'] is List) {
         List<dynamic> boardsJson = jsonData['data'];
         List<Board> boards =
@@ -97,12 +93,10 @@ class ApiService {
   Future<bool> putBoard(
       String title, String content, String id, int boardId) async {
     final url = Uri.parse("${baseurl}api/board/$boardId");
-    debugPrint("$title $content $id $boardId");
     final Map<String, dynamic> params = {
       'title': title,
       'content': content,
     };
-    debugPrint(json.encode(params));
     final response = await http.put(
       url,
       headers: {
@@ -111,7 +105,6 @@ class ApiService {
       },
       body: json.encode(params),
     );
-    debugPrint(response.statusCode.toString());
     if (response.statusCode == 204) {
       return true;
     } else {
@@ -143,7 +136,6 @@ class ApiService {
       'Authorization': id,
     });
 
-    debugPrint("확인합시다. ${response.statusCode.toString()}");
     if (response.statusCode == 200) {
       final body = utf8.decode(response.bodyBytes);
       final json = jsonDecode(body);
@@ -154,10 +146,9 @@ class ApiService {
   }
 
   // 입력창
-  Future<List<AutocompleteItem>> getContent(String id, String keywords) async {
+  Future<List<AutocompleteItem>> getKeyword(String id, String keywords) async {
     final url =
         Uri.parse("${baseurl}api/search/autocomplete?keyword=$keywords");
-    debugPrint(url.toString());
     final response = await http.get(
       url,
       headers: {
@@ -165,12 +156,10 @@ class ApiService {
         'Authorization': id,
       },
     );
-    debugPrint(response.statusCode.toString());
     if (response.statusCode == 200) {
       final List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
       return body.map((item) => AutocompleteItem.fromJson(item)).toList();
     } else {
-      debugPrint("에러");
       throw Exception('Failed to load autocomplete items');
     }
   }
@@ -181,16 +170,12 @@ class ApiService {
       'Content-type': 'application/json',
       'Authorization': id,
     });
-    debugPrint("???????? ${response.statusCode.toString()}");
     if (response.statusCode == 200) {
       final List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
-      debugPrint("cropName 있는지 확인 ${body.toString()}");
       List<SearchKeyword> a =
           body.map((item) => SearchKeyword.fromJson(item)).toList();
-      debugPrint(a.toString());
       return a;
     } else {
-      debugPrint("에러");
       throw Exception('Failed to load autocomplete items');
     }
   }
@@ -201,13 +186,10 @@ class ApiService {
       'Content-type': 'application/json',
       'Authorization': id,
     });
-    debugPrint("정신차려 ${response.statusCode}");
     if (response.statusCode == 200) {
       final List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
       final List<String> recentItems =
           body.map((item) => item.toString()).toList();
-      debugPrint(
-          "맞나요? ${recentItems.toString()} ${response.statusCode.toString()}");
       return recentItems;
     } else {
       throw Exception('Failed to load autocomplete items');
@@ -221,8 +203,6 @@ class ApiService {
       'Content-type': 'application/json',
       'Authorization': id,
     });
-    debugPrint(response.statusCode.toString());
-    debugPrint("$id $keywords");
     if (response.statusCode == 204) {
       return true;
     } else {
