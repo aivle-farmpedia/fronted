@@ -18,17 +18,21 @@ class _HomeScreenState extends State<HomeScreen> {
   late Future<String?> userIdFuture;
   late Future<int> privateIdFuture;
   final List<String> videoUrls = [
-    'https://www.youtube.com/watch?v=eQxuRe2Syh0',
-    'https://www.youtube.com/watch?v=eQxuRe2Syh0',
-    'https://www.youtube.com/watch?v=KkMRy_Viz-s',
-    'https://www.youtube.com/watch?v=KkMRy_Viz-s',
+    'https://youtu.be/bobabgSRMLQ?list=PL-PTrC1baTi9aRW1or_xNE3LRvyoIKk9H',
+    'https://youtu.be/ixxhaHU4oN0?list=PL-PTrC1baTi9aRW1or_xNE3LRvyoIKk9H',
+    'https://youtu.be/UIWvxS_vCeI?list=PL-PTrC1baTi9aRW1or_xNE3LRvyoIKk9H',
+    'https://youtu.be/RlyjggTXWHU?list=PL-PTrC1baTi9aRW1or_xNE3LRvyoIKk9H',
+    'https://youtu.be/_sElN_xue48?list=PL-PTrC1baTi9aRW1or_xNE3LRvyoIKk9H',
+    'https://youtu.be/KkMRy_Viz-s?list=PL-PTrC1baTi9aRW1or_xNE3LRvyoIKk9H',
   ];
 
   final List<String> imageUrls = [
-    'https://i.ytimg.com/vi/ixxhaHU4oN0/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLD2YqI1dnQoc8c3jFTO0CWHuhdWLQ',
-    'https://i.ytimg.com/vi/_sElN_xue48/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLD0bhHZDHXyCHjGBrn47oD9imigBQ',
-    'https://i.ytimg.com/vi/KkMRy_Viz-s/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLA9VZXpG2KWZF1rAMXur1tUGrjUTA',
-    'https://i.ytimg.com/vi/KkMRy_Viz-s/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLA9VZXpG2KWZF1rAMXur1tUGrjUTA',
+    'https://i.ytimg.com/vi/bobabgSRMLQ/hqdefault.jpg?sqp=-oaymwEcCPYBEIoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCx5eDMC_HJITkueBdiwXA1SRQ92g',
+    'https://i.ytimg.com/vi/ixxhaHU4oN0/hqdefault.jpg?sqp=-oaymwEcCPYBEIoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAt7pY4htycmiUjZgoNFBblQ9u6UQ',
+    'https://i.ytimg.com/vi/UIWvxS_vCeI/hqdefault.jpg?sqp=-oaymwEcCPYBEIoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAahUsuTfWExYEJlKI4IuLfntFh8w',
+    'https://i.ytimg.com/vi/RlyjggTXWHU/hqdefault.jpg?sqp=-oaymwEcCPYBEIoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBDRNnjiLw2S1R4LaTJi1rqv_JSXw',
+    'https://i.ytimg.com/vi/_sElN_xue48/hqdefault.jpg?sqp=-oaymwEcCPYBEIoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAAXBc_O4VAMGMO_Lxjxh1lC8zykg',
+    'https://i.ytimg.com/vi/KkMRy_Viz-s/hqdefault.jpg?sqp=-oaymwEcCPYBEIoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBxcP8ZA041mO3JrMP1eQWWqR5pPg',
   ];
 
   Future<String?> initPrefs() async {
