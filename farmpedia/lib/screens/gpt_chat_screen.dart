@@ -198,7 +198,7 @@ class _GPTScreenState extends State<GPTChatScreen> {
                 children: [
                   Flexible(
                     child: TextField(
-                      maxLength: 100,
+                      maxLength: null,
                       maxLines: null,
                       textInputAction: TextInputAction.newline,
                       controller: searchController,
@@ -210,7 +210,15 @@ class _GPTScreenState extends State<GPTChatScreen> {
                                 onPressed: sendMessage,
                               )
                             : const SizedBox(),
-                        border: const OutlineInputBorder(),
+                        // border: InputBorder.none,
+
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          vertical: 14.0,
+                          horizontal: 10,
+                        ),
                       ),
                     ),
                   ),
