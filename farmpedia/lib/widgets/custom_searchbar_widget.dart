@@ -166,7 +166,7 @@ class _CustomSearchState extends State<CustomSearch> {
                       ),
                     ),
                     onSubmitted: (value) async {
-                      if (value.isNotEmpty) {
+                      if (value.isNotEmpty && _searchKeywords.isNotEmpty) {
                         final matchingItem = _searchKeywords
                             .firstWhere((item) => item.name == value);
                         await _getAndNavigateToKeyword(matchingItem.cropName);

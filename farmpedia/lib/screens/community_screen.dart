@@ -52,23 +52,10 @@ class _CommunityScreenState extends State<CommunityScreen> {
     }
   }
 
-  // void loadMoreBoards() async {
-  //   if (!isLoadingMore && currentPage < totalPages) {
-  //     setState(() {
-  //       isLoadingMore = true;
-  //     });
-  //     currentPage++;
-  //     Map<String, dynamic> newBoards = await fetchBoards(currentPage);
-  //     setState(() {
-  //       allBoards.addAll(newBoards['boards']);
-  //       isLoadingMore = false;
-  //     });
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(

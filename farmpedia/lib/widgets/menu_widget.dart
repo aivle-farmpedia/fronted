@@ -20,7 +20,6 @@ class MenuWidget extends StatelessWidget {
             ),
           ),
         );
-        debugPrint("시발 $id");
       },
       child: const Padding(
         padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),

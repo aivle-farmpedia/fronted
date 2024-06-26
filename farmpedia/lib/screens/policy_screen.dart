@@ -69,6 +69,7 @@ class _PolicyScreenState extends State<PolicyScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: const Color(0xFF95c452),
         elevatedButtonTheme: ElevatedButtonThemeData(
