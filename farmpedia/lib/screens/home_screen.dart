@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../widgets/announcement_widget.dart';
+import 'search_detail_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   final String privateId;
@@ -51,7 +52,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<int> initPrivateId() async {
     final prefs = await SharedPreferences.getInstance();
-    // prefs.clear();
     int? privateId = prefs.getInt('privateId');
 
     if (privateId == null) {
@@ -61,6 +61,28 @@ class _HomeScreenState extends State<HomeScreen> {
       debugPrint("이미 존재 $privateId");
     }
     return privateId;
+  }
+
+  Future<void> navigateToSearchDetail(String cropName) async {
+    final prefs = await SharedPreferences.getInstance();
+    final userId = prefs.getString('userId') ?? '';
+    final privateId = prefs.getInt('privateId') ?? 0;
+
+    // Get cropId from getKeyword API
+    final cropItems = await ApiService().getKeyword(userId, cropName);
+    final cropId = cropItems.isNotEmpty ? cropItems.first.id : 0;
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SearchDetailScreen(
+          id: privateId,
+          privateId: userId,
+          crops: cropName,
+          cropId: cropId,
+        ),
+      ),
+    );
   }
 
   @override
@@ -166,36 +188,56 @@ class _HomeScreenState extends State<HomeScreen> {
                           color: const Color(0xff95C461),
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: const Padding(
-                          padding: EdgeInsets.symmetric(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
                               horizontal: 20, vertical: 10),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
+                              const Text(
                                 "요즘 유행하는 작물 재배",
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontFamily: 'GmarketSans',
                                 ),
                               ),
-                              SizedBox(height: 20),
+                              const SizedBox(height: 20),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
                                 children: [
-                                  Text(
-                                    "사과",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: 'GmarketSans',
+                                  TextButton(
+                                    onPressed: () =>
+                                        navigateToSearchDetail("사과"),
+                                    style: ButtonStyle(
+                                      foregroundColor:
+                                          WidgetStateProperty.all(Colors.black),
+                                      overlayColor: WidgetStateProperty.all(
+                                          Colors.transparent),
+                                    ),
+                                    child: const Text(
+                                      "사과",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'GmarketSans',
+                                      ),
                                     ),
                                   ),
-                                  Text(
-                                    "포도",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: 'GmarketSans',
+                                  TextButton(
+                                    onPressed: () =>
+                                        navigateToSearchDetail("포도"),
+                                    style: ButtonStyle(
+                                      foregroundColor:
+                                          WidgetStateProperty.all(Colors.black),
+                                      overlayColor: WidgetStateProperty.all(
+                                          Colors.transparent),
+                                    ),
+                                    child: const Text(
+                                      "포도",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'GmarketSans',
+                                      ),
                                     ),
                                   ),
                                 ],

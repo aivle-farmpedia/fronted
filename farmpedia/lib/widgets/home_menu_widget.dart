@@ -45,6 +45,8 @@ class _HomeMenuWidgetState extends State<HomeMenuWidget> {
               height: 10,
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 GestureDetector(
                   onTap: () {
