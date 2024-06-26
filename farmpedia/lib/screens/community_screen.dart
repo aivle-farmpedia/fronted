@@ -32,6 +32,13 @@ class _CommunityScreenState extends State<CommunityScreen> {
     debugPrint(widget.privateId.toString());
   }
 
+  void _onPageChange(int page) {
+    setState(() {
+      futureBoards = fetchBoards(page);
+      allBoards.clear(); // Clear allBoards when page changes
+    });
+  }
+
   Future<Map<String, dynamic>> fetchBoards(int page) async {
     try {
       Map<String, dynamic> fetchedData =
@@ -202,13 +209,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
               const SizedBox(height: 16),
               PagingWidget(
                 totalPages: totalPages,
-                onDelete: (int curPage) {
-                  setState(() {
-                    futureBoards = fetchBoards(curPage);
-                    // currentPage = 1;
-                    allBoards.clear();
-                  });
-                },
+                onPageChange: _onPageChange,
               )
             ],
           ),

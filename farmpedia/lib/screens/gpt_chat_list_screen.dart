@@ -38,6 +38,7 @@ class _GptChatListState extends State<GptChatListScreen> {
     try {
       List<ChatRoomsList> fetchedData = await GPTApiService().getChatRooms(id);
       debugPrint("에렁뜨나요? $fetchedData");
+      fetchedData.sort((a, b) => b.createdAt.compareTo(a.createdAt));
       return fetchedData;
     } catch (e) {
       throw Exception('Failed to load boards');
@@ -108,22 +109,27 @@ class _GptChatListState extends State<GptChatListScreen> {
           },
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => GPTChatScreen(
-                  id: widget.id,
-                  privateId: widget.privateId,
-                  chatRoomId: 100,
+          onPressed: () async {
+            try {
+              ChatRoomId chatRoomId = await fetchNewChat(widget.privateId);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => GPTChatScreen(
+                    id: widget.id,
+                    privateId: widget.privateId,
+                    chatRoomId: chatRoomId.id,
+                  ),
                 ),
-              ),
-            ).then((_) {
-              // Reload futureChatLists when returning to this screen
-              setState(() {
-                futureChatLists = fetchChatList(widget.privateId);
+              ).then((_) {
+                // Reload futureChatLists when returning to this screen
+                setState(() {
+                  futureChatLists = fetchChatList(widget.privateId);
+                });
               });
-            });
+            } catch (e) {
+              debugPrint("Error: $e");
+            }
           },
           backgroundColor: const Color(0xff95C461),
           child: const Icon(

@@ -46,6 +46,12 @@ class _PolicyScreenState extends State<PolicyScreen> {
     });
   }
 
+  void _onPageChange(int page) {
+    setState(() {
+      futurePolicies = fetchPolicies(page, category);
+    });
+  }
+
   Future<Map<String, dynamic>> fetchPolicies(int page, String category) async {
     try {
       Map<String, dynamic> fetchedData = await PolicyApiService()
@@ -189,13 +195,7 @@ class _PolicyScreenState extends State<PolicyScreen> {
             const SizedBox(height: 16),
             PagingWidget(
               totalPages: totalPages,
-              onDelete: (int curPage) {
-                setState(() {
-                  futurePolicies = fetchBoards(curPage);
-                  // currentPage = 1;
-                  allBoards.clear();
-                });
-              },
+              onPageChange: _onPageChange,
             )
           ],
         ),

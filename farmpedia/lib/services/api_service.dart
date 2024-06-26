@@ -216,12 +216,13 @@ class ApiService {
 
   // {{server}}/api/search?keyword=
   Future<bool> deleteKeyword(String id, String keywords) async {
-    final url = Uri.parse("${baseurl}api/search?keyword=$keywords");
+    final url = Uri.parse("${baseurl}api/search/delete?keyword=$keywords");
     final response = await http.delete(url, headers: {
       'Content-type': 'application/json',
       'Authorization': id,
     });
     debugPrint(response.statusCode.toString());
+    debugPrint("$id $keywords");
     if (response.statusCode == 204) {
       return true;
     } else {

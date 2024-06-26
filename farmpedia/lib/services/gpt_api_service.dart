@@ -129,4 +129,22 @@ class GPTApiService {
       return false;
     }
   }
+
+  Future<bool> postSelect(String id, String name) async {
+    final url = Uri.parse("${baseurl}api/search/select");
+    final Map<String, dynamic> params = {'name': name};
+    final response = await http.post(
+      url,
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': id,
+      },
+      body: json.encode(params),
+    );
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
