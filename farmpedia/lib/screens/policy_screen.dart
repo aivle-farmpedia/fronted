@@ -2,7 +2,6 @@ import 'package:farmpedia/models/support_policy.dart';
 import 'package:farmpedia/screens/policy_view.dart';
 import 'package:farmpedia/widgets/paging_widget.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import '../services/policy_api_service.dart';
@@ -124,8 +123,8 @@ class _PolicyScreenState extends State<PolicyScreen> {
                       snapshot.data!['policyboards'].isEmpty) {
                     return const Center(child: Text('사용 가능한 정책이 없습니다'));
                   } else {
-                    final policies =
-                        snapshot.data!['policyboards'] as List<PolicyBoard>;
+                    // final policies =
+                    //     snapshot.data!['policyboards'] as List<PolicyBoard>;
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -255,7 +254,9 @@ class SupportCard extends StatelessWidget {
               size: iconSize,
             ),
             title: Text(
-              policy.title,
+              policy.title.length > 15
+                  ? '${policy.title.substring(0, 15)}...'
+                  : policy.title,
               style: TextStyle(
                 fontSize: titleFontSize,
                 fontWeight: FontWeight.w500,
