@@ -1,5 +1,4 @@
 import 'package:farmpedia/screens/community_screen.dart';
-import 'package:farmpedia/screens/method_screen.dart';
 import 'package:farmpedia/screens/policy_screen.dart';
 import 'package:farmpedia/screens/search_screen.dart';
 import 'package:flutter/material.dart';
@@ -136,38 +135,6 @@ class MenuScreen extends StatelessWidget {
                         child: const Center(
                           child: Text(
                             "귀농GPT",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'GmarketSans',
-                              fontSize: 20,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => MethodScreen(
-                              id: id,
-                              privateId: privateId,
-                            ),
-                          ),
-                        );
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.all(15),
-                        margin: const EdgeInsets.only(bottom: 20),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        child: const Center(
-                          child: Text(
-                            "농작물 재배 방법",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontFamily: 'GmarketSans',

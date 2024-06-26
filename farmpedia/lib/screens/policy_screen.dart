@@ -66,22 +66,18 @@ class _PolicyScreenState extends State<PolicyScreen> {
     }
   }
 
-  Future<Map<String, dynamic>> fetchBoards(int page) async {
-    try {
-      Map<String, dynamic> fetchedData = await PolicyApiService()
-          .getPolicyList(widget.privateId, page, widget.category);
-      setState(() {
-        totalPages = fetchedData['totalPages'];
-      });
-      return fetchedData;
-    } catch (e) {
-      throw Exception('Failed to load boards');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        primaryColor: const Color(0xFF95c452),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor:
+                const Color.fromARGB(255, 167, 212, 103), // Button color
+          ),
+        ),
+      ),
       home: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
@@ -95,13 +91,14 @@ class _PolicyScreenState extends State<PolicyScreen> {
               privateId: widget.privateId,
             )
           ],
-          backgroundColor: const Color.fromARGB(255, 241, 240, 240),
+          backgroundColor: const Color(0xFF95c452),
           title: const Text(
             "지원 정책",
             style: TextStyle(
               fontSize: 25,
               fontFamily: 'GmarketSans',
-              fontWeight: FontWeight.w800,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
             ),
           ),
         ),
@@ -124,8 +121,6 @@ class _PolicyScreenState extends State<PolicyScreen> {
                       snapshot.data!['policyboards'].isEmpty) {
                     return const Center(child: Text('사용 가능한 정책이 없습니다'));
                   } else {
-                    // final policies =
-                    //     snapshot.data!['policyboards'] as List<PolicyBoard>;
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -133,33 +128,56 @@ class _PolicyScreenState extends State<PolicyScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             ElevatedButton(
-                                onPressed: () => _onCategoryChanged("ALL"),
-                                child: const Text(
-                                  '전체',
-                                  style: TextStyle(
-                                    fontFamily: 'GmarketSans',
-                                    fontSize: 20,
-                                  ),
-                                )),
+                              onPressed: () => _onCategoryChanged("ALL"),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: category == "ALL"
+                                    ? Colors.green
+                                    : const Color.fromARGB(255, 167, 212, 103),
+                              ),
+                              child: const Text(
+                                '전체',
+                                style: TextStyle(
+                                  fontFamily: 'GmarketSans',
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
                             ElevatedButton(
-                                onPressed: () => _onCategoryChanged("BUSINESS"),
-                                child: const Text(
-                                  '사업',
-                                  style: TextStyle(
-                                    fontFamily: 'GmarketSans',
-                                    fontSize: 20,
-                                  ),
-                                )),
+                              onPressed: () => _onCategoryChanged("BUSINESS"),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: category == "BUSINESS"
+                                    ? Colors.green
+                                    : const Color.fromARGB(255, 167, 212, 103),
+                              ),
+                              child: const Text(
+                                '사업',
+                                style: TextStyle(
+                                  fontFamily: 'GmarketSans',
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
                             ElevatedButton(
-                                onPressed: () =>
-                                    _onCategoryChanged("EDUCATION"),
-                                child: const Text(
-                                  '교육',
-                                  style: TextStyle(
-                                    fontFamily: 'GmarketSans',
-                                    fontSize: 20,
-                                  ),
-                                )),
+                              onPressed: () => _onCategoryChanged("EDUCATION"),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: category == "EDUCATION"
+                                    ? Colors.green
+                                    : const Color.fromARGB(255, 167, 212, 103),
+                              ),
+                              child: const Text(
+                                '교육',
+                                style: TextStyle(
+                                  fontFamily: 'GmarketSans',
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
                           ],
                         )
                       ],
@@ -194,7 +212,7 @@ class _PolicyScreenState extends State<PolicyScreen> {
                           children: [
                             SupportCard(
                               policy: policy,
-                              color: Colors.lightGreen,
+                              color: const Color(0xFF95c452),
                               icon: Icons.spa,
                               id: widget.id,
                               privateId: widget.privateId,
@@ -271,6 +289,7 @@ class SupportCard extends StatelessWidget {
             leading: Icon(
               icon,
               size: iconSize,
+              color: const Color.fromARGB(255, 79, 113, 69),
             ),
             title: Text(
               policy.title.length > 15
@@ -278,8 +297,9 @@ class SupportCard extends StatelessWidget {
                   : policy.title,
               style: TextStyle(
                 fontFamily: 'GmarketSans',
+                fontWeight: FontWeight.bold,
                 fontSize: titleFontSize,
-                fontWeight: FontWeight.w500,
+                color: const Color.fromARGB(255, 255, 255, 255),
               ),
             ),
           ),
