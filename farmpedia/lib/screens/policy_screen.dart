@@ -281,26 +281,35 @@ class SupportCard extends StatelessWidget {
           print('Failed to load policy details: $e');
         }
       },
-      child: SizedBox(
-        height: height,
-        child: Card(
-          color: color,
-          child: ListTile(
-            leading: Icon(
-              icon,
-              size: iconSize,
-              color: const Color.fromARGB(255, 79, 113, 69),
-            ),
-            title: Text(
-              policy.title.length > 15
-                  ? '${policy.title.substring(0, 15)}...'
-                  : policy.title,
-              style: TextStyle(
-                fontFamily: 'GmarketSans',
-                fontWeight: FontWeight.bold,
-                fontSize: titleFontSize,
-                color: const Color.fromARGB(255, 255, 255, 255),
-              ),
+      child: Expanded(
+        child: SizedBox(
+          height: height,
+          child: Card(
+            color: color,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(width: 16.0),
+                Icon(
+                  icon,
+                  size: iconSize,
+                  color: const Color.fromARGB(255, 79, 113, 69),
+                ),
+                const SizedBox(height: 8.0),
+                const SizedBox(width: 16.0),
+                Text(
+                  policy.title.length > 10
+                      ? '${policy.title.substring(0, 10)}...'
+                      : policy.title,
+                  style: TextStyle(
+                    fontFamily: 'GmarketSans',
+                    fontWeight: FontWeight.bold,
+                    fontSize: titleFontSize,
+                    color: const Color.fromARGB(255, 255, 255, 255),
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ],
             ),
           ),
         ),
