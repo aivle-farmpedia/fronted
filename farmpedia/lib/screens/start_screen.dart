@@ -120,7 +120,7 @@ class _HomeScreenState extends State<StartScreen>
     ];
     final List<String> stances = [
       '다양한 농사 지식을 습득하세요\n 초보 농부를 위한 앱',
-      '샤넬이 귀여워',
+      '쉽고 간편하게',
       '귀농 지피티가 여러분의 궁금점을\n 해결해드릴게요',
       '귀농백과에서 다 알려드립니다!'
     ];

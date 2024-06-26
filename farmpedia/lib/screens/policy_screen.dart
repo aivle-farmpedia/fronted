@@ -99,7 +99,7 @@ class _PolicyScreenState extends State<PolicyScreen> {
               fontSize: 25,
               fontFamily: 'GmarketSans',
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              color: Colors.black,
             ),
           ),
         ),

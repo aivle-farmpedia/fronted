@@ -193,13 +193,14 @@ class _HomeScreenState extends State<HomeScreen> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 20, vertical: 10),
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               const Text(
                                 "요즘 유행하는 작물 재배",
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontFamily: 'GmarketSans',
+                                  fontSize: 20,
                                 ),
                               ),
                               const SizedBox(height: 20),

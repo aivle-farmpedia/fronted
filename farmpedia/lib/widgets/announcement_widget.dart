@@ -22,11 +22,33 @@ class AnnouncementWidget extends StatelessWidget {
               style: TextStyle(
                 fontFamily: 'GmarketSans',
                 fontWeight: FontWeight.bold,
+                fontSize: 25,
+              ),
+            ),
+            Container(
+              height: 20,
+            ),
+            const Text(
+              "농업기계 보유현황 조사",
+              style: TextStyle(
+                fontFamily: 'GmarketSans',
+                fontWeight: FontWeight.w500,
                 fontSize: 20,
               ),
             ),
             Container(
-              height: 100,
+              height: 20,
+            ),
+            const Text(
+              "토양개량제 지원사업",
+              style: TextStyle(
+                fontFamily: 'GmarketSans',
+                fontWeight: FontWeight.w500,
+                fontSize: 20,
+              ),
+            ),
+            Container(
+              height: 20,
             ),
           ],
         ),
