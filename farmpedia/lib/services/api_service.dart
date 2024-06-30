@@ -63,7 +63,6 @@ class ApiService {
       headers: {
         'Content-type': 'application/json',
         'Authorization': id,
-        'Accept-Encoding': 'identity',
       },
     );
     if (response.statusCode == 200) {

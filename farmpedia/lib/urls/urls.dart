@@ -1,6 +1,6 @@
 class Urls {
   String uuidBaseUrl() {
-    const url = 'http://dev.farmpedia.site/';
+    const url = 'https://dev.farmpedia.site/';
     return url;
   }
 }

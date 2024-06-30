@@ -44,6 +44,9 @@ class PolicyApiService {
         throw Exception('Invalid JSON structure');
       }
     } else {
+      debugPrint('Failed to load boards: Status code ${response.statusCode}');
+      debugPrint('Response Body: ${response.body}');
+      debugPrint("여기 에러");
       throw Exception('Failed to load boards');
     }
   }
