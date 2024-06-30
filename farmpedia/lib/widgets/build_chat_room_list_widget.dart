@@ -26,8 +26,8 @@ class BuildChatRoomList extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("게시글 삭제"),
-          content: const Text("정말로 이 게시글을 삭제하시겠습니까?"),
+          title: const Text("채팅방 삭제"),
+          content: const Text("정말로 이 채팅방을 삭제하시겠습니까?"),
           actions: [
             TextButton(
               onPressed: () {

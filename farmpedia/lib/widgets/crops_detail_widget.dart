@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import '../models/crop_info_model.dart';
-import '../screens/search_detail_screen.dart';
 import 'price_chart_widget.dart';
 
-class cropsDetail extends StatelessWidget {
-  const cropsDetail({
+class CropsDetail extends StatelessWidget {
+  const CropsDetail({
     super.key,
     required ScrollController scrollController,
     required this.widget,
@@ -15,7 +13,7 @@ class cropsDetail extends StatelessWidget {
   }) : _scrollController = scrollController;
 
   final ScrollController _scrollController;
-  final SearchDetailScreen widget;
+  final dynamic widget; // Update to dynamic or specific type if necessary
   final Map<int, List<PriceEntry>> groupedEntries;
   final CropInfo cropInfo;
 
@@ -42,17 +40,11 @@ class cropsDetail extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     fontFamily: 'GmarketSans',
                     fontSize: 25,
+                    color: Color(0xff4CAF50),
                   ),
                 ),
                 const SizedBox(height: 20),
-                const Text(
-                  "1. 판매 가격 추이(3개년)",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'GmarketSans',
-                    fontSize: 18,
-                  ),
-                ),
+                buildSectionTitle("판매 가격 추이 (3년간)"),
                 const SizedBox(height: 20),
                 Column(
                   children: groupedEntries.entries.map((entry) {
@@ -64,11 +56,12 @@ class cropsDetail extends StatelessWidget {
                           style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontFamily: 'GmarketSans',
-                              fontSize: 16),
+                              fontSize: 16,
+                              color: Color(0xff388E3C)),
                         ),
                         SizedBox(
                           height: 300,
-                          width: double.infinity, // Ensure it fits the parent
+                          width: double.infinity,
                           child: CustomPaint(
                             painter: BarChartPainter(priceEntries: entry.value),
                           ),
@@ -78,38 +71,14 @@ class cropsDetail extends StatelessWidget {
                     );
                   }).toList(),
                 ),
-                Container(
-                  height: 2.0,
-                  width: 500,
-                  color: const Color(0xFF95c452),
-                ),
+                buildDivider(),
+                buildSectionTitle("수확량 정보"),
                 const SizedBox(height: 20),
-                const Text(
-                  "2. 수확량",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'GmarketSans',
-                    fontSize: 18,
-                  ),
-                ),
+                buildInfoRow("면적당 생산량", cropInfo.crop.areaPerYield != null ? '${cropInfo.crop.areaPerYield}원' : '정보 없음'),
+                buildInfoRow("시간당 생산량", cropInfo.crop.timePerYield != null ? '${cropInfo.crop.timePerYield}원' : '정보 없음'),
                 const SizedBox(height: 20),
-                Text('면적당 생산량: ${cropInfo.crop.areaPerYield ?? '정보없음'}'),
-                Text('시간당 생산량: ${cropInfo.crop.timePerYield ?? '정보없음'}'),
-                const SizedBox(height: 20),
-                Container(
-                  height: 2.0,
-                  width: 500,
-                  color: const Color(0xFF95c452),
-                ),
-                const SizedBox(height: 20),
-                const Text(
-                  "3. 재배영상",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'GmarketSans',
-                    fontSize: 18,
-                  ),
-                ),
+                buildDivider(),
+                buildSectionTitle("재배 영상"),
                 const SizedBox(height: 20),
                 GestureDetector(
                   onTap: cropInfo.crop.cultivationUrl != null
@@ -123,7 +92,7 @@ class cropsDetail extends StatelessWidget {
                         }
                       : null,
                   child: Text(
-                    cropInfo.crop.cultivationUrl ?? 'No video available',
+                    cropInfo.crop.cultivationUrl ?? '사용 가능한 영상이 없습니다',
                     style: TextStyle(
                       color: cropInfo.crop.cultivationUrl != null
                           ? Colors.green
@@ -135,72 +104,118 @@ class cropsDetail extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 20),
-                Container(
-                  height: 2.0,
-                  width: 500,
-                  color: const Color(0xFF95c452),
-                ),
-                const SizedBox(height: 20),
-                const Text(
-                  "4. 품종",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'GmarketSans',
-                    fontSize: 18,
-                  ),
-                ),
+                buildDivider(),
+                buildSectionTitle("품종 정보"),
                 const SizedBox(height: 20),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: cropInfo.varieties.map((variety) {
-                    return ListTile(
-                      title: Text(variety.name),
-                      subtitle: Text(
-                          'Purpose: ${variety.purpose}\nSkill: ${variety.skill}'),
-                      leading: variety.imageUrl.isNotEmpty
-                          ? Image.network(variety.imageUrl)
-                          : const Icon(Icons.image_not_supported),
+                    return Card(
+                      elevation: 2,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: ListTile(
+                        title: Text(variety.name),
+                        subtitle: Text(
+                            '용도: ${variety.purpose}\n재배 기술: ${variety.skill}'),
+                        leading: variety.imageUrl.isNotEmpty
+                            ? Image.network(variety.imageUrl)
+                            : const Icon(Icons.image_not_supported),
+                      ),
                     );
                   }).toList(),
                 ),
                 const SizedBox(height: 20),
-                Container(
-                  height: 2.0,
-                  width: 500,
-                  color: const Color(0xFF95c452),
-                ),
-                const SizedBox(height: 20),
-                const Text(
-                  "5. 생육과정",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'GmarketSans',
-                    fontSize: 18,
-                  ),
-                ),
+                buildDivider(),
+                buildSectionTitle("생육 과정"),
                 const SizedBox(height: 20),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: cropInfo.cropProcesses.expand((process) {
                     return [
-                      Text(
-                          '${process.processOrder}. ${process.task}: ${process.description}'),
+                      buildProcessStep(process),
                       const SizedBox(height: 20),
-                      Container(
-                        height: 2.0,
-                        width: 500,
-                        color: const Color(0xFF95c452),
-                      ),
+                      buildDivider(),
                       const SizedBox(height: 20),
                     ];
                   }).toList(),
                 ),
-                const SizedBox(height: 20),
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+
+  Widget buildSectionTitle(String title) {
+    return Text(
+      title,
+      style: const TextStyle(
+        fontWeight: FontWeight.bold,
+        fontFamily: 'GmarketSans',
+        fontSize: 18,
+        color: Color(0xff388E3C),
+      ),
+    );
+  }
+
+  Widget buildInfoRow(String label, String value) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          label,
+          style: const TextStyle(
+            fontFamily: 'GmarketSans',
+            fontSize: 16,
+            color: Color(0xff616161),
+          ),
+        ),
+        Text(
+          value,
+          style: const TextStyle(
+            fontFamily: 'GmarketSans',
+            fontSize: 16,
+            color: Color(0xff212121),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget buildDivider() {
+    return Container(
+      height: 2.0,
+      width: double.infinity,
+      color: const Color(0xFF95c452),
+    );
+  }
+
+  Widget buildProcessStep(CropProcess process) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          '${process.processOrder}. ${process.task}',
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontFamily: 'GmarketSans',
+            fontSize: 16,
+            color: Color(0xff4CAF50),
+          ),
+        ),
+        const SizedBox(height: 5),
+        Text(
+          process.description,
+          style: const TextStyle(
+            fontFamily: 'GmarketSans',
+            fontSize: 14,
+            color: Color(0xff757575),
+          ),
+        ),
+      ],
     );
   }
 }

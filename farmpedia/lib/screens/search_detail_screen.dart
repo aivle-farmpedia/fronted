@@ -102,7 +102,7 @@ class _SearchDetailScreenState extends State<SearchDetailScreen> {
                   final cropInfo = snapshot.data!;
                   final groupedEntries =
                       _groupEntriesByYear(cropInfo.priceEntries);
-                  return cropsDetail(
+                  return CropsDetail(
                       scrollController: _scrollController,
                       widget: widget,
                       groupedEntries: groupedEntries,

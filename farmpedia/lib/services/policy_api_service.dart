@@ -20,7 +20,6 @@ class PolicyApiService {
       headers: {
         'Content-type': 'application/json',
         'Authorization': id,
-        'Accept-Encoding': 'identity',
       },
     );
 
@@ -64,7 +63,6 @@ class PolicyApiService {
         headers: {
           'Content-type': 'application/json',
           'Authorization': id,
-          'Accept-Encoding': 'identity',
         },
       );
 

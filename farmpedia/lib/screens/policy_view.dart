@@ -84,7 +84,7 @@ class PolicyView extends StatelessWidget {
             const SizedBox(height: 10),
             Text('교육 대상: ${supportPolicy.eduTarget}'),
             const SizedBox(height: 10),
-            Text('가격: $formattedPrice원'),
+            Text('지원 금액: $formattedPrice원'),
             const SizedBox(height: 10),
             GestureDetector(
               onTap: () => _openWebView(context, supportPolicy.infoUrl),

@@ -28,12 +28,12 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   final List<String> imageUrls = [
-    'https://i.ytimg.com/vi/bobabgSRMLQ/hqdefault.jpg?sqp=-oaymwEcCPYBEIoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCx5eDMC_HJITkueBdiwXA1SRQ92g',
-    'https://i.ytimg.com/vi/ixxhaHU4oN0/hqdefault.jpg?sqp=-oaymwEcCPYBEIoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAt7pY4htycmiUjZgoNFBblQ9u6UQ',
-    'https://i.ytimg.com/vi/UIWvxS_vCeI/hqdefault.jpg?sqp=-oaymwEcCPYBEIoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAahUsuTfWExYEJlKI4IuLfntFh8w',
-    'https://i.ytimg.com/vi/RlyjggTXWHU/hqdefault.jpg?sqp=-oaymwEcCPYBEIoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBDRNnjiLw2S1R4LaTJi1rqv_JSXw',
-    'https://i.ytimg.com/vi/_sElN_xue48/hqdefault.jpg?sqp=-oaymwEcCPYBEIoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAAXBc_O4VAMGMO_Lxjxh1lC8zykg',
-    'https://i.ytimg.com/vi/KkMRy_Viz-s/hqdefault.jpg?sqp=-oaymwEcCPYBEIoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBxcP8ZA041mO3JrMP1eQWWqR5pPg',
+    'https://storage.googleapis.com/farmpediad/hqdefault.webp',
+    'https://storage.googleapis.com/farmpediad/2.webp',
+    'https://storage.googleapis.com/farmpediad/3.webp',
+    'https://storage.googleapis.com/farmpediad/4.webp',
+    'https://storage.googleapis.com/farmpediad/5.webp',
+    'https://storage.googleapis.com/farmpediad/6.webp',
   ];
 
   Future<String?> initPrefs() async {
@@ -94,11 +94,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
+    return WillPopScope(
+      onWillPop: () async {
+        return Future.value(false);
+      },
+      child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           actions: [
             FutureBuilder<String?>(
               future: userIdFuture,
@@ -106,19 +109,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const SizedBox.shrink(); // Placeholder while waiting
                 } else if (snapshot.hasError) {
-                  return const Icon(
-                      Icons.error); // Error icon if there's an error
+                  return const Icon(Icons.error); // Error icon if there's an error
                 } else {
                   final userId = snapshot.data ?? '';
                   return FutureBuilder<int>(
                     future: privateIdFuture,
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const SizedBox
-                            .shrink(); // Placeholder while waiting
+                        return const SizedBox.shrink(); // Placeholder while waiting
                       } else if (snapshot.hasError) {
-                        return const Icon(
-                            Icons.error); // Error icon if there's an error
+                        return const Icon(Icons.error); // Error icon if there's an error
                       } else {
                         final id = snapshot.data ?? 0;
                         return MenuWidget(
@@ -153,8 +153,7 @@ class _HomeScreenState extends State<HomeScreen> {
               final privateId = snapshot.data ?? '';
               return SingleChildScrollView(
                 child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                   child: Column(
                     children: [
                       const SizedBox(height: 12),
@@ -165,13 +164,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           FutureBuilder<int>(
                             future: privateIdFuture,
                             builder: (context, snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return const Center(
-                                    child: CircularProgressIndicator());
+                              if (snapshot.connectionState == ConnectionState.waiting) {
+                                return const Center(child: CircularProgressIndicator());
                               } else if (snapshot.hasError) {
-                                return const Center(
-                                    child: Text('Error loading privateId'));
+                                return const Center(child: Text('Error loading privateId'));
                               } else {
                                 final userId = snapshot.data ?? 0;
                                 return HomeMenuWidget(
@@ -190,8 +186,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 10),
+                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
@@ -205,17 +200,13 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               const SizedBox(height: 20),
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 children: [
                                   TextButton(
-                                    onPressed: () =>
-                                        navigateToSearchDetail("사과"),
+                                    onPressed: () => navigateToSearchDetail("사과"),
                                     style: ButtonStyle(
-                                      foregroundColor:
-                                          WidgetStateProperty.all(Colors.black),
-                                      overlayColor: WidgetStateProperty.all(
-                                          Colors.transparent),
+                                      foregroundColor: MaterialStateProperty.all(Colors.black),
+                                      overlayColor: MaterialStateProperty.all(Colors.transparent),
                                     ),
                                     child: const Text(
                                       "사과",
@@ -226,13 +217,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                   ),
                                   TextButton(
-                                    onPressed: () =>
-                                        navigateToSearchDetail("포도"),
+                                    onPressed: () => navigateToSearchDetail("포도"),
                                     style: ButtonStyle(
-                                      foregroundColor:
-                                          WidgetStateProperty.all(Colors.black),
-                                      overlayColor: WidgetStateProperty.all(
-                                          Colors.transparent),
+                                      foregroundColor: MaterialStateProperty.all(Colors.black),
+                                      overlayColor: MaterialStateProperty.all(Colors.transparent),
                                     ),
                                     child: const Text(
                                       "포도",

@@ -23,7 +23,6 @@ class _HomeMenuWidgetState extends State<HomeMenuWidget> {
   void initState() {
     super.initState();
     String a = widget.privateId;
-    debugPrint("너 이상한놈인데? $a");
   }
 
   @override

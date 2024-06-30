@@ -25,6 +25,7 @@ class _GptChatListState extends State<GptChatListScreen> {
   int isCreateNewChat = 0;
   late Future<List<ChatRoomsList>> futureChatLists;
   late Future<ChatRoomId> futureRoomId;
+
   Future<ChatRoomId> fetchNewChat(String id) async {
     try {
       ChatRoomId fetchedData = await GPTApiService().postNewChat(id);
@@ -53,90 +54,96 @@ class _GptChatListState extends State<GptChatListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          centerTitle: true,
-          leading: BackpageWidget(
-            beforeContext: context,
-          ),
-          actions: [
-            MenuWidget(
-              id: widget.id,
-              privateId: widget.privateId,
-            )
-          ],
-          backgroundColor: const Color(0xff95C461),
-          title: const Text(
-            "GPT 채팅 목록",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontFamily: 'GmarketSans',
-              fontSize: 25,
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.pop(context);
+        return false;
+      },
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            centerTitle: true,
+            leading: BackpageWidget(
+              beforeContext: context,
+            ),
+            actions: [
+              MenuWidget(
+                id: widget.id,
+                privateId: widget.privateId,
+              )
+            ],
+            backgroundColor: const Color(0xff95C461),
+            title: const Text(
+              "GPT 채팅 목록",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontFamily: 'GmarketSans',
+                fontSize: 25,
+              ),
             ),
           ),
-        ),
-        body: FutureBuilder<List<ChatRoomsList>>(
-          future: futureChatLists,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasError) {
-              debugPrint("Error: ${snapshot.error}");
-              return const Center(child: Text('Failed to load chat rooms'));
-            } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-              return const Center(child: Text('챗봇과 대화해보세요'));
-            } else {
-              final chatRooms = snapshot.data!;
-              return ListView.builder(
-                itemCount: chatRooms.length,
-                itemBuilder: (context, index) {
-                  final chatRoom = chatRooms[index];
-                  return BuildChatRoomList(
-                    id: widget.id,
-                    chatRoomId: chatRoom.id,
-                    chatRoom: chatRoom,
-                    privateId: widget.privateId,
-                    reLoadFunc: () {
-                      setState(() {
-                        futureChatLists = fetchChatList(widget.privateId);
-                      });
-                    },
-                  );
-                },
-              );
-            }
-          },
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () async {
-            try {
-              ChatRoomId chatRoomId = await fetchNewChat(widget.privateId);
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => GPTChatScreen(
-                    id: widget.id,
-                    privateId: widget.privateId,
-                    chatRoomId: chatRoomId.id,
+          body: FutureBuilder<List<ChatRoomsList>>(
+            future: futureChatLists,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                debugPrint("Error: ${snapshot.error}");
+                return const Center(child: Text('Failed to load chat rooms'));
+              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                return const Center(child: Text('챗봇과 대화해보세요'));
+              } else {
+                final chatRooms = snapshot.data!;
+                return ListView.builder(
+                  itemCount: chatRooms.length,
+                  itemBuilder: (context, index) {
+                    final chatRoom = chatRooms[index];
+                    return BuildChatRoomList(
+                      id: widget.id,
+                      chatRoomId: chatRoom.id,
+                      chatRoom: chatRoom,
+                      privateId: widget.privateId,
+                      reLoadFunc: () {
+                        setState(() {
+                          futureChatLists = fetchChatList(widget.privateId);
+                        });
+                      },
+                    );
+                  },
+                );
+              }
+            },
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () async {
+              try {
+                ChatRoomId chatRoomId = await fetchNewChat(widget.privateId);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => GPTChatScreen(
+                      id: widget.id,
+                      privateId: widget.privateId,
+                      chatRoomId: chatRoomId.id,
+                    ),
                   ),
-                ),
-              ).then((_) {
-                // Reload futureChatLists when returning to this screen
-                setState(() {
-                  futureChatLists = fetchChatList(widget.privateId);
+                ).then((_) {
+                  // Reload futureChatLists when returning to this screen
+                  setState(() {
+                    futureChatLists = fetchChatList(widget.privateId);
+                  });
                 });
-              });
-            } catch (e) {
-              debugPrint("Error: $e");
-            }
-          },
-          backgroundColor: const Color(0xff95C461),
-          child: const Icon(
-            Icons.add,
-            color: Colors.white,
+              } catch (e) {
+                debugPrint("Error: $e");
+              }
+            },
+            backgroundColor: const Color(0xff95C461),
+            child: const Icon(
+              Icons.add,
+              color: Colors.white,
+            ),
           ),
         ),
       ),
