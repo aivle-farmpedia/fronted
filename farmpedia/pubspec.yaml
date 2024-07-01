@@ -20,8 +20,6 @@ dependencies:
   webview_flutter: ^3.0.4
   intl: ^0.17.0
   http: ^0.13.3
-  audioplayers: ^6.0.0
-  video_player: ^2.2.18
 
 dev_dependencies:
   flutter_test:
@@ -38,4 +36,4 @@ flutter:
         - asset: assets/fonts/GmarketSans-Bold.ttf
         - asset: assets/fonts/GmarketSans-Light.ttf
         - asset: assets/fonts/GmarketSans-Medium.ttf
-        - asset: assets/video/sky.mp4
+        - asset: assets/sky.png

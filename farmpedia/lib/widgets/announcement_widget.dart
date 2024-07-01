@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:geolocator/geolocator.dart';
-import 'package:video_player/video_player.dart';
 import 'package:intl/intl.dart';
 
 class WeatherData {
@@ -103,6 +102,9 @@ class WeeklyWeatherData {
         temperature: avgTemp,
         description: entry.value[0].description,
         icon: entry.value[0].icon,
+        feelsLike: entry.value[0].feelsLike,
+        humidity: entry.value[0].humidity,
+        windSpeed: entry.value[0].windSpeed,
       );
     }).toList();
 
@@ -144,12 +146,18 @@ class DailyWeatherData {
   final double temperature;
   final String description;
   final String icon;
+  final double feelsLike;
+  final double humidity;
+  final double windSpeed;
 
   DailyWeatherData({
     required this.date,
     required this.temperature,
     required this.description,
     required this.icon,
+    required this.feelsLike,
+    required this.humidity,
+    required this.windSpeed,
   });
 
   factory DailyWeatherData.fromJson(Map<String, dynamic> json) {
@@ -158,6 +166,9 @@ class DailyWeatherData {
       temperature: json['main']['temp'].toDouble(),
       description: json['weather'][0]['description'],
       icon: json['weather'][0]['icon'],
+      feelsLike: json['main']['feels_like'].toDouble(),
+      humidity: json['main']['humidity'].toDouble(),
+      windSpeed: json['wind']['speed'].toDouble(),
     );
   }
 }
@@ -171,31 +182,11 @@ class AnnouncementWidget extends StatefulWidget {
 
 class _AnnouncementWidgetState extends State<AnnouncementWidget> {
   late Future<WeeklyWeatherData> futureWeeklyWeatherData;
-  late VideoPlayerController videoPlayerController;
-  bool isVideoInitialized = false;
 
   @override
   void initState() {
     super.initState();
     futureWeeklyWeatherData = fetchWeeklyWeatherData();
-    _initializeVideoPlayer();
-  }
-
-  @override
-  void dispose() {
-    videoPlayerController.dispose();
-    super.dispose();
-  }
-
-  Future<void> _initializeVideoPlayer() async {
-    videoPlayerController = VideoPlayerController.asset('video/sky.mp4')
-      ..initialize().then((_) {
-        setState(() {
-          isVideoInitialized = true;
-          videoPlayerController.play();
-          videoPlayerController.setLooping(true);
-        });
-      });
   }
 
   Future<WeeklyWeatherData> fetchWeeklyWeatherData() async {
@@ -239,17 +230,12 @@ class _AnnouncementWidgetState extends State<AnnouncementWidget> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        if (isVideoInitialized)
-          Positioned.fill(
-            child: FittedBox(
-              fit: BoxFit.cover,
-              child: SizedBox(
-                width: videoPlayerController.value.size.width,
-                height: videoPlayerController.value.size.height,
-                child: VideoPlayer(videoPlayerController),
-              ),
-            ),
+        Positioned.fill(
+          child: Image.asset(
+            'assets/sky.png',
+            fit: BoxFit.cover,
           ),
+        ),
         FutureBuilder<WeeklyWeatherData>(
           future: futureWeeklyWeatherData,
           builder: (context, snapshot) {
@@ -262,133 +248,163 @@ class _AnnouncementWidgetState extends State<AnnouncementWidget> {
             } else {
               final weeklyWeatherData = snapshot.data!;
               return Center(
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  height: MediaQuery.of(context).size.height * 0.6,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black26,
-                        blurRadius: 8,
-                        offset: Offset(2, 2),
-                      ),
-                    ],
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Stack(
-                      children: [
-                        if (isVideoInitialized)
-                          Positioned.fill(
-                            child: FittedBox(
-                              fit: BoxFit.cover,
-                              child: SizedBox(
-                                width: videoPlayerController.value.size.width,
-                                height: videoPlayerController.value.size.height,
-                                child: VideoPlayer(videoPlayerController),
-                              ),
-                            ),
-                          ),
-                        Container(
-                          color: Colors.black.withOpacity(0.3),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              const SizedBox(height: 20),
-                              Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(10),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black26,
-                                      blurRadius: 5,
-                                      offset: Offset(0, 2),
-                                    ),
-                                  ],
-                                ),
-                                child: Text(
-                                  weeklyWeatherData.cityName,
-                                  style: const TextStyle(
-                                    fontFamily: 'GmarketSans',
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 22,
-                                    color: Color(0xff1D3557),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(height: 20),
-                              Container(
-                                height: 200,
-                                child: ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: weeklyWeatherData.dailyWeather.length,
-                                  itemBuilder: (context, index) {
-                                    final dailyWeather = weeklyWeatherData.dailyWeather[index];
-                                    return Container(
-                                      margin: const EdgeInsets.all(8.0),
-                                      padding: const EdgeInsets.all(8.0),
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(10),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.black26,
-                                            blurRadius: 5,
-                                            offset: Offset(0, 2),
-                                          ),
-                                        ],
-                                      ),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            '${dailyWeather.date.month}/${dailyWeather.date.day}',
-                                            style: const TextStyle(
-                                              fontFamily: 'GmarketSans',
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16,
-                                              color: Color(0xff1D3557),
-                                            ),
-                                          ),
-                                          Image.network(
-                                            'http://openweathermap.org/img/wn/${dailyWeather.icon}@2x.png',
-                                            width: 50,
-                                            height: 50,
-                                          ),
-                                          Text(
-                                            '${dailyWeather.temperature.toStringAsFixed(2)}°C',
-                                            style: const TextStyle(
-                                              fontFamily: 'GmarketSans',
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16,
-                                              color: Color(0xff1D3557),
-                                            ),
-                                          ),
-                                          Text(
-                                            dailyWeather.description,
-                                            style: const TextStyle(
-                                              fontFamily: 'GmarketSans',
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 14,
-                                              color: Color(0xff1D3557),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
+                child: SingleChildScrollView(
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    height: MediaQuery.of(context).size.height * 0.6,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black26,
+                          blurRadius: 8,
+                          offset: Offset(2, 2),
                         ),
                       ],
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Stack(
+                        children: [
+                          Container(
+                            color: Colors.black.withOpacity(0.3),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                const SizedBox(height: 20),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black26,
+                                        blurRadius: 5,
+                                        offset: Offset(0, 2),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Text(
+                                    weeklyWeatherData.cityName,
+                                    style: const TextStyle(
+                                      fontFamily: 'GmarketSans',
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 22,
+                                      color: Color(0xff1D3557),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 20),
+                                Expanded(
+                                  child: ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: weeklyWeatherData.dailyWeather.length,
+                                    itemBuilder: (context, index) {
+                                      final dailyWeather = weeklyWeatherData.dailyWeather[index];
+                                      return Container(
+                                        margin: const EdgeInsets.all(8.0),
+                                        padding: const EdgeInsets.all(8.0),
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.circular(10),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.black26,
+                                              blurRadius: 5,
+                                              offset: Offset(0, 2),
+                                            ),
+                                          ],
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              '${dailyWeather.date.month}/${dailyWeather.date.day}',
+                                              style: const TextStyle(
+                                                fontFamily: 'GmarketSans',
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16,
+                                                color: Color(0xff1D3557),
+                                              ),
+                                            ),
+                                            Image.network(
+                                              'http://openweathermap.org/img/wn/${dailyWeather.icon}@2x.png',
+                                              width: 50,
+                                              height: 50,
+                                            ),
+                                            Text(
+                                              '${dailyWeather.temperature.toStringAsFixed(2)}°C',
+                                              style: const TextStyle(
+                                                fontFamily: 'GmarketSans',
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16,
+                                                color: Color(0xff1D3557),
+                                              ),
+                                            ),
+                                            Text(
+                                              dailyWeather.description,
+                                              style: const TextStyle(
+                                                fontFamily: 'GmarketSans',
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14,
+                                                color: Color(0xff1D3557),
+                                              ),
+                                            ),
+                                            const SizedBox(height: 10),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                Column(
+                                                  children: [
+                                                    Icon(
+                                                      Icons.water_drop,
+                                                      color: Colors.blue,
+                                                    ),
+                                                    Text(
+                                                      '${dailyWeather.humidity}%',
+                                                      style: const TextStyle(
+                                                        fontFamily: 'GmarketSans',
+                                                        fontWeight: FontWeight.bold,
+                                                        fontSize: 14,
+                                                        color: Color(0xff1D3557),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Column(
+                                                  children: [
+                                                    Icon(
+                                                      Icons.air,
+                                                      color: Colors.grey,
+                                                    ),
+                                                    Text(
+                                                      '${dailyWeather.windSpeed} m/s',
+                                                      style: const TextStyle(
+                                                        fontFamily: 'GmarketSans',
+                                                        fontWeight: FontWeight.bold,
+                                                        fontSize: 14,
+                                                        color: Color(0xff1D3557),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
