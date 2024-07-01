@@ -137,6 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
             '귀농백과',
             style: TextStyle(
               fontWeight: FontWeight.bold,
+              fontSize : 40,
               fontFamily: 'GmarketSans',
             ),
           ),

@@ -158,36 +158,43 @@ class _CommunityScreenState extends State<CommunityScreen> {
                                   child: CircularProgressIndicator());
                             }
                             final board = allBoards[index];
-                            return GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => CommunityViewScreen(
-                                      title: board.title,
-                                      content: board.content,
-                                      boardId: board.id,
-                                      id: widget.id,
-                                      privateId: widget.privateId,
-                                    ),
+                            return Column(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            CommunityViewScreen(
+                                          title: board.title,
+                                          content: board.content,
+                                          boardId: board.id,
+                                          id: widget.id,
+                                          privateId: widget.privateId,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: PostCard(
+                                    title: board.title,
+                                    content: board.content,
+                                    boardId: board.id,
+                                    id: widget.id,
+                                    boardUserId: board.userId,
+                                    privateId: widget.privateId,
+                                    onDelete: () {
+                                      setState(() {
+                                        futureBoards = fetchBoards(1);
+                                        currentPage = 1;
+                                        allBoards.clear();
+                                      });
+                                    },
                                   ),
-                                );
-                              },
-                              child: PostCard(
-                                title: board.title,
-                                content: board.content,
-                                boardId: board.id,
-                                id: widget.id,
-                                boardUserId: board.userId,
-                                privateId: widget.privateId,
-                                onDelete: () {
-                                  setState(() {
-                                    futureBoards = fetchBoards(1);
-                                    currentPage = 1;
-                                    allBoards.clear();
-                                  });
-                                },
-                              ),
+                                ),
+                                const SizedBox(
+                                    height: 20), // Add the SizedBox here
+                              ],
                             );
                           },
                         ),

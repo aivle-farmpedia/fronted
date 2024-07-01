@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../models/crop_info_model.dart';
 import 'price_chart_widget.dart';
@@ -16,9 +17,23 @@ class CropsDetail extends StatelessWidget {
   final dynamic widget; // Update to dynamic or specific type if necessary
   final Map<int, List<PriceEntry>> groupedEntries;
   final CropInfo cropInfo;
+  String formatPrice(String price) {
+    try {
+      final intPrice = double.parse(price);
+      final NumberFormat numberFormat = NumberFormat('#,###');
+      return numberFormat.format(intPrice);
+    } catch (e) {
+      // 오류가 발생할 경우 원래 문자열을 반환
+      return price;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    String areaPerFormattedPrice =
+        formatPrice(cropInfo.crop.areaPerYield.toString());
+    String timePerFormattedPrice =
+        formatPrice(cropInfo.crop.timePerYield.toString());
     return SingleChildScrollView(
       controller: _scrollController,
       child: Padding(
@@ -40,7 +55,7 @@ class CropsDetail extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     fontFamily: 'GmarketSans',
                     fontSize: 25,
-                    color: Color(0xff4CAF50),
+                    color: Color.fromARGB(255, 49, 125, 53),
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -74,8 +89,16 @@ class CropsDetail extends StatelessWidget {
                 buildDivider(),
                 buildSectionTitle("수확량 정보"),
                 const SizedBox(height: 20),
-                buildInfoRow("면적당 생산량", cropInfo.crop.areaPerYield != null ? '${cropInfo.crop.areaPerYield}원' : '정보 없음'),
-                buildInfoRow("시간당 생산량", cropInfo.crop.timePerYield != null ? '${cropInfo.crop.timePerYield}원' : '정보 없음'),
+                buildInfoRow(
+                    "면적당 생산량",
+                    areaPerFormattedPrice != null
+                        ? '$areaPerFormattedPrice원'
+                        : '정보 없음'),
+                buildInfoRow(
+                    "시간당 생산량",
+                    timePerFormattedPrice != null
+                        ? '$timePerFormattedPrice원'
+                        : '정보 없음'),
                 const SizedBox(height: 20),
                 buildDivider(),
                 buildSectionTitle("재배 영상"),
@@ -203,7 +226,7 @@ class CropsDetail extends StatelessWidget {
             fontWeight: FontWeight.bold,
             fontFamily: 'GmarketSans',
             fontSize: 16,
-            color: Color(0xff4CAF50),
+            color: Color.fromARGB(255, 49, 125, 53),
           ),
         ),
         const SizedBox(height: 5),
