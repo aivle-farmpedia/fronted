@@ -260,7 +260,7 @@ class SupportCard extends StatelessWidget {
     required this.id,
     required this.privateId,
     this.height = 100.0,
-    this.titleFontSize = 23.0,
+    this.titleFontSize = 20.0,
     this.subtitleFontSize = 16.0,
     this.iconSize = 47.0,
   });
@@ -299,8 +299,8 @@ class SupportCard extends StatelessWidget {
               const SizedBox(width: 16.0),
               Expanded(
                 child: Text(
-                  policy.title.length > 10
-                      ? '${policy.title.substring(0, 10)}...'
+                  policy.title.length > 15
+                      ? '${policy.title.substring(0, 15)}...'
                       : policy.title,
                   style: TextStyle(
                     fontFamily: 'GmarketSans',
@@ -308,7 +308,7 @@ class SupportCard extends StatelessWidget {
                     fontSize: titleFontSize,
                     color: const Color.fromARGB(255, 255, 255, 255),
                   ),
-                  textAlign: TextAlign.center,
+                  textAlign: TextAlign.start,
                 ),
               ),
             ],
