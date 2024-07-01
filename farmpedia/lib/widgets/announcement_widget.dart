@@ -37,11 +37,12 @@ class WeatherData {
       windSpeed: json['wind']['speed'].toDouble(),
       description: json['weather'][0]['description'],
       icon: json['weather'][0]['icon'],
-      sunrise: DateTime.fromMillisecondsSinceEpoch(json['sys']['sunrise'] * 1000)
-          .toLocal()
-          .toString()
-          .split(' ')[1]
-          .split('.')[0],
+      sunrise:
+          DateTime.fromMillisecondsSinceEpoch(json['sys']['sunrise'] * 1000)
+              .toLocal()
+              .toString()
+              .split(' ')[1]
+              .split('.')[0],
       sunset: DateTime.fromMillisecondsSinceEpoch(json['sys']['sunset'] * 1000)
           .toLocal()
           .toString()
@@ -95,8 +96,11 @@ class WeeklyWeatherData {
       }
     }
 
-    List<DailyWeatherData> dailyWeatherList = dailyWeatherMap.entries.map((entry) {
-      double avgTemp = entry.value.map((e) => e.temperature).reduce((a, b) => a + b) / entry.value.length;
+    List<DailyWeatherData> dailyWeatherList =
+        dailyWeatherMap.entries.map((entry) {
+      double avgTemp =
+          entry.value.map((e) => e.temperature).reduce((a, b) => a + b) /
+              entry.value.length;
       return DailyWeatherData(
         date: entry.value[0].date,
         temperature: avgTemp,
@@ -197,7 +201,8 @@ class _AnnouncementWidgetState extends State<AnnouncementWidget> {
     if (response.statusCode == 200) {
       return WeeklyWeatherData.fromJson(jsonDecode(response.body));
     } else {
-      throw Exception('날씨 데이터를 불러오는데 실패했습니다: ${response.statusCode} ${response.reasonPhrase}');
+      throw Exception(
+          '날씨 데이터를 불러오는데 실패했습니다: ${response.statusCode} ${response.reasonPhrase}');
     }
   }
 
@@ -223,7 +228,8 @@ class _AnnouncementWidgetState extends State<AnnouncementWidget> {
       return Future.error('위치 권한이 영구적으로 거부되었습니다.');
     }
 
-    return await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    return await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
   }
 
   @override
@@ -242,7 +248,8 @@ class _AnnouncementWidgetState extends State<AnnouncementWidget> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CupertinoActivityIndicator());
             } else if (snapshot.hasError) {
-              return Center(child: Text('날씨 데이터를 불러오는데 실패했습니다: ${snapshot.error}'));
+              return Center(
+                  child: Text('날씨 데이터를 불러오는데 실패했습니다: ${snapshot.error}'));
             } else if (!snapshot.hasData) {
               return const Center(child: Text('날씨 데이터가 없습니다.'));
             } else {
@@ -251,10 +258,10 @@ class _AnnouncementWidgetState extends State<AnnouncementWidget> {
                 child: SingleChildScrollView(
                   child: Container(
                     width: MediaQuery.of(context).size.width * 0.9,
-                    height: MediaQuery.of(context).size.height * 0.6,
+                    height: MediaQuery.of(context).size.height * 0.4,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
+                      boxShadow: const [
                         BoxShadow(
                           color: Colors.black26,
                           blurRadius: 8,
@@ -276,11 +283,12 @@ class _AnnouncementWidgetState extends State<AnnouncementWidget> {
                               children: [
                                 const SizedBox(height: 20),
                                 Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20, vertical: 10),
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(10),
-                                    boxShadow: [
+                                    boxShadow: const [
                                       BoxShadow(
                                         color: Colors.black26,
                                         blurRadius: 5,
@@ -302,16 +310,19 @@ class _AnnouncementWidgetState extends State<AnnouncementWidget> {
                                 Expanded(
                                   child: ListView.builder(
                                     scrollDirection: Axis.horizontal,
-                                    itemCount: weeklyWeatherData.dailyWeather.length,
+                                    itemCount:
+                                        weeklyWeatherData.dailyWeather.length,
                                     itemBuilder: (context, index) {
-                                      final dailyWeather = weeklyWeatherData.dailyWeather[index];
+                                      final dailyWeather =
+                                          weeklyWeatherData.dailyWeather[index];
                                       return Container(
                                         margin: const EdgeInsets.all(8.0),
                                         padding: const EdgeInsets.all(8.0),
                                         decoration: BoxDecoration(
                                           color: Colors.white,
-                                          borderRadius: BorderRadius.circular(10),
-                                          boxShadow: [
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          boxShadow: const [
                                             BoxShadow(
                                               color: Colors.black26,
                                               blurRadius: 5,
@@ -320,7 +331,8 @@ class _AnnouncementWidgetState extends State<AnnouncementWidget> {
                                           ],
                                         ),
                                         child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
                                           children: [
                                             Text(
                                               '${dailyWeather.date.month}/${dailyWeather.date.day}',
@@ -356,38 +368,45 @@ class _AnnouncementWidgetState extends State<AnnouncementWidget> {
                                             ),
                                             const SizedBox(height: 10),
                                             Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
                                               children: [
                                                 Column(
                                                   children: [
-                                                    Icon(
+                                                    const Icon(
                                                       Icons.water_drop,
                                                       color: Colors.blue,
                                                     ),
                                                     Text(
                                                       '${dailyWeather.humidity}%',
                                                       style: const TextStyle(
-                                                        fontFamily: 'GmarketSans',
-                                                        fontWeight: FontWeight.bold,
+                                                        fontFamily:
+                                                            'GmarketSans',
+                                                        fontWeight:
+                                                            FontWeight.bold,
                                                         fontSize: 14,
-                                                        color: Color(0xff1D3557),
+                                                        color:
+                                                            Color(0xff1D3557),
                                                       ),
                                                     ),
                                                   ],
                                                 ),
                                                 Column(
                                                   children: [
-                                                    Icon(
+                                                    const Icon(
                                                       Icons.air,
                                                       color: Colors.grey,
                                                     ),
                                                     Text(
                                                       '${dailyWeather.windSpeed} m/s',
                                                       style: const TextStyle(
-                                                        fontFamily: 'GmarketSans',
-                                                        fontWeight: FontWeight.bold,
+                                                        fontFamily:
+                                                            'GmarketSans',
+                                                        fontWeight:
+                                                            FontWeight.bold,
                                                         fontSize: 14,
-                                                        color: Color(0xff1D3557),
+                                                        color:
+                                                            Color(0xff1D3557),
                                                       ),
                                                     ),
                                                   ],
